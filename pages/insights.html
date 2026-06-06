@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ومضات تربوية</title>
+
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+body {
+            margin: 0;
+            padding: 0;
+            font-family: "Tajawal", sans-serif;
+            background: url('wallpaper.jpeg') center/cover no-repeat fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(3px);
+            z-index: 1;
+        }
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* دوائر خلفية ناعمة */
+.bg-circles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0, 120, 60, 0.12);
+    filter: blur(14px);
+    animation: float 14s infinite ease-in-out;
+}
+
+.circle:nth-child(1){ width:260px;height:260px;top:-60px;right:-80px;animation-duration:16s; }
+.circle:nth-child(2){ width:340px;height:340px;bottom:-100px;left:-70px;animation-duration:20s; }
+.circle:nth-child(3){ width:200px;height:200px;top:40%;left:20%;animation-duration:18s; }
+
+@keyframes float {
+    0%{ transform:translateY(0) scale(1); opacity:.5; }
+    50%{ transform:translateY(-40px) scale(1.15); opacity:.9; }
+    100%{ transform:translateY(0) scale(1); opacity:.5; }
+}
+
+/* ===========================
+   NAVBAR زجاجي فاتح
+=========================== */
+.navbar {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    padding: 14px 24px;
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    color: #1b3d1b;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.back-btn {
+    padding: 8px 16px;
+    background: #2e7d32;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    background: #256628;
+    transform: translateY(-2px);
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+.content {
+    position: relative;
+    z-index: 3;
+    padding: 30px 20px 50px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.section-title {
+    font-size: 24px;
+    color: #1b3d1b;
+    margin-bottom: 24px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* ===========================
+   TIP CARDS — Glassy
+=========================== */
+.tip {
+    background: rgba(255,255,255,0.28);
+    border: 1px solid rgba(255,255,255,0.65);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(14px);
+    transition: 0.3s;
+    cursor: pointer;
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.10),
+        0 0 18px rgba(0,150,80,0.12);
+}
+
+.tip:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 14px 40px rgba(0,0,0,0.16),
+        0 0 24px rgba(0,150,80,0.22);
+}
+
+.tip h3 {
+    color: #1b3d1b;
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.tip p {
+    color: #2e4d2e;
+    margin-bottom: 0;
+    font-size: 15px;
+}
+
+/* ===========================
+   POPUPS
+=========================== */
+.popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+.popup {
+    width: 92%;
+    max-width: 520px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 18px;
+    padding: 22px;
+    backdrop-filter: blur(12px);
+    animation: slideUp 0.35s ease;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    color: #1b3d1b;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0 }
+    to { transform: translateY(0); opacity: 1 }
+}
+
+.close-popup {
+    background: transparent;
+    border: none;
+    color: #555;
+    font-size: 24px;
+    float: left;
+    cursor: pointer;
+}
+
+.popup h2 {
+    margin: 0 0 12px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.popup {
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.close-popup {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+#extraPopupOverlay .popup {
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+
+/* Template boxes */
+.template-box {
+    background: rgba(0, 150, 80, 0.06);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.template-box:hover {
+    background: rgba(0,150,80,0.12);
+}
+
+.template-box p {
+    margin: 0;
+    font-size: 14px;
+    color: #1b3d1b;
+}
+
+/* Inputs */
+.popup label {
+    display: block;
+    margin: 10px 0 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.popup textarea,
+.popup select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #f8fff8;
+    color: #1b3d1b;
+    margin-bottom: 10px;
+    font-family: "Cairo", sans-serif;
+    font-size: 14px;
+}
+
+/* Buttons */
+.popup-btn {
+    width: 100%;
+    padding: 10px;
+    background: #2e7d32;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.popup-btn:hover {
+    background: #256628;
+}
+
+.popup-btn-all {
+    background: #00695c;
+}
+
+.popup-btn-all:hover {
+    background: #00897b;
+}
+
+/* Extra popup text */
+#extraPopupOverlay .popup p {
+    font-size: 15px;
+    line-height: 1.8;
+    margin-top: 10px;
+}
+
+/* ===========================
+   🌿 GLOBAL FIXES
+=========================== */
+body {
+    overflow-x: hidden;
+}
+
+img, textarea, select {
+    max-width: 100%;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+=========================== */
+
+/* BACKGROUND */
+body::before {
+    backdrop-filter: blur(2px);
+}
+
+/* NAVBAR */
+.navbar {
+    padding: 10px 14px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+}
+
+.navbar h1 {
+    font-size: 18px;
+}
+
+.back-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    width: 100%;
+    max-width: 140px;
+}
+
+/* CONTENT */
+.content {
+    padding: 20px 16px 40px;
+}
+
+.section-title {
+    font-size: 20px;
+}
+
+/* TIP CARDS */
+.tip {
+    padding: 16px;
+}
+
+.tip h3 {
+    font-size: 18px;
+}
+
+.tip p {
+    font-size: 14px;
+}
+
+/* POPUP */
+.popup {
+    width: 92%;
+    padding: 18px;
+    max-height: 85vh;
+}
+
+.popup h2 {
+    font-size: 18px;
+}
+
+.popup textarea,
+.popup select {
+    font-size: 13px;
+    padding: 8px;
+}
+
+.popup-btn {
+    padding: 10px;
+    font-size: 13px;
+}
+
+.template-box p {
+    font-size: 13px;
+}
+
+/* EXTRA POPUP */
+#extraPopupOverlay .popup p {
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* BG CIRCLES */
+.circle {
+    filter: blur(20px);
+    opacity: 0.4;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: right;
+    }
+
+    .navbar h1 {
+        font-size: 20px;
+    }
+
+    .back-btn {
+        width: auto;
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .content {
+        padding: 30px 20px 50px;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    .tip {
+        padding: 18px;
+    }
+
+    .popup {
+        max-width: 480px;
+        padding: 22px;
+    }
+
+    .popup h2 {
+        font-size: 20px;
+    }
+
+    .popup textarea,
+    .popup select {
+        font-size: 14px;
+    }
+
+    .popup-btn {
+        font-size: 14px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .navbar h1 {
+        font-size: 22px;
+    }
+
+    .content {
+        max-width: 900px;
+        padding: 40px 20px 60px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .tip {
+        padding: 22px;
+    }
+
+    .tip h3 {
+        font-size: 20px;
+    }
+
+    .tip p {
+        font-size: 15px;
+    }
+
+    .popup {
+        max-width: 520px;
+        padding: 26px;
+    }
+
+    .popup h2 {
+        font-size: 22px;
+    }
+
+    .popup textarea,
+    .popup select {
+        font-size: 15px;
+    }
+
+    .popup-btn {
+        font-size: 15px;
+    }
+}
+
+/* ===========================
+   🌿 ULTRA-WIDE ≥ 1400px
+=========================== */
+@media (min-width: 1400px) {
+
+    .content {
+        max-width: 1000px;
+    }
+
+    .popup {
+        max-width: 600px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- خلفية دوائر -->
+    <div class="bg-circles">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <div class="navbar">
+        <h1>ومضات تربوية</h1>
+        <button class="back-btn" onclick="window.location.href='counselor-dashboard.html'">رجوع</button>
+    </div>
+
+    <div class="content">
+
+        <h2 class="section-title">مقالات قصيرة</h2>
+
+        <!-- يفتح Popup المهام -->
+        <div class="tip" onclick="openPopup()">
+            <h3>تعزيز الكفاءة الذاتية</h3>
+            <p>امنحي الطالبة مهام صغيرة قابلة للإنجاز لتعزيز ثقتها بنفسها.</p>
+        </div>
+
+        <!-- يبقى ياخد على صفحة تانية -->
+        <div class="tip" onclick="window.location.href='upload-video.html'">
+            <h3>التعامل مع ضغوط الامتحانات</h3>
+            <p>تنفّس بعمق، رتّب وقتك، وذكّري الطالبة بأن القلق طبيعي ويمكن السيطرة عليه.</p>
+        </div>
+
+        <!-- Popup إضافي للنص التربوي -->
+        <div class="tip" onclick="openExtraPopup()">
+            <h3>التواصل الفعّال مع المراهقات</h3>
+            <p>استمعي لهن دون مقاطعة، وامنحيهن مساحة للتعبير.</p>
+        </div>
+
+    </div>
+
+    <!-- POPUP الأساسي -->
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup">
+            <button class="close-popup" onclick="closePopup()">×</button>
+            <h2>تعزيز الكفاءة الذاتية</h2>
+
+            <h3 style="font-size:16px;margin-bottom:8px;">نماذج جاهزة</h3>
+
+            <div class="template-box" onclick="loadTemplate(1)">
+                <p>مهام بسيطة لتعزيز الثقة بالنفس</p>
+            </div>
+
+            <div class="template-box" onclick="loadTemplate(2)">
+                <p>مهام يومية صغيرة لرفع الدافعية</p>
+            </div>
+
+            <div class="template-box" onclick="loadTemplate(3)">
+                <p>مهام سلوكية لتعزيز الشعور بالإنجاز</p>
+            </div>
+
+            <label>المهام</label>
+            <textarea id="taskList" rows="5" placeholder="اكتبي المهام... كل مهمة في سطر مستقل"></textarea>
+
+            <label>اختاري الطالبة</label>
+            <select id="popupStudentSelect">
+                <option disabled selected>اختاري الطالبة</option>
+            </select>
+
+            <button class="popup-btn" onclick="sendSelfEfficacy()">إرسال لطالبة معيّنة (عرض فقط)</button>
+            <button class="popup-btn popup-btn-all" onclick="sendSelfEfficacyToAll()">إرسال لجميع الطالبات (عرض فقط)</button>
+        </div>
+    </div>
+
+    <!-- POPUP الجديد -->
+    <div id="extraPopupOverlay" class="popup-overlay">
+        <div class="popup">
+            <button class="close-popup" onclick="closeExtraPopup()">×</button>
+            <h2>التواصل الفعّال</h2>
+            <p>
+                "تحتاج المراهقة في هذه المرحلة الحسّاسة إلى تواصل يقوم على التفهّم قبل التوجيه،
+                وعلى الإصغاء قبل النصح. فحين نمنحها مساحة آمنة للتعبير عن مخاوفها وأفكارها،
+                تشعر بالثقة والاحترام، وتصبح أكثر استعدادًا للحوار والتغيير. إنّ بناء علاقة
+                صحّية مع المراهقة تبدأ بكلمة مطمئنة، ونبرة هادئة، وقلبٍ يتّسع لما تقوله دون حكم
+                أو استعجال."
+            </p>
+        </div>
+    </div>
+
+<script>
+/* ===========================
+   Mock students (Sara & Emma)
+=========================== */
+const mockStudents = [
+    { id: "sara-mohamad", name: "سارة محمد", grade: "أول ثانوي" },
+    { id: "emma-hassan", name: "إيما حسن", grade: "ثاني ثانوي" },
+    { id: "jana-ali", name: "جنى علي", grade: "ثالث ثانوي" }
+];
+
+const studentSelect = document.getElementById("popupStudentSelect");
+const taskList = document.getElementById("taskList");
+
+/* تعبئة القائمة بالطالبات */
+mockStudents.forEach(st => {
+    const opt = document.createElement("option");
+    opt.value = st.id;
+    opt.textContent = `${st.name} - ${st.grade}`;
+    studentSelect.appendChild(opt);
+});
+
+/* ===========================
+   POPUP CONTROL
+=========================== */
+function openPopup() {
+    document.getElementById("popupOverlay").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popupOverlay").style.display = "none";
+}
+
+/* Popup الثاني */
+function openExtraPopup() {
+    document.getElementById("extraPopupOverlay").style.display = "flex";
+}
+
+function closeExtraPopup() {
+    document.getElementById("extraPopupOverlay").style.display = "none";
+}
+
+/* ===========================
+   Templates (Mock only)
+=========================== */
+function loadTemplate(num) {
+    if (num === 1) {
+        taskList.value =
+`- كتابة ثلاثة أمور نجحت فيها هذا الأسبوع
+- المشاركة في نشاط صفي واحد على الأقل
+- طلب المساعدة عند مواجهة صعوبة بدل الاستسلام`;
+    } else if (num === 2) {
+        taskList.value =
+`- تخصيص 15 دقيقة يوميًا لمراجعة الدروس
+- ترتيب المكتب قبل البدء بالدراسة
+- تدوين هدف صغير لكل يوم وإنجازه`;
+    } else if (num === 3) {
+        taskList.value =
+`- مساعدة زميلة في واجب واحد خلال الأسبوع
+- الالتزام بالحضور في الوقت المحدد
+- إنهاء مهمة مؤجلة واحدة هذا الأسبوع`;
+    }
+}
+
+/* ===========================
+   إرسال (عرض فقط – بدون حفظ)
+=========================== */
+function sendSelfEfficacy() {
+    const selected = studentSelect.value;
+    if (!selected || selected === "اختاري الطالبة") {
+        alert("اختاري الطالبة أولاً.");
+        return;
+    }
+    if (!taskList.value.trim()) {
+        alert("اكتبي المهام أولاً.");
+        return;
+    }
+
+    const student = mockStudents.find(s => s.id === selected);
+    alert(`(عرض فقط)\nسيتم إرسال هذه المهام إلى: ${student.name}\n\n${taskList.value}`);
+}
+
+function sendSelfEfficacyToAll() {
+    if (!taskList.value.trim()) {
+        alert("اكتبي المهام أولاً.");
+        return;
+    }
+
+    const names = mockStudents.map(s => s.name).join("، ");
+    alert(`(عرض فقط)\nسيتم إرسال هذه المهام لجميع الطالبات:\n${names}\n\n${taskList.value}`);
+}
+</script>
+
+</body>
+</html>

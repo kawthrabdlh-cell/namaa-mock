@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع محتوى جديد</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Tajawal", sans-serif;
+            background: url('wallpaper.jpeg') center/cover no-repeat fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(2px);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 3;
+            max-width: 600px;
+            margin: 70px auto;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 35px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            text-align: center;
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 16px;
+        }
+                /* ===========================
+           زر الرجوع
+        =========================== */
+        .backk-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .backk-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+
+        input::placeholder {
+            color: #e0e0e0;
+        }
+
+        .btn {
+            padding: 14px 20px;
+            background: #1b5e20;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            font-size: 17px;
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #2e7d32;
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            margin-top: 15px;
+            background: #4caf50;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* weekly upload */
+        .weekly-upload-box {
+            margin-top: 35px;
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .weekly-upload-box h3 {
+            margin-bottom: 12px;
+            color: #eaffea;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 6px;
+            color: #d8ffd8;
+            font-size: 14px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.85);
+        }
+
+        .upload-btn {
+            background: #1b5e20;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: 0.25s;
+        }
+
+        .upload-btn:hover {
+            background: #2e7d32;
+        }
+
+        .status-text {
+            margin-top: 10px;
+            color: #c8ffc8;
+            font-size: 14px;
+            text-align: center;
+        }
+        /* ===========================
+   🌿 MOBILE (max-width: 600px)
+=========================== */
+@media (max-width: 600px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Back Button */
+    .back-btn {
+        top: 14px;
+        left: 14px;
+        padding: 8px 14px;
+        font-size: 13px;
+        width: auto;
+    }
+
+    /* Main Container */
+    .container {
+        width: 90%;
+        margin: 100px auto 40px;
+        padding: 22px 16px;
+        border-radius: 16px;
+    }
+
+    h2 {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    /* Inputs */
+    input, select {
+        padding: 12px;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    /* Upload Button */
+    .btn {
+        padding: 10px;
+        font-size: 15px;
+        margin-top: 18px;
+    }
+
+    /* Second Back Button inside container */
+    .container .back-btn {
+        width: 100%;
+        margin-top: 18px;
+        padding: 10px;
+        font-size: 14px;
+        position: static;
+        box-shadow: none;
+    }
+
+    /* Weekly Upload Box */
+    .weekly-upload-box {
+        padding: 16px;
+        margin-top: 28px;
+        border-radius: 14px;
+        max-width: 100%;
+    }
+
+    .weekly-upload-box h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .input-label {
+        font-size: 13px;
+    }
+
+    .input-field {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .upload-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .status-text {
+        font-size: 13px;
+    }
+}
+
+/* ===========================
+   🌿 TABLET (600px – 900px)
+=========================== */
+@media (min-width: 600px) and (max-width: 900px) {
+
+    .container {
+        width: 80%;
+        padding: 28px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .weekly-upload-box {
+        max-width: 80%;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+    .container {
+        max-width: 600px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <button class="backk-btn" onclick="window.location.href='counselors-dashboard.html'">رجوع</button>
+
+    <div class="container">
+
+        <h2>رفع محتوى جديد</h2>
+
+        <!-- اختيار الجهة -->
+        <select id="uploadTarget">
+            <option disabled selected>اختاري الجهة</option>
+            <option value="student">رفع للطلاب</option>
+            <option value="parent">رفع للأهل</option>
+        </select>
+
+        <!-- عنوان المحتوى -->
+        <input type="text" id="contentTitle" placeholder="عنوان المحتوى">
+
+        <!-- خيارات رفع للأهل -->
+        <div id="parentOptions" class="hidden">
+            <select id="contentType">
+                <option disabled selected>نوع المحتوى</option>
+                <option value="video">فيديو</option>
+                <option value="image">صورة</option>
+            </select>
+
+            <select id="contentCategory">
+                <option disabled selected>القسم</option>
+                <option value="videos">فيديوهات توعوية قصيرة</option>
+                <option value="infographics">بطاقات إنفوجرافيك</option>
+            </select>
+        </div>
+
+        <!-- رفع الملف -->
+        <input type="file" id="fileInput" accept="video/*,image/*">
+
+        <button class="btn" id="uploadBtn">رفع المحتوى</button>
+
+        <button class="btn back-btn" onclick="window.location.href='insights.html'">رجوع</button>
+
+
+        <!-- ⭐ رفع فيديو نبضة الأسبوع (داخل container) -->
+        <div class="weekly-upload-box">
+            <h3>رفع فيديو نبضة الأسبوع</h3>
+
+            <label class="input-label">اختيار فيديو الأسبوع:</label>
+            <input type="file" id="weeklyVideoFile" accept="video/mp4" class="input-field">
+
+            <button class="upload-btn" onclick="uploadWeeklyVideo()">
+                رفع فيديو الأسبوع
+            </button>
+
+            <p id="weeklyStatus" class="status-text"></p>
+        </div>
+
+    </div> </body> </html>

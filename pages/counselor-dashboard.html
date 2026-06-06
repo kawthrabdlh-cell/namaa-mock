@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة المرشدة</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: url("counselor.png") center/cover no-repeat fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 0;
+        }
+
+        .navbar {
+            width: 100%;
+            padding: 18px 40px;
+            background: #2e8d34cb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo {
+            width: 120px;
+        }
+
+        .logout-btn {
+            padding: 10px 18px;
+            background: white;
+            color: #1b5e20;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 95%;
+            max-width: 1300px;
+            margin: 30px auto;
+        }
+
+        .profile-card {
+            background: rgba(255,255,255,0.92);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #e0e0e0;
+        }
+
+        .profile-info h3 {
+            margin: 0;
+            font-size: 22px;
+            color: #1b5e20;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            color: #444;
+            font-size: 16px;
+        }
+
+        .section-title {
+            font-size: 26px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.92);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 55px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            color: #1b5e20;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .card-btn {
+            padding: 10px 14px;
+            background: #2e7d32;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+        }
+
+        /* ===========================
+   🌿 GLOBAL FIXES
+=========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+=========================== */
+
+/* NAVBAR */
+.navbar {
+    padding: 14px 20px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+.navbar h1 {
+    font-size: 20px;
+}
+
+.logo {
+    width: 90px;
+}
+
+/* LOGOUT BUTTON */
+.logout-btn {
+    width: 100%;
+    max-width: 180px;
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+/* CONTENT */
+.content {
+    width: 92%;
+    margin: 20px auto;
+}
+
+/* PROFILE CARD */
+.profile-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    gap: 15px;
+}
+
+.profile-photo {
+    width: 100px;
+    height: 100px;
+}
+
+.profile-info h3 {
+    font-size: 18px;
+}
+
+.profile-info p {
+    font-size: 14px;
+}
+
+/* SECTION TITLE */
+.section-title {
+    font-size: 22px;
+    text-align: center;
+}
+
+/* GRID */
+.grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+
+/* CARD */
+.card {
+    padding: 20px;
+}
+
+.card-icon {
+    width: 50px;
+}
+
+.card h3 {
+    font-size: 18px;
+}
+
+.card p {
+    font-size: 14px;
+}
+
+.card-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: right;
+    }
+
+    .navbar h1 {
+        font-size: 22px;
+    }
+
+    .logo {
+        width: 110px;
+    }
+
+    .logout-btn {
+        width: auto;
+        padding: 10px 18px;
+    }
+
+    .profile-card {
+        flex-direction: row;
+        text-align: left;
+        padding: 25px;
+    }
+
+    .profile-photo {
+        width: 110px;
+        height: 110px;
+    }
+
+    .profile-info h3 {
+        font-size: 20px;
+    }
+
+    .profile-info p {
+        font-size: 15px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 22px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .card h3 {
+        font-size: 19px;
+    }
+
+    .card p {
+        font-size: 15px;
+    }
+
+    .card-btn {
+        width: auto;
+        padding: 10px 16px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .navbar h1 {
+        font-size: 24px;
+    }
+
+    .logo {
+        width: 120px;
+    }
+
+    .content {
+        max-width: 1300px;
+        margin: 30px auto;
+    }
+
+    .profile-card {
+        padding: 28px;
+    }
+
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-info h3 {
+        font-size: 22px;
+    }
+
+    .profile-info p {
+        font-size: 16px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .card h3 {
+        font-size: 20px;
+    }
+
+    .card p {
+        font-size: 16px;
+    }
+
+    .card-btn {
+        font-size: 15px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <img src="comm.png" class="logo">
+    <h1>بوابة المرشدة</h1>
+    <button class="logout-btn" onclick="window.location.href='login.html'">تسجيل الخروج</button>
+</div>
+
+<div class="content">
+
+    <!-- ⭐ MOCK DATA -->
+    <div class="profile-card">
+        <img class="profile-photo" src="morshde.png">
+
+        <div class="profile-info">
+            <h3>أ. مريم عبدالله</h3>
+            <p>التخصص: علم نفس تربوي</p>
+            <p>المدرسة: ثانوية البنات الأولى</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">أدواتكِ الإرشادية</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <img class="card-icon" src="bar-graph.png">
+            <h3>لوحة التحليلات الذكية</h3>
+            <p>رسوم بيانية توضّح مؤشرات المرونة النفسية والتقدم العام للطالبات.</p>
+            <button class="card-btn" onclick="window.location.href='analytics.html'">عرض التحليلات</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="mot.png">
+            <h3>إدارة العقود السلوكية</h3>
+            <p>راجعي التزام الطالبات بالعقود السلوكية.</p>
+            <button class="card-btn" onclick="window.location.href='contracts-management.html'">إدارة العقود</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="interactive.png"> 
+            <h3>بنك الأنشطة وحصص الإرشاد</h3>
+            <p>ملفات جاهزة: عروض، أوراق عمل، ألعاب تفاعلية، وأنشطة صفية.</p>
+            <button class="card-btn" onclick="window.location.href='activities-bank.html'">استعراض الأنشطة</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="data.png">
+            <h3>سجل المقابلات</h3>
+            <p>تنظيم وحجز مواعيد الاستشارات النفسية.</p>
+            <button class="card-btn" onclick="window.location.href='appointments.html'">إدارة المواعيد</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="my.png">
+            <h3>متابعة مقاييس نماء</h3>
+            <p>اطّلعي على نتائج المقاييس النفسية لطالباتك.</p>
+            <button class="card-btn" onclick="window.location.href='measures-overview.html'">عرض المقاييس</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="talbe.png">
+            <h3>التنظيم الصفي</h3>
+            <p>مقترحات الطالبات لتحسين البيئة الصفية.</p>
+            <button class="card-btn" onclick="window.location.href='show-ideas.html'">عرض المقترحات</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="text.png">
+            <h3>ومضات تربوية</h3>
+            <p>مقالات قصيرة حول التعامل مع الضغوط النفسية.</p>
+            <button class="card-btn"onclick="window.location.href='insights.html'" >قراءة الومضات</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="succ.png">
+            <h3>مؤشر الأثر العام</h3>
+            <p>استعراض إنجازات مشروع نماء في المدرسة.</p>
+            <button class="card-btn" onclick="window.location.href='impact.html'">عرض المؤشر</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="notification.png">
+            <h3>نظام الإشعارات</h3>
+            <p>إرسال رسائل تشجيعية قصيرة للطالبات.</p>
+            <button class="card-btn" onclick="window.location.href='notifications.html'">إرسال إشعار</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="msajjale.png">
+            <h3>بيانات الطالبات</h3>
+            <p>عرض جميع الطالبات المسجّلات ومتابعة ملفاتهن.</p>
+            <button class="card-btn" onclick="window.location.href='counselor-students.html'">عرض القائمة</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="support.png">
+            <h3>منح أوسمة</h3>
+            <p>امنحي أوسمة لطالبات المثابرات.</p>
+            <button class="card-btn" onclick="window.location.href='badges.html'">عرض القائمة</button>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

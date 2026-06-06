@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آراء المشاركين وتقييم المشروع</title>
+
+    <style>
+      
+/* ===========================
+   1) تحميل خط Cairo كامل
+=========================== */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+
+* {
+    font-family: "Cairo", sans-serif !important;
+}
+
+/* ===========================
+   2) خلفية فاتحة + Animation واضح
+=========================== */
+body {
+    margin: 0;
+    padding: 0;
+
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.55), transparent 45%),
+        radial-gradient(circle at bottom left, rgba(255,255,255,0.35), transparent 50%),
+        linear-gradient(135deg,
+            #c6fffc 0%,
+            #bfffc9 25%,
+            #c1ffcf 50%,
+            #dbfdffef 75%,
+            #c2ffca 100%
+        );
+
+    background-size: 300% 300%;
+    animation: bgFlow 10s ease-in-out infinite;
+
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    color: #1b3d1b;
+}
+
+@keyframes bgFlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+        /* ===========================
+           زر الرجوع
+        =========================== */
+        .back-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+
+/* ===========================
+   3) اللوجو فوق
+=========================== */
+.top-logo {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    width: 150px;
+    z-index: 10;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+}
+
+/* ===========================
+   4) Wrapper
+=========================== */
+.page-wrapper {
+    position: relative;
+    z-index: 3;
+    max-width: 1100px;
+    margin: 130px auto 40px;
+    padding: 20px;
+}
+
+/* ===========================
+   5) Titles
+=========================== */
+.page-title {
+    text-align: center;
+    color: #1b3d1b;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.page-subtitle {
+    text-align: center;
+    color: #2e4d2e;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+/* ===========================
+   6) Tabs
+=========================== */
+.tabs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.15);
+    background: rgba(255,255,255,0.9);
+    color: #1b3d1b;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: 0.25s;
+}
+
+.tab-btn.active {
+    background: #2e7d32;
+    color: white;
+    border-color: #a5d6a7;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.tab-btn:hover {
+    background: #e8f5e9;
+}
+
+/* ===========================
+   7) Sections
+=========================== */
+.section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+   8) Cards
+=========================== */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.card {
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 18px;
+    padding: 18px;
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12),
+                0 0 18px rgba(76,175,80,0.15);
+
+    position: relative;
+}
+
+.card::before {
+    content: "“";
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    font-size: 40px;
+    color: rgba(76,175,80,0.25);
+}
+
+.card-role {
+    font-size: 13px;
+    color: #256628;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #1b3d1b;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.card-meta {
+    font-size: 12px;
+    color: #4d6b4d;
+}
+
+/* ===========================
+   9) Survey Cards
+=========================== */
+.survey-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.survey-card {
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 18px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12),
+                0 0 18px rgba(76,175,80,0.15);
+}
+
+.survey-title {
+    font-size: 18px;
+    color: #1b3d1b;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.survey-desc {
+    font-size: 14px;
+    color: #2e4d2e;
+    margin-bottom: 14px;
+    line-height: 1.7;
+}
+
+.survey-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #2e7d32;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.survey-btn:hover {
+    background: #256628;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+/* ===========================
+   10) Responsive
+=========================== */
+/* ===========================
+   🌿 MOBILE (max-width: 600px)
+=========================== */
+@media (max-width: 600px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Back Button */
+    .back-btn {
+        top: 14px;
+        left: 14px;
+        padding: 8px 14px;
+        font-size: 13px;
+        width: auto;
+    }
+
+    /* Logo */
+    .top-logo {
+        width: 110px;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Wrapper */
+    .page-wrapper {
+        margin-top: 140px;
+        padding: 14px;
+    }
+
+    .page-title {
+        font-size: 22px;
+        line-height: 1.4;
+    }
+
+    .page-subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    /* Tabs */
+    .tabs {
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .tab-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    /* Cards Grid */
+    .cards-grid,
+    .survey-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    /* Cards */
+    .card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .card-text {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .card-role {
+        font-size: 12px;
+    }
+
+    .card-meta {
+        font-size: 11px;
+    }
+
+    /* Survey Cards */
+    .survey-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .survey-title {
+        font-size: 16px;
+    }
+
+    .survey-desc {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .survey-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}
+
+/* ===========================
+   🌿 TABLET (600px – 900px)
+=========================== */
+@media (min-width: 600px) and (max-width: 900px) {
+
+    .page-wrapper {
+        margin-top: 150px;
+        padding: 20px;
+    }
+
+    .cards-grid,
+    .survey-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card,
+    .survey-card {
+        padding: 18px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+    .page-wrapper {
+        max-width: 1100px;
+    }
+}
+
+/* ===========================
+   🌿 ULTRA-WIDE ≥ 1400px
+=========================== */
+@media (min-width: 1400px) {
+    .page-wrapper {
+        max-width: 1200px;
+    }
+
+    .cards-grid,
+    .survey-grid {
+        gap: 22px;
+    }
+}
+
+</style>
+
+    
+</head>
+
+<body>
+    <button class="back-btn" onclick="window.location.href='index.html'">رجوع</button>
+
+
+    <!-- Logo -->
+    <img src="comm.png" class="top-logo" alt="شعار مركز جرعات الوعي">
+
+    <div class="page-wrapper">
+
+        <h1 class="page-title">قالوا عن "نَماءْ" | آراءٌ وتقييمات</h1>
+        <p class="page-subtitle">
+هنا تجدون صدى الأثر! نشارككم آراء طالباتنا العزيزات وأولياء الأمور الكرام، إلى جانب نتائج وتقارير تقييم المشروع من كافة الجهات الشريكة والداعمة.
+        </p>
+
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-target="students-section">آراء الطالبات</button>
+            <button class="tab-btn" data-target="parents-section">آراء أولياء الأمور</button>
+            <button class="tab-btn" data-target="surveys-section">استبيانات تقييم المشروع</button>
+        </div>
+
+        <!-- آراء الطالبات -->
+        <section id="students-section" class="section active">
+            <div class="cards-grid">
+
+                <!-- مثال 1 -->
+                <div class="card">
+                    <div class="card-role">طالبة في المرحلة الثانوية</div>
+                    <div class="card-text">
+                        “استفدت واجد من كلامش، وقدرت أطور نفسي من ناحية القلق الحمد لله هالفصل ما عانيت منه. والكلام جدا يأثر هالشي أدركته هالفترة.”
+                    </div>
+                    <div class="card-meta">مشاركة في برنامج الدعم الإرشادي</div>
+                </div>
+
+                <!-- مثال 2 -->
+                <div class="card">
+                    <div class="card-role">طالبة في برنامج الإرشاد</div>
+                    <div class="card-text">
+                        “تسلمين واللله. صدق بنات اذا تمرون بوقت صعب وي الامتحانات كتبوا ما تقصر المعلمة! توها عاطيتني نصائح ثمينة.”
+                    </div>
+                    <div class="card-meta">من جلسات المتابعة الفردية</div>
+                </div>
+
+                <!-- مثال 3 -->
+                <div class="card">
+                    <div class="card-role">طالبة متابعة لجلسات فردية</div>
+                    <div class="card-text">
+                        “ وحشتيني اليوم تعودت من أخلص جزء معين من مهام اليوم من الخطة سيدا أخبرش أحس نفس الانجاز و ان احد ورايي يشوف خلصت او لا و اتشجع و اتحفز و اكمل اذا جذيز ان شاء الله بكمل مهام اليوم و يمكن أقدر أدرس شي مال بكرا زيادة عن اليوم ادعيلي اقدرزز و شكرا على دعائش أتمنى لش التوفيق و التيسير بعد ياا رب.”
+                    </div>
+                    <div class="card-meta">من ورشة مهارات التعامل مع الضغوط</div>
+                </div>
+
+                  <!-- مثال 4 -->
+                <div class="card">
+                    <div class="card-role">شوق طالبة متابعة للبرنامج</div>
+                    <div class="card-text">
+                        “كيف حالك معلمة بتول
+نتشوق جدا لبرنامج جديد منك ✨✨
+مو ناوية تقدمين لنا من ورش الحلوة؟! 😏❤️
+.”
+                    </div>
+                    <div class="card-meta">من جلسات الورش الإرشادية الجماعية</div>
+                </div>
+
+                <!-- مثال 3 -->
+                <div class="card">
+                    <div class="card-role">امتنان الطالبات لتجربة الورشة و العلاقة الارشادية</div>
+                    <div class="card-text">
+                        “ وحشتيني اليوم تعودت من أخلص جزء معين من مهام اليوم من الخطة سيدا أخبرش أحس نفس الانجاز و ان احد ورايي يشوف خلصت او لا و اتشجع و اتحفز و اكمل اذا جذيز ان شاء الله بكمل مهام اليوم و يمكن أقدر أدرس شي مال بكرا زيادة عن اليوم ادعيلي اقدرزز و شكرا على دعائش أتمنى لش التوفيق و التيسير بعد ياا رب.”
+                    </div>
+                    <div class="card-meta">من تقييم ورشات جرعات الوعي</div>
+                </div>
+
+                 <!-- مثال 5 -->
+                <div class="card">
+                    <div class="card-role">تقييم الطالبات للورشات</div>
+                    <div class="card-text">
+                        “ فصل كله منحنيات ومنعطفات وطحن واجد وقفنا واجد.. انهارسنا في بعض الأحيان 😂
+النقلة بهالشكل المفاجئ صعبة شي طبيعي يصير اللي قاعد يصير
+بس رغم التعب.. اقدر اقول ان عشنا أيام جميلة
+وعن نفسي طبقت بعض التكنيكات اللي اخذناها في الورشة
+عاد اذا سويتين هالمرة خليها حضور حتى البنات يستمتعون ويفتحي حقنا أون لاين 😘💗.”
+                    </div>
+                    <div class="card-meta">من تقييم ورشات مهارات التعامل مع الضغوط و التحديات</div>
+                </div> 
+
+                <!-- مثال 5 -->
+                <div class="card">
+                    <div class="card-role">تقييم الطالبات للورشات </div>
+                    <div class="card-text">
+                        “ .اتفق معلمة بتول ما شفناها في المدرسة
+كانت معلمتنا الكورس الأخير في توجيهي.. وللأسف كانت دروسنا مركزية
+بس كانت في منتهى اللطف ويانا وأبدًا أبدًا ما قصرت 🤍
+الورشة عرفتني عليها أكثر وأضافت لي وااااجد
+يعطيش ألف عافية معلمة بتول ✨”
+                    </div>
+                    <div class="card-meta">من تقييم ورشات مهارات التعامل مع الضغوط و التحديات</div>
+                </div> 
+            </div>
+        </section>
+
+        <!-- آراء أولياء الأمور -->
+        <section id="parents-section" class="section">
+            <div class="cards-grid">
+
+                <!-- مثال 1 (تقدري تعدّليه لاحقاً) -->
+                <div class="card">
+                    <div class="card-role">ولية أمر طالبة</div>
+                    <div class="card-text">
+                        “لاحظت فرق كبير في طريقة تعامل بنتي مع القلق والدراسة. صارت أهدأ، وتعرف تعبّر عن مشاعرها أكثر، وبرنامج جرعات الوعي كان نقطة تحوّل حقيقية لنا.”
+                    </div>
+                    <div class="card-meta">من استبيان أولياء الأمور</div>
+                </div>
+
+                <!-- مثال 2 -->
+                <div class="card">
+                    <div class="card-role">أم طالبة في المرحلة المتوسطة</div>
+                    <div class="card-text">
+                        “المحتوى المخصص للأهل ساعدني أفهم بنتي أكثر، وأتواصل معها بطريقة أهدأ. حسّيت أني مو لحالي في هالرحلة.”
+                    </div>
+                    <div class="card-meta">من جلسات التوعية الأسرية</div>
+                </div>
+
+                  <!-- مثال 2 -->
+                <div class="card">
+                    <div class="card-role">ولية أمر طالبة</div>
+                    <div class="card-text">
+                        “مشكورة أستاذة ما قصرتين
+وواحد منحرجة منش ومن مبادرتش مع بنتي
+جزاك الله خير.”
+                    </div>
+                    <div class="card-meta">من جلسات التواصل مع أولياء الأمور</div>
+                </div>
+
+                 <!-- مثال 2 -->
+                <div class="card">
+                    <div class="card-role">ولية أمر طالبة</div>
+                    <div class="card-text">
+                        “السلام عليكم استاذة شخبارش يعطيش العافية
+مشكورة حبيبتي ما قصرتين لإضفاء الفرحة في قلوب البنات وبالأخص بنتي (ي)
+رجعت فرحانة ومستأنسة، والفرحة ما كانت حقها بس، حقي أني وأبوها ..
+لما جت توصف الأجواء حسيت نفسي أني موجودة وياكم...
+إن شاء الله تكون عند (ي) حسن ظنش وظن باقي المعلمات
+كل الشكر والتقدير ليش وإلى الإدارة والقائمين على هذا العمل
+(من (ي) وأبوها)
+الله يجازاكم خير ويعطيكم الصحة والعافية
+وتقول (ي) إن شاء الله تكون عند حسن ظنش 🌹💞
+”
+                    </div>
+                    <div class="card-meta">شكر من ولية أمر طالبة على الأثر الايجابي للفعالية</div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- استبيانات تقييم المشروع -->
+        <section id="surveys-section" class="section">
+            <div class="survey-grid">
+
+                <!-- استبيان الطالبات -->
+                <div class="survey-card">
+                    <div class="survey-title">استبيان تقييم المشروع – الطالبات</div>
+                    <div class="survey-desc"> 
+                        عزيزتي الطالبة，
+يسعدنا جداً مشاركتكِ في استبانة المشروع المخصص لدعم طالبات المرحلة الثانوية. تهدف هذه الاستبانة إلى التعرف على تطلعاتكِ، واحتياجاتكِ النفسية والمهارية، ومقترحاتكِ قبل البدء الفعلي في أنشطة المشروع. إجابتكِ الصادقة والموضوعية ستسهم بشكل مباشر في تصميم الورش والأنشطة بما يلبي طموحاتكِ ويحقق أقصى فائدة لكِ.
+                    </div>
+                    <a href="https://forms.office.com/r/bDD28MqwR2" target="_blank" class="survey-btn">
+                        فتح استبيان الطالبات
+                    </a>
+                </div>
+
+                <!-- استبيان أصحاب المصلحة -->
+                <div class="survey-card">
+                    <div class="survey-title">استبيان تقييم المشروع – أصحاب المصلحة</div>
+                    <div class="survey-desc">
+                        هذا الاستبيان مخصص للإدارة، المرشدات، والمعلمات المعنيات بالمشروع، بهدف تقييم جودة التنفيذ，
+                        ملاءمة الأهداف، وأثر المشروع على البيئة المدرسية.
+                    </div>
+                    <a href="https://forms.gle/iwHRjCuuXZfn3CvHA" target="_blank" class="survey-btn">
+                        فتح استبيان أصحاب المصلحة
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll(".tab-btn");
+        const sections = document.querySelectorAll(".section");
+
+        tabs.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabs.forEach(b => b.classList.remove("active"));
+                sections.forEach(s => s.classList.remove("active"));
+
+                btn.classList.add("active");
+                const target = btn.getAttribute("data-target");
+                document.getElementById(target).classList.add("active");
+            });
+        });
+    </script>
+
+</body>
+</html>

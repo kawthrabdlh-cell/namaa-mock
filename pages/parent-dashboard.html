@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة ولي الأمر</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: url("parent.png") center/cover no-repeat fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 0;
+        }
+
+        .navbar {
+            width: 100%;
+            padding: 18px 40px;
+            background: #1b5e1fdd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-logo {
+            width: 120px;
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .students-box {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+
+        .logout-btn {
+            padding: 10px 18px;
+            background: white;
+            color: #1b5e20;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 95%;
+            max-width: 1300px;
+            margin: 30px auto;
+        }
+
+        .parent-style-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            gap: 25px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+            border: 3px solid #1b5e20;
+            margin-bottom: 30px;
+        }
+
+        .parent-photo-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .parent-main-photo {
+            width: 130px;
+            height: 130px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 3px solid #1b5e20;
+        }
+
+        .parent-small-photo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #1b5e20;
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            background: white;
+        }
+
+        .parent-info-block h3 {
+            margin: 0 0 15px 0;
+            color: #1b5e20;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .students-box {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .student-mini-card {
+            background: rgba(255,255,255,0.85);
+            padding: 15px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .student-mini-card img {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .student-mini-card h4 {
+            margin: 0;
+            color: #1b5e20;
+            font-size: 18px;
+        }
+
+        .student-mini-card p {
+            margin: 2px 0;
+            color: #444;
+            font-size: 14px;
+        }
+
+        .moving-banner {
+            background: rgba(255,255,255,0.92);
+            padding: 15px 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .moving-banner-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .moving-banner-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 60px;
+            z-index: 9999;
+        }
+
+        .popup-box {
+            width: 90%;
+            max-width: 650px;
+            background: rgba(255,255,255,0.97);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            background: #1b5e20;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.92);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 55px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            color: #1b5e20;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .card-btn {
+            padding: 10px 14px;
+            background: #2e7d32;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+        }
+
+        /* ===========================
+   🌿 STUDENT MINI CARDS
+=========================== */
+
+/* Mobile-first */
+.student-mini-card {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 14px;
+}
+
+.student-mini-card img {
+    width: 60px;
+    height: 60px;
+}
+
+.student-mini-card h4 {
+    font-size: 16px;
+}
+
+.student-mini-card p {
+    font-size: 13px;
+}
+
+/* ===========================
+   🌿 MOVING BANNER
+=========================== */
+.moving-banner {
+    padding: 12px 14px;
+    flex-direction: row;
+}
+
+.moving-banner-text {
+    font-size: 16px;
+}
+
+/* ===========================
+   🌿 POPUP
+=========================== */
+.popup-box {
+    width: 92%;
+    padding: 20px;
+    max-height: 80vh;
+}
+
+.popup-box h2 {
+    font-size: 20px;
+}
+
+.popup-box h3 {
+    font-size: 17px;
+}
+
+.popup-box p {
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.close-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* ===========================
+   🌿 GRID CARDS
+=========================== */
+.grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+
+.card {
+    padding: 18px;
+}
+
+.card h3 {
+    font-size: 18px;
+}
+
+.card p {
+    font-size: 14px;
+}
+
+.card-btn {
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    .student-mini-card {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .moving-banner {
+        padding: 14px 18px;
+    }
+
+    .moving-banner-text {
+        font-size: 18px;
+    }
+
+    .popup-box {
+        width: 85%;
+        padding: 24px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .student-mini-card img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .student-mini-card h4 {
+        font-size: 18px;
+    }
+
+    .moving-banner {
+        padding: 16px 22px;
+    }
+
+    .moving-banner-text {
+        font-size: 20px;
+    }
+
+    .popup-box {
+        max-width: 650px;
+        padding: 28px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .card h3 {
+        font-size: 20px;
+    }
+
+    .card-btn {
+        font-size: 15px;
+    }
+}
+
+/* ===========================
+   🌿 ULTRA-WIDE ≥ 1400px
+=========================== */
+@media (min-width: 1400px) {
+
+    .grid {
+        gap: 30px;
+    }
+
+    .popup-box {
+        max-width: 700px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <img src="comm.png" class="header-logo">
+    <h1>بوابة ولي الأمر</h1>
+    <button class="logout-btn" onclick="window.location.href='login.html'">تسجيل الخروج</button>
+</div>
+
+<div class="content">
+
+    <div class="parent-style-card">
+
+        <div class="parent-photo-wrapper">
+            <img class="parent-main-photo" src="mommy.png">
+            <img class="parent-small-photo" src="profilee.png">
+        </div>
+
+        <div class="parent-info-block">
+    <h3>اسم ولي الأمر: أمل خليل</h3>
+
+    <div class="students-box">
+
+        <!-- الطالبة الأولى -->
+        <div class="student-mini-card">
+            <img src="profilee.png">
+            <div>
+                <h4>اسم الطالبة: سارة محمد</h4>
+                <p>المرحلة: الثاني ثانوي</p>
+                <p>الفصل:الثاني</p>
+                <p>رقم ولي الأمر: +97390000000</p>
+            </div>
+        </div>
+
+        <!-- الطالبة الثانية -->
+        <div class="student-mini-card">
+            <img src="hijab.png">
+            <div>
+                <h4>اسم الطالبة: ريم محمد</h4>
+                <p>المرحلة: الأولى ثانوي</p>
+                <p>الفصل:الثاني</p>
+                <p>رقم ولي الأمر: +97390000000</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+    </div>
+
+    <div class="moving-banner" onclick="openProjectPopup()">
+        <img src="mot.png" class="moving-banner-icon">
+        <div class="moving-banner-text">معاً نبني مستقبلهم! تابعي معنا</div>
+    </div>
+
+    <div class="popup-overlay" id="projectPopup">
+        <div class="popup-box">
+
+            <button class="close-btn" onclick="closeProjectPopup()">✖ إغلاق</button>
+
+            <h2>معاً.. نبني مستقبلهم</h2>
+
+            <p>
+            "عزيزي ولي الأمر، شراكتك معنا هي سر نجاح ابنتك في هذا المشروع. يداً بيد، نكتشف مهاراتهم ونطور قدراتهم."
+            </p>
+
+            <h3>🎯 ما هو هذا المشروع؟</h3>
+            <p>
+            هو مبادرة نفسية تربوية تهدف إلى تمكين الطلبة من مهارات الصحة النفسية، ومساعدتهم على تطبيق ما يتعلمونه في الحياة الواقعية.
+            </p>
+
+            <h3>💡 دورك كولي أمر</h3>
+            <p>
+          • التشجيع والتحفيز
+           <br> • توفير البيئة المناسبة  
+           <br> • التوجيه لا التنفيذ  
+            <br>• المتابعة المستمرة  
+            </p>
+
+            <h3>🛑 محظورات</h3>
+            <p>
+            • ❌ الضغط النفسي  
+           <br> • ❌ التدخل الكامل  
+            </p>
+
+            <h3>📞 قنوات التواصل والدعم</h3>
+            <p>
+            • مجموعة الواتساب: سيتم اضافتكم لاحقا!
+            <br> • البريد الإلكتروني: namaa.edu.bh@gmail.com 
+            <br> • اللقاءات الدورية: سيتم اعلامكم بمواعيدها لاحقا! 
+            </p>
+
+            <h3>الرؤية</h3>
+            <p>.......</p>
+
+            <h3>الرسالة</h3>
+            <p>...........</p>
+
+        </div>
+    </div>
+
+    <h2 class="section-title">ركن الشراكة مع الأسرة</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <img class="card-icon" src="tafa3ol.png">
+            <h3>لوحة المتابعة التربوية العامة</h3>
+            <p>مؤشرات نمو وتفاعل ابنتكِ دون كشف تفاصيل نفسية حساسة.</p>
+            <button class="card-btn" onclick="window.location.href='parent-progress.html'">عرض لوحة المتابعة</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="fam.png">
+            <h3>مركز جرعات الوعي والإرشاد الأسري</h3>
+            <p>• فيديوهات توعوية<br>• بطاقات إنفوجرافيك</p>
+            <button class="card-btn" onclick="window.location.href='parent-awareness.html'">استكشاف مركز الوعي</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="at.png">
+            <h3>ركن أثر نماء</h3>
+            <p>تقارير عامة تُظهر أثر مشروع نماء على المدرسة.</p>
+            <button class="card-btn" onclick="window.location.href='parent-impact.html'">عرض أثر نماء</button>
+        </div>
+
+        <div class="card">
+            <img class="card-icon" src="bdee.png">
+            <h3>نظام التواصل الآمن والمجدول مع المرشدة</h3>
+            <p>أداة تمنح ولي الأمر شراكة حقيقية مع المدرسة.</p>
+            <button class="card-btn" onclick="window.location.href='parent-communication.html'">بدء التواصل مع المرشدة</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function openProjectPopup() {
+    document.getElementById("projectPopup").style.display = "flex";
+}
+
+function closeProjectPopup() {
+    document.getElementById("projectPopup").style.display = "none";
+}
+</script>
+
+</body>
+</html>

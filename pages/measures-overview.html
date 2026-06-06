@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقاييس الطالبات</title>
+
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+/* ===========================
+   خلفية Animated Green
+=========================== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Cairo", sans-serif;
+
+    background: linear-gradient(135deg,
+        #e8ffe8,
+        #c8f5d0,
+        #b2e8c0
+    );
+    background-size: 300% 300%;
+    animation: bgMove 12s ease infinite;
+
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* دوائر خلفية */
+.bg-circles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(76, 175, 80, 0.18);
+    filter: blur(12px);
+    animation: float 12s infinite ease-in-out;
+}
+
+.circle:nth-child(1){ width:260px;height:260px;top:-60px;right:-80px;animation-duration:16s; }
+.circle:nth-child(2){ width:340px;height:340px;bottom:-100px;left:-70px;animation-duration:20s; }
+.circle:nth-child(3){ width:200px;height:200px;top:40%;left:20%;animation-duration:18s; }
+
+@keyframes float {
+    0%{ transform:translateY(0) scale(1); opacity:.5; }
+    50%{ transform:translateY(-40px) scale(1.15); opacity:.9; }
+    100%{ transform:translateY(0) scale(1); opacity:.5; }
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+.navbar {
+    position: relative;
+    z-index: 5;
+    padding: 15px 40px;
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.navbar h1 {
+    color: #1b3d1b;
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.back-btn {
+    padding: 10px 18px;
+    background: #2e7d32;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    background: #256628;
+    transform: translateY(-2px);
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+.content {
+    position: relative;
+    z-index: 5;
+    padding: 40px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.section-title {
+    font-size: 26px;
+    color: #1b3d1b;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* ===========================
+   CARDS (Glassy)
+=========================== */
+.scale-card {
+    background: rgba(255,255,255,0.22);
+    border: 1px solid rgba(255,255,255,0.55);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.12),
+        0 0 18px rgba(76,175,80,0.15);
+
+    transition: .3s;
+}
+
+.scale-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 14px 40px rgba(0,0,0,0.18),
+        0 0 25px rgba(76,175,80,0.25);
+}
+
+.scale-card h3 {
+    color: #1b5e20;
+    margin: 0 0 10px;
+    font-size: 20px;
+}
+
+.scale-card p {
+    color: #2e4d2e;
+    margin: 4px 0;
+    font-size: 15px;
+}
+
+/* LEVEL COLORS */
+.level-high { color:#4caf50; font-weight:bold; }
+.level-moderate { color:#ffca28; font-weight:bold; }
+.level-low { color:#ef5350; font-weight:bold; }
+
+/* ===========================
+   🌿 GLOBAL FIXES
+   =========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+   =========================== */
+
+/* NAVBAR */
+.navbar {
+    padding: 12px 20px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+.navbar h1 {
+    font-size: 20px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    width: 100%;
+    max-width: 180px;
+    padding: 10px 14px;
+    font-size: 14px;
+    position: static;
+    margin-top: 10px;
+}
+
+/* CONTENT */
+.content {
+    padding: 25px;
+    max-width: 100%;
+}
+
+.section-title {
+    font-size: 22px;
+    text-align: center;
+}
+
+/* CARDS */
+.scale-card {
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.scale-card h3 {
+    font-size: 18px;
+}
+
+.scale-card p {
+    font-size: 14px;
+}
+
+/* FLOATING CIRCLES */
+.circle {
+    filter: blur(10px);
+    opacity: 0.6;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+   =========================== */
+@media (min-width: 600px) {
+
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 40px;
+        text-align: right;
+    }
+
+    .navbar h1 {
+        font-size: 22px;
+    }
+
+    .back-btn {
+        width: auto;
+        margin: 0;
+    }
+
+    .content {
+        padding: 30px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .scale-card {
+        padding: 18px;
+    }
+
+    .scale-card h3 {
+        font-size: 20px;
+    }
+
+    .scale-card p {
+        font-size: 15px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+   =========================== */
+@media (min-width: 900px) {
+
+    .navbar h1 {
+        font-size: 26px;
+    }
+
+    .content {
+        padding: 40px;
+        max-width: 900px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .scale-card {
+        padding: 22px;
+    }
+
+    .scale-card h3 {
+        font-size: 22px;
+    }
+
+    .scale-card p {
+        font-size: 16px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-circles">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <div class="navbar">
+        <h1>مقاييس الطالبات</h1>
+        <button class="back-btn" onclick="window.location.href='counselor-dashboard.html'">رجوع</button>
+    </div>
+
+    <div class="content">
+        <h2 class="section-title">جميع المقاييس المنجزة</h2>
+
+        <div id="scalesContainer"></div>
+    </div>
+
+<script>
+/* ===========================
+   MOCK DATA — ثانوي فقط
+=========================== */
+const mockScales = [
+    {
+        scaleType: "selfEfficacy",
+        studentName: "سارة محمد",
+        studentGrade: "الثاني ثانوي",
+        totalScore: 82,
+        level: "High",
+        createdAt: "2026-03-01"
+    },
+    {
+        scaleType: "behavioralProblems",
+        studentName: "إيما الخطيب",
+        studentGrade: "ثاني ثانوي",
+        totalScore: 58,
+        level: "Moderate",
+        createdAt: "2026-03-02"
+    },
+    {
+        scaleType: "mentalHealth",
+        studentName: "ليان أحمد",
+        studentGrade: "ثالث ثانوي",
+        totalScore: 41,
+        level: "Low",
+        createdAt: "2026-03-03"
+    },
+    {
+        scaleType: "selfEfficacy",
+        studentName: "جنى يوسف",
+        studentGrade: "أول ثانوي",
+        totalScore: 74,
+        level: "Moderate",
+        createdAt: "2026-03-04"
+    }
+];
+
+/* ترجمة الأنواع */
+function translateScale(type) {
+    switch(type) {
+        case "behavioralProblems": return "المشكلات السلوكية";
+        case "selfEfficacy": return "الكفاءة الذاتية";
+        case "mentalHealth": return "الصحة النفسية";
+        default: return type;
+    }
+}
+
+/* عرض الـ Mockups */
+const container = document.getElementById("scalesContainer");
+
+mockScales.forEach(data => {
+    const levelClass =
+        data.level === "High" ? "level-high" :
+        data.level === "Moderate" ? "level-moderate" :
+        "level-low";
+
+    container.innerHTML += `
+        <div class="scale-card">
+            <h3>${translateScale(data.scaleType)}</h3>
+            <p><strong>الطالبة:</strong> ${data.studentName}</p>
+            <p><strong>الصف:</strong> ${data.studentGrade}</p>
+            <p><strong>النتيجة:</strong> ${data.totalScore}</p>
+            <p><strong>المستوى:</strong> <span class="${levelClass}">${data.level}</span></p>
+            <p><strong>التاريخ:</strong> ${data.createdAt}</p>
+        </div>
+    `;
+});
+</script>
+
+</body>
+</html>

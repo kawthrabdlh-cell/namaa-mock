@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة المتابعة التربوية</title>
+
+    <style>
+        /* خلفية Gradient أخضر فاتح بدل الغامق */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Tajawal", sans-serif;
+
+            background: linear-gradient(135deg, #ffffff, #eaffea, #d6f8d6);
+            background-size: 300% 300%;
+            animation: bgMove 14s ease infinite;
+
+            min-height: 100vh;
+            position: relative;
+
+            color: #1b3d1b; /* غامق لأنو الثيم فاتح */
+        }
+
+        @keyframes bgMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Sparkles غامقين خفاف بالخلفية بدل الطبقة السودا */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+
+            background:
+                radial-gradient(circle at 15% 20%, rgba(0,60,20,0.18), transparent 55%),
+                radial-gradient(circle at 80% 30%, rgba(0,70,25,0.16), transparent 55%),
+                radial-gradient(circle at 25% 80%, rgba(0,50,15,0.14), transparent 55%);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            padding: 15px 40px;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.12);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: #1b3d1b;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            padding: 10px 18px;
+            background: #1b5e20;
+            color: #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #2e7d32;
+        }
+
+        /* CONTENT */
+        .content {
+            position: relative;
+            z-index: 2;
+            padding: 30px 20px 40px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section-title {
+            font-size: 26px;
+            color: #1b3d1b;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        /* CARDS GRID */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.94);
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            backdrop-filter: blur(6px);
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            color: #1b5e20;
+            font-size: 20px;
+        }
+
+        .card p {
+            margin: 0 0 12px;
+            color: #444;
+            font-size: 14px;
+        }
+
+        /* STUDENT ROW */
+        .student-row {
+            background: #f5fff6;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #c8e6c9;
+        }
+
+        .student-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .student-info span {
+            font-size: 14px;
+            color: #1b5e20;
+        }
+
+        .student-info small {
+            font-size: 12px;
+            color: #555;
+        }
+
+        .small-btn {
+            padding: 7px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            background: #1b5e20;
+            color: #ffffff;
+        }
+
+        .small-btn.secondary {
+            background: #ffffff;
+            color: #1b5e20;
+            border: 1px solid #1b5e20;
+        }
+
+        /* POPUP */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 50px;
+            z-index: 9999;
+        }
+
+        .popup-box {
+            width: 95%;
+            max-width: 700px;
+            background: #fdfdfd;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+            padding: 22px 22px 26px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .popup-header h3 {
+            margin: 0;
+            color: #1b5e20;
+        }
+
+        .close-btn {
+            border: none;
+            background: #1b5e20;
+            color: #ffffff;
+            border-radius: 8px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .popup-section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1b5e20;
+            margin: 14px 0 6px;
+        }
+
+        .popup-text {
+            font-size: 14px;
+            color: #333;
+            margin: 0 0 6px;
+            white-space: pre-line;
+        }
+
+        .health-iframe {
+            width: 100%;
+            height: 260px;
+            border-radius: 12px;
+            border: none;
+            margin-top: 8px;
+            background: #f1f1f1;
+        }
+
+        .note-card {
+            background: #f5fff6;
+            border-radius: 12px;
+            padding: 10px 12px;
+            border: 1px solid #c8e6c9;
+            margin-bottom: 8px;
+        }
+
+        .note-card small {
+            display: block;
+            font-size: 11px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* BADGES */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .badge-item {
+            background: #f5fff6;
+            border-radius: 10px;
+            padding: 6px;
+            border: 1px solid #c8e6c9;
+            text-align: center;
+        }
+
+        .badge-item img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 4px;
+        }
+
+        .badge-item span {
+            font-size: 11px;
+            color: #1b5e20;
+        }
+
+        /* ===========================
+   🌿 MOBILE-FIRST (max-width: 600px)
+=========================== */
+@media (max-width: 600px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    .navbar {
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .navbar h1 {
+        font-size: 20px;
+    }
+
+    .back-btn {
+        width: 100%;
+        max-width: 160px;
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+
+    /* CONTENT */
+    .content {
+        padding: 20px 14px 30px;
+    }
+
+    .section-title {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    /* CARDS GRID */
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .card h3 {
+        font-size: 18px;
+    }
+
+    .card p {
+        font-size: 13px;
+    }
+
+    /* STUDENT ROW */
+    .student-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .student-info span {
+        font-size: 13px;
+    }
+
+    .student-info small {
+        font-size: 11px;
+    }
+
+    .small-btn {
+        width: 100%;
+        text-align: center;
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    /* POPUP */
+    .popup-box {
+        width: 92%;
+        padding: 18px;
+        max-height: 85vh;
+    }
+
+    .popup-header h3 {
+        font-size: 18px;
+    }
+
+    .popup-section-title {
+        font-size: 14px;
+    }
+
+    .popup-text {
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .health-iframe {
+        height: 200px;
+    }
+
+    .note-card {
+        padding: 8px 10px;
+    }
+
+    .note-card small {
+        font-size: 10px;
+    }
+
+    /* BADGES */
+    .badges-grid {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+        gap: 6px;
+    }
+
+    .badge-item span {
+        font-size: 10px;
+    }
+}
+
+/* ===========================
+   🌿 TABLET (min-width: 600px and max-width: 900px)
+=========================== */
+@media (min-width: 600px) and (max-width: 900px) {
+
+    .navbar {
+        padding: 14px 24px;
+    }
+
+    .content {
+        padding: 28px 20px;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .popup-box {
+        width: 85%;
+        padding: 22px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .content {
+        max-width: 1100px;
+        padding: 40px 20px;
+    }
+
+    .popup-box {
+        max-width: 700px;
+    }
+}
+
+/* ===========================
+   🌿 ULTRA-WIDE ≥ 1400px
+=========================== */
+@media (min-width: 1400px) {
+
+    .content {
+        max-width: 1200px;
+    }
+
+    .popup-box {
+        max-width: 750px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h1>لوحة المتابعة التربوية</h1>
+    <button class="back-btn" onclick="window.location.href='parent-dashboard.html'">رجوع</button>
+</div>
+
+<div class="content">
+    <h2 class="section-title">متابعة نمو ابنتكِ</h2>
+
+    <div class="cards-grid">
+
+        <!-- CARD 1: الصحة العامة + متابعة العلاج -->
+        <div class="card">
+            <h3>محور الصحة العامة</h3>
+            <p>الملف الصحي، متابعة العلاج، وملاحظات المرشدة الصحية لكل طالبة مرتبطة بحسابك.</p>
+            <div id="healthStudentsContainer">
+                <p style="color:#777; font-size:13px; margin-top:10px;">جاري تحميل بيانات الطالبات…</p>
+            </div>
+        </div>
+
+        <!-- CARD 2: مؤشر التفاعل السلوكي -->
+        <div class="card">
+            <h3>مؤشر التفاعل السلوكي</h3>
+            <p>متابعة التزام ابنتكِ بالعقود السلوكية (تنظيم الانفعالات، وقت الدراسة، الحضور) بناءً على مدخلاتها اليومية.</p>
+            <div id="behaviorStudentsContainer">
+                <p style="color:#777; font-size:13px; margin-top:10px;">جاري تحميل بيانات الطالبات…</p>
+            </div>
+        </div>
+
+        <!-- CARD 3: سجل الإنجازات والأوسمة -->
+        <div class="card">
+            <h3>سجل الإنجازات والأوسمة</h3>
+            <p>عرض الأوسمة الرقمية ونقاط التميز الخاصة بابنتكِ كما تمنحها المرشدة.</p>
+            <p style="font-size:13px; color:#777;">يتم احتساب نقاط التميز بناءً على عدد الأوسمة.</p>
+            <div id="achievementsStudentsContainer">
+                <p style="color:#777; font-size:13px; margin-top:10px;">جاري تحميل بيانات الطالبات…</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="studentPopup">
+    <div class="popup-box">
+        <div class="popup-header">
+            <h3 id="popupTitle">تفاصيل الطالبة</h3>
+            <button class="close-btn" onclick="closeStudentPopup()">إغلاق ✕</button>
+        </div>
+
+        <div>
+            <p class="popup-section-title">الملف الصحي:</p>
+            <div id="popupHealthContainer">
+                <p class="popup-text">لا يوجد ملف صحي مرفوع بعد.</p>
+            </div>
+            <button class="small-btn secondary" id="editHealthBtn">تعديل / إضافة ملف صحي</button>
+        </div>
+
+        <div>
+            <p class="popup-section-title">متابعة العلاج:</p>
+            <p id="popupTreatment" class="popup-text">—</p>
+        </div>
+
+        <div>
+            <p class="popup-section-title">ملاحظات المرشدة الصحية:</p>
+            <div id="popupCounselorNotes">
+                <p class="popup-text">لا توجد ملاحظات مسجلة بعد.</p>
+            </div>
+        </div>
+
+        <div>
+            <p class="popup-section-title">مؤشر التفاعل السلوكي:</p>
+            <p id="popupBehavior" class="popup-text">—</p>
+        </div>
+
+        <div>
+            <p class="popup-section-title">سجل الإنجازات والأوسمة:</p>
+            <p id="popupPoints" class="popup-text">—</p>
+            <div id="popupBadgesGrid" class="badges-grid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* MOCK DATA – الأم عندها بنتين: سارة وريم */
+    const mockStudents = [
+        {
+            id: "sara",
+            name: "سارة محمد",
+            grade: "ثاني ثانوي",
+            healthFile: "healthy.pdf",
+            treatmentSummary: "تتابع جلسات منتظمة مع المرشدة الصحية مرة كل أسبوعين، مع التزام جيد بالخطة العلاجية.",
+            counselorNotes: [
+                {
+                    noteText: "تحسن ملحوظ في إدارة الضغوط داخل الصف، وتفاعل إيجابي مع تمارين التنفس.",
+                    counselorName: "المرشدة الصحية: أ. هدى",
+                    timestamp: "2026-05-20 10:30"
+                },
+                {
+                    noteText: "تحتاج إلى متابعة النوم وتنظيم ساعات استخدام الهاتف قبل النوم.",
+                    counselorName: "المرشدة الصحية: أ. هدى",
+                    timestamp: "2026-06-01 09:15"
+                }
+            ],
+            behaviorAnalysisHTML:
+                "• الالتزام بالعقود السلوكية: مرتفع (80%).\n" +
+                "• الحضور: منتظم مع غيابات مبررة قليلة.\n" +
+                "• وقت الدراسة اليومي: بين 2–3 ساعات في أغلب الأيام.\n" +
+                "• تنظيم الانفعالات: تحسن واضح في الأسابيع الأخيرة.",
+            badgesInfo: {
+                count: 2,
+                points: 40,
+                badges: [
+                    { imageBase64: "wesam.jpeg", badgeName: "وسام التميز الدراسي" },
+                    { imageBase64: "wesam1.jpeg", badgeName: "وسام الانضباط السلوكي" }
+                ]
+            }
+        },
+        {
+            id: "rim",
+            name: "ريم محمد",
+            grade: "أول ثانوي",
+            healthFile: null,
+            treatmentSummary: "لا توجد خطة علاجية ثابتة، فقط متابعة دورية عامة مع المرشدة.",
+            counselorNotes: [
+                {
+                    noteText: "تحتاج إلى دعم إضافي في تنظيم الوقت بين الدراسة والأنشطة اللاصفية.",
+                    counselorName: "المرشدة الصحية: أ. سمر",
+                    timestamp: "2026-05-28 11:00"
+                }
+            ],
+            behaviorAnalysisHTML:
+                "• الالتزام بالعقود السلوكية: متوسط (55%).\n" +
+                "• الحضور: جيد مع بعض التأخير الصباحي.\n" +
+                "• وقت الدراسة اليومي: متذبذب بين الأيام.\n" +
+                "• تنظيم الانفعالات: بحاجة إلى مزيد من التدريب على التعبير عن المشاعر.",
+            badgesInfo: {
+                count: 1,
+                points: 15,
+                badges: [
+                    { imageBase64: "wesam1.jpeg", badgeName: "وسام المشاركة الفعّالة" }
+                ]
+            }
+        }
+    ];
+
+    /* DOM ELEMENTS */
+    const healthContainer = document.getElementById("healthStudentsContainer");
+    const behaviorContainer = document.getElementById("behaviorStudentsContainer");
+    const achievementsContainer = document.getElementById("achievementsStudentsContainer");
+
+    const popupOverlay = document.getElementById("studentPopup");
+    const popupTitle = document.getElementById("popupTitle");
+
+    const popupHealthContainer = document.getElementById("popupHealthContainer");
+    const popupTreatment = document.getElementById("popupTreatment");
+    const popupCounselorNotes = document.getElementById("popupCounselorNotes");
+
+    const popupBehavior = document.getElementById("popupBehavior");
+
+    const popupPoints = document.getElementById("popupPoints");
+    const popupBadgesGrid = document.getElementById("popupBadgesGrid");
+
+    const editHealthBtn = document.getElementById("editHealthBtn");
+
+    /* زر التعديل مخفي للأهل */
+    editHealthBtn.style.display = "none";
+
+    function getStudentById(id) {
+        return mockStudents.find(s => s.id === id);
+    }
+
+    function setPopupMode(mode) {
+        const secHealth = popupHealthContainer.parentElement;
+        const secTreatment = popupTreatment.parentElement;
+        const secNotes = popupCounselorNotes.parentElement;
+        const secBehavior = popupBehavior.parentElement;
+        const secBadges = popupBadgesGrid.parentElement;
+
+        if (mode === "health") {
+            secHealth.style.display = "block";
+            secTreatment.style.display = "block";
+            secNotes.style.display = "block";
+
+            secBehavior.style.display = "none";
+            secBadges.style.display = "none";
+        }
+
+        if (mode === "behavior") {
+            secHealth.style.display = "none";
+            secTreatment.style.display = "none";
+            secNotes.style.display = "none";
+
+            secBehavior.style.display = "block";
+            secBadges.style.display = "none";
+        }
+
+        if (mode === "achievements") {
+            secHealth.style.display = "none";
+            secTreatment.style.display = "none";
+            secNotes.style.display = "none";
+
+            secBehavior.style.display = "none";
+            secBadges.style.display = "block";
+        }
+    }
+
+    function openStudentPopup(student, mode) {
+        popupTitle.textContent = `${student.name} – ${student.grade}`;
+        setPopupMode(mode);
+
+        if (mode === "health") {
+            popupHealthContainer.innerHTML = student.healthFile
+                ? `<iframe class="health-iframe" src="${student.healthFile}"></iframe>`
+                : `<p class="popup-text">لا يوجد ملف صحي مرفوع بعد.</p>`;
+
+            popupTreatment.textContent = student.treatmentSummary || "—";
+
+            if (student.counselorNotes && student.counselorNotes.length > 0) {
+                let html = "";
+                student.counselorNotes.forEach(n => {
+                    html += `
+                        <div class="note-card">
+                            <span style="font-size:14px;">${n.noteText || n.note || "—"}</span>
+                            <small>${n.counselorName || ""} — ${n.timestamp || ""}</small>
+                        </div>
+                    `;
+                });
+                popupCounselorNotes.innerHTML = html;
+            } else {
+                popupCounselorNotes.innerHTML = `<p class="popup-text">لا توجد ملاحظات مسجلة بعد.</p>`;
+            }
+        }
+
+        if (mode === "behavior") {
+            popupBehavior.textContent = "";
+            popupBehavior.innerText = student.behaviorAnalysisHTML || "—";
+        }
+
+        if (mode === "achievements") {
+            if (!student.badgesInfo || student.badgesInfo.count === 0) {
+                popupPoints.textContent = "لا توجد أوسمة بعد.";
+                popupBadgesGrid.innerHTML = "";
+            } else {
+                popupPoints.textContent = `نقاط التميز: ${student.badgesInfo.points} نقطة`;
+                popupBadgesGrid.innerHTML = "";
+                student.badgesInfo.badges.forEach(b => {
+                    const div = document.createElement("div");
+                    div.className = "badge-item";
+                    div.innerHTML = `
+                        <img src="${b.imageBase64}" alt="${b.badgeName}">
+                        <span>${b.badgeName}</span>
+                    `;
+                    popupBadgesGrid.appendChild(div);
+                });
+            }
+        }
+
+        popupOverlay.style.display = "flex";
+    }
+
+    function createStudentRow(student, mode) {
+        const row = document.createElement("div");
+        row.className = "student-row";
+
+        const info = document.createElement("div");
+        info.className = "student-info";
+        info.innerHTML = `
+            <span>${student.name}</span>
+            <small>${student.grade}</small>
+        `;
+
+        const btn = document.createElement("button");
+        btn.className = "small-btn";
+        btn.textContent = "عرض التفاصيل";
+        btn.addEventListener("click", () => openStudentPopup(student, mode));
+
+        row.appendChild(info);
+        row.appendChild(btn);
+        return row;
+    }
+
+    function renderMockStudents() {
+        healthContainer.innerHTML = "";
+        behaviorContainer.innerHTML = "";
+        achievementsContainer.innerHTML = "";
+
+        mockStudents.forEach(student => {
+            healthContainer.appendChild(createStudentRow(student, "health"));
+            behaviorContainer.appendChild(createStudentRow(student, "behavior"));
+            achievementsContainer.appendChild(createStudentRow(student, "achievements"));
+        });
+    }
+
+    window.closeStudentPopup = function () {
+        popupOverlay.style.display = "none";
+    };
+
+    document.addEventListener("DOMContentLoaded", renderMockStudents);
+</script>
+
+</body>
+</html>

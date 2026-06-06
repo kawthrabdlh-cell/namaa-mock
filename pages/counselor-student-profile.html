@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ملف الطالبة</title>
+
+<!-- خط Cairo -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* ===========================
+       خلفية Light Animated + White Glow
+    =========================== */
+
+    body {
+        margin: 0;
+        font-family: "Cairo", sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+        color: #1b3d1b;
+
+        background:
+            radial-gradient(circle at top right, rgba(255,255,255,0.55), transparent 45%),
+            radial-gradient(circle at bottom left, rgba(255,255,255,0.45), transparent 50%),
+            linear-gradient(135deg,
+                #ffffff 0%,
+                #f3fff3 25%,
+                #e0f7e0 50%,
+                #f3fff3 75%,
+                #ffffff 100%
+            );
+
+        background-size: 350% 350%;
+        animation: bgMove 14s ease-in-out infinite;
+    }
+
+    @keyframes bgMove {
+        0%   { background-position: 0% 50%; }
+        50%  { background-position: 100% 60%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* إزالة الطبقة السوداء */
+    body::before {
+        display: none;
+    }
+
+    /* إزالة الدوائر */
+    .circle {
+        display: none !important;
+    }
+
+    /* ===========================
+       Layout
+    =========================== */
+    .layout {
+        display: flex;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    /* ===========================
+       Sidebar (فاتح)
+    =========================== */
+    .sidebar {
+        width: 260px;
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(14px);
+        border-left: 1px solid rgba(0,0,0,0.12);
+        padding: 25px 20px;
+        box-shadow: -4px 0 25px rgba(0,0,0,0.12);
+        z-index: 5;
+        transition: 0.3s;
+    }
+
+    .sidebar-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 18px;
+        color: #1b3d1b;
+    }
+
+    .menu-btn {
+        width: 100%;
+        text-align: right;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.12);
+        background: rgba(255,255,255,0.9);
+        color: #1b3d1b;
+        cursor: pointer;
+        font-size: 14px;
+        transition: 0.25s;
+        margin-bottom: 8px;
+    }
+
+    .menu-btn:hover {
+        background: #e8f5e9;
+        transform: translateY(-1px);
+    }
+
+    /* ===========================
+       Main Content
+    =========================== */
+    .main {
+        flex: 1;
+        padding: 30px 40px;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Navbar (فاتح) */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .navbar h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #1b3d1b;
+    }
+
+    .back-btn {
+        padding: 9px 16px;
+        background: #2e7d32;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .back-btn:hover {
+        background: #256628;
+        transform: translateY(-2px);
+    }
+
+    /* ===========================
+       Profile Card
+    =========================== */
+    .profile-card {
+        background: rgba(255,255,255,0.92);
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 18px;
+        padding: 25px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+        max-width: 520px;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        animation: fadeUp 0.7s ease forwards;
+        opacity: 0;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid #c8e6c9;
+        flex-shrink: 0;
+    }
+
+    .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-name {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #1b3d1b;
+    }
+
+    .profile-line {
+        margin: 4px 0;
+        color: #2e4d2e;
+        font-size: 15px;
+    }
+
+    .profile-label {
+        color: #256628;
+        font-weight: 600;
+    }
+
+    /* ===========================
+       Popup
+    =========================== */
+    .popup-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+        backdrop-filter: blur(6px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .popup {
+        width: 90%;
+        max-width: 700px;
+        max-height: 80vh;
+        overflow-y: auto;
+        background: rgba(255,255,255,0.92);
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 20px;
+        padding: 24px 24px 18px;
+        backdrop-filter: blur(14px);
+        animation: slideUp 0.35s ease;
+    }
+
+    .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .popup-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1b3d1b;
+    }
+
+    .close-popup {
+        background: transparent;
+        border: none;
+        color: #1b3d1b;
+        font-size: 26px;
+        cursor: pointer;
+    }
+
+    /* Popup content cards */
+    .data-card {
+        background: rgba(255,255,255,0.85);
+        border-radius: 14px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(0,0,0,0.08);
+        font-size: 14px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    .data-title {
+        font-weight: 600;
+        color: #1b3d1b;
+        margin-bottom: 4px;
+    }
+
+    .data-text {
+        color: #2e4d2e;
+        line-height: 1.6;
+    }
+
+    .empty-text {
+        color: #6d6d6d;
+        font-size: 14px;
+        margin-top: 8px;
+    }
+            /* ===========================
+           زر الرجوع
+        =========================== */
+        .back-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+
+    /* ===========================
+       Table
+    =========================== */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(255,255,255,0.92);
+        border-radius: 18px;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+    }
+
+    th, td {
+        padding: 12px 14px;
+        font-size: 14px;
+        text-align: center;
+        color: #1b3d1b;
+    }
+
+    th {
+        background: rgba(0,0,0,0.06);
+        font-weight: 700;
+    }
+
+    tr:nth-child(even) {
+        background: rgba(0,0,0,0.03);
+    }
+
+    tr:hover {
+        background: rgba(0,0,0,0.06);
+    }
+
+    .challenge-tag {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        background: #c8ffd4;
+        color: #1b5e20;
+    }
+
+    /* صندوق إضافة الملاحظة */
+    .health-note-box {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        border: 1px solid #e6e6e6;
+    }
+
+    /* عنوان القسم */
+    .health-note-box .data-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #2b4c3f;
+    }
+
+    /* الحقول */
+    .health-input {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid #dcdcdc;
+        margin-bottom: 12px;
+        font-size: 15px;
+        background: #fafafa;
+        transition: 0.2s;
+        resize: vertical;
+    }
+
+    .health-input:focus {
+        border-color: #3a7f6a;
+        background: #fff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(58, 127, 106, 0.15);
+    }
+
+    /* زر الحفظ */
+    .health-save-btn {
+        width: 100%;
+        background: #3a7f6a;
+        color: white;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+        margin-top: 5px;
+    }
+
+    .health-save-btn:hover {
+        background: #2e6a58;
+    }
+
+    /* بطاقة الملاحظة */
+    .health-note-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 15px;
+        margin-top: 15px;
+        border: 1px solid #e6e6e6;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    .health-note-card .note-title {
+        font-size: 17px;
+        font-weight: bold;
+        color: #2b4c3f;
+        margin-bottom: 8px;
+    }
+
+    .health-note-card .note-text {
+        font-size: 15px;
+        color: #444;
+        margin-bottom: 10px;
+    }
+
+    .health-note-card .note-meta {
+        font-size: 12px;
+        color: #777;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+        0% { opacity: 0; transform: translateY(15px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+        0% { opacity: 0; transform: translateY(25px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .layout {
+            flex-direction: column;
+        }
+
+        .sidebar {
+            width: 100%;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+            border-left: none;
+            border-bottom: 1px solid rgba(0,0,0,0.12);
+        }
+
+        .main {
+            padding: 20px;
+        }
+
+        .profile-card {
+            max-width: 100%;
+        }
+    }
+    /* ===========================
+   🌿 GLOBAL FIXES
+=========================== */
+body {
+    overflow-x: hidden;
+}
+
+img, embed {
+    max-width: 100%;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+=========================== */
+
+/* BACK BUTTON (fixed) */
+.back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    max-width: 150px;
+}
+
+/* LAYOUT */
+.layout {
+    flex-direction: column;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 100%;
+    padding: 18px;
+    border-left: none;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+}
+
+.sidebar-title {
+    font-size: 18px;
+}
+
+.menu-btn {
+    font-size: 13px;
+    padding: 10px;
+}
+
+/* MAIN */
+.main {
+    padding: 20px;
+}
+
+/* NAVBAR */
+.navbar {
+    flex-direction: column-reverse;
+    gap: 10px;
+    text-align: center;
+}
+
+.navbar h1 {
+    font-size: 20px;
+}
+
+/* PROFILE CARD */
+.profile-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    gap: 12px;
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+}
+
+.profile-name {
+    font-size: 18px;
+}
+
+.profile-line {
+    font-size: 14px;
+}
+
+/* POPUP */
+.popup {
+    width: 92%;
+    max-height: 85vh;
+    padding: 18px;
+}
+
+.popup-title {
+    font-size: 18px;
+}
+
+.data-card {
+    font-size: 13px;
+    padding: 10px;
+}
+
+.health-note-card {
+    font-size: 13px;
+    padding: 12px;
+}
+
+.health-input {
+    font-size: 14px;
+}
+
+/* TABLE */
+table {
+    font-size: 13px;
+}
+
+th, td {
+    padding: 10px;
+}
+
+/* HEALTH NOTE BOX */
+.health-note-box {
+    padding: 16px;
+}
+
+.health-save-btn {
+    font-size: 14px;
+    padding: 10px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    .back-btn {
+        top: 15px;
+        left: 15px;
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .sidebar {
+        width: 260px;
+        border-bottom: none;
+        border-left: 1px solid rgba(0,0,0,0.12);
+    }
+
+    .layout {
+        flex-direction: row;
+    }
+
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: right;
+    }
+
+    .navbar h1 {
+        font-size: 22px;
+    }
+
+    .profile-card {
+        flex-direction: row;
+        text-align: left;
+        padding: 25px;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-name {
+        font-size: 20px;
+    }
+
+    .profile-line {
+        font-size: 15px;
+    }
+
+    .popup {
+        max-width: 600px;
+        padding: 22px;
+    }
+
+    .data-card {
+        font-size: 14px;
+    }
+
+    .health-note-card {
+        font-size: 14px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .main {
+        padding: 40px;
+    }
+
+    .navbar h1 {
+        font-size: 24px;
+    }
+
+    .profile-card {
+        padding: 28px;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-name {
+        font-size: 22px;
+    }
+
+    .popup {
+        max-width: 700px;
+        padding: 26px;
+    }
+
+    .data-card {
+        font-size: 15px;
+    }
+
+    .health-note-card {
+        font-size: 15px;
+    }
+
+    table {
+        font-size: 15px;
+    }
+}
+
+/* ===========================
+   🌿 ULTRA-WIDE ≥ 1400px
+=========================== */
+@media (min-width: 1400px) {
+
+    .main {
+        padding: 50px 70px;
+    }
+
+    .profile-card {
+        max-width: 600px;
+    }
+
+    .popup {
+        max-width: 800px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+    <button class="back-btn" onclick="window.location.href='counselor-students.html'">رجوع</button>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-title">بيانات الطالبة</div>
+        <div class="menu">
+            <button class="menu-btn" onclick="openSection('attendance')">الحضور</button>
+            <button class="menu-btn" onclick="openSection('breathing')">اختبار التنفس</button>
+            <button class="menu-btn" onclick="openSection('emotionalIQ')">الذكاء العاطفي</button>
+            <button class="menu-btn" onclick="openSection('emotionReg')">تنظيم الانفعالات</button>
+            <button class="menu-btn" onclick="openSection('commitments')">الالتزامات</button>
+            <button class="menu-btn" onclick="openSection('emotions')">المشاعر اليومية</button>
+            <button class="menu-btn" onclick="openSection('consultation')">الاستشارات</button>
+            <button class="menu-btn" onclick="openSection('appointments')">المواعيد</button>
+            <button class="menu-btn" onclick="openSection('studyTime')">الوقت الدراسي</button>
+            <button class="menu-btn" onclick="openSection('healthFile')">الملف الصحي</button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <div class="navbar">
+            <button class="back-btn" onclick="window.location.href='counselor-students.html'">رجوع</button>
+            <h1>ملف الطالبة</h1>
+        </div>
+
+        <div class="profile-card" id="profileCard">
+            <div class="profile-avatar">
+                <img id="photo" src="profilee.png" alt="صورة الطالبة">
+            </div>
+            <div class="profile-info">
+                <div class="profile-name" id="studentName">اسم الطالبة</div>
+                <div class="profile-line">
+                    <span class="profile-label">المرحلة:</span>
+                    <span id="studentStage">—</span>
+                </div>
+                <div class="profile-line">
+                    <span class="profile-label">الفصل:</span>
+                    <span id="studentGrade">—</span>
+                </div>
+                <div class="profile-line">
+                    <span class="profile-label">المرشدة:</span>
+                    <span id="studentCounselor">—</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="studentIDLabel" style="margin-top:10px; font-size:12px; color:#777;"></div>
+    </div>
+
+</div>
+
+<!-- Popup -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup" id="popupBox">
+        <div class="popup-header">
+            <div class="popup-title" id="popupTitle">العنوان</div>
+            <button class="close-popup" onclick="closePopup()">×</button>
+        </div>
+        <div class="popup-content" id="popupContent">
+            <!-- dynamic -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // ===========================
+    // Mock Data ثابتة لسارة محمد
+    // ===========================
+
+    const mockStudent = {
+        id: "STU-001",
+        name: "سارة محمد",
+        stage: "الثاني ثانوي",
+        grade: "الثاني",
+        counselorName: "أ. مريم عبد الله",
+        photo: "profilee.png",
+        healthFile: "healthy.pdf"
+    };
+
+    const mockAttendance = [
+        { date: "2025-01-10", text: "حضور كامل" },
+        { date: "2025-01-11", text: "تأخير بسيط" },
+        { date: "2025-01-12", text: "غياب بعذر" }
+    ];
+
+    const mockBreathing = [
+        { createdAt: "2025-01-05", score: "8/10" },
+        { createdAt: "2025-01-20", score: "9/10" }
+    ];
+
+    const mockEmotionalIQ = [
+        { question1: "إجابة 1", question2: "إجابة 2", totalScore: 32 },
+        { question1: "إجابة 1 أخرى", question2: "إجابة 2 أخرى", totalScore: 35 }
+    ];
+
+    const mockEmotionReg = [
+        { q1: "أتعامل مع غضبي بالتنفس العميق", q2: "أستخدم الكتابة للتفريغ" },
+        { q1: "أطلب المساعدة عند الشعور بالضغط", q2: "أمارس المشي" }
+    ];
+
+    const mockCommitments = [
+        { challenge: "تنظيم الوقت", description: "الالتزام بخطة مذاكرة يومية لمدة أسبوع." },
+        { challenge: "تقليل استخدام الهاتف", description: "عدم استخدام الهاتف أثناء الدراسة." }
+    ];
+
+    const mockEmotions = [
+        { date: "2025-01-10", text: "سعيدة ومتحمسة" },
+        { date: "2025-01-11", text: "متوترة قليلاً بسبب الامتحان" },
+        { date: "2025-01-12", text: "هادئة وراضية" }
+    ];
+
+    const mockConsultation = [
+        { createdAt: "2025-01-03", text: "جلسة حول إدارة القلق قبل الامتحانات." },
+        { createdAt: "2025-01-17", text: "جلسة متابعة حول تنظيم الوقت." }
+    ];
+
+    const mockAppointments = [
+        { counselorMessage: "جلسة متابعة أسبوعية", status: "مكتملة" },
+        { counselorMessage: "جلسة دعم نفسي", status: "قيد التنفيذ" }
+    ];
+
+    const mockStudyTime = [
+        { text: "3 ساعات" },
+        { text: "2.5 ساعة" },
+        { text: "4 ساعات" }
+    ];
+
+    let mockHealthNotes = [
+        {
+            noteTitle: "ملاحظة أولية",
+            noteText: "الطالبة تعاني من توتر قبل الامتحانات وتستجيب جيداً لتقنيات التنفس.",
+            counselorName: "أ. صفاء",
+            timestamp: "2025-01-05 10:30"
+        }
+    ];
+
+    let mockHealingNotes = [
+        {
+            noteTitle: "خطة علاجية",
+            noteText: "تطبيق تمارين استرخاء يومية لمدة 10 دقائق قبل النوم.",
+            counselorName: "أ. صفاء",
+            timestamp: "2025-01-06 11:00"
+        }
+    ];
+
+    // ===========================
+    // عناصر DOM
+    // ===========================
+
+    const popupOverlay = document.getElementById("popupOverlay");
+    const popupBox = document.getElementById("popupBox");
+    const popupTitle = document.getElementById("popupTitle");
+    const popupContent = document.getElementById("popupContent");
+
+    const studentNameEl = document.getElementById("studentName");
+    const studentStageEl = document.getElementById("studentStage");
+    const studentGradeEl = document.getElementById("studentGrade");
+    const studentCounselorEl = document.getElementById("studentCounselor");
+    const studentPhotoEl = document.getElementById("photo");
+    const studentIDLabelEl = document.getElementById("studentIDLabel");
+
+    // ===========================
+    // تحميل بيانات الطالبة (Mock)
+    // ===========================
+
+    function loadStudentProfileMock() {
+        const data = mockStudent;
+        studentNameEl.textContent = data.name;
+        studentStageEl.textContent = data.stage;
+        studentGradeEl.textContent = data.grade;
+        studentCounselorEl.textContent = data.counselorName;
+        studentPhotoEl.src = data.photo || "profilee.png";
+        studentIDLabelEl.textContent = `ID: ${data.id}`;
+
+        document.getElementById("profileCard").style.opacity = "1";
+    }
+
+    // ===========================
+    // فتح / إغلاق الـ Popup
+    // ===========================
+
+    function openSection(section) {
+        popupOverlay.style.display = "flex";
+        popupContent.innerHTML = `<p class="empty-text">جاري تحميل البيانات...</p>`;
+
+        switch (section) {
+            case "attendance":
+                popupTitle.textContent = "الحضور";
+                loadAttendance();
+                break;
+            case "breathing":
+                popupTitle.textContent = "اختبار التنفس";
+                loadBreathing();
+                break;
+            case "emotionalIQ":
+                popupTitle.textContent = "الذكاء العاطفي";
+                loadEmotionalIQ();
+                break;
+            case "emotionReg":
+                popupTitle.textContent = "تنظيم الانفعالات";
+                loadEmotionReg();
+                break;
+            case "commitments":
+                popupTitle.textContent = "الالتزامات";
+                loadCommitments();
+                break;
+            case "emotions":
+                popupTitle.textContent = "المشاعر اليومية";
+                loadEmotions();
+                break;
+            case "consultation":
+                popupTitle.textContent = "الاستشارات";
+                loadConsultation();
+                break;
+            case "appointments":
+                popupTitle.textContent = "المواعيد";
+                loadAppointments();
+                break;
+            case "studyTime":
+                popupTitle.textContent = "الوقت الدراسي";
+                loadStudyTime();
+                break;
+            case "healthFile":
+                popupTitle.textContent = "الملف الصحي والملاحظات";
+                loadHealthFileAndNotes();
+                break;
+        }
+    }
+
+    function closePopup() {
+        popupOverlay.style.display = "none";
+    }
+
+    // إغلاق عند الضغط خارج الصندوق
+    popupOverlay.addEventListener("click", (e) => {
+        if (e.target === popupOverlay) {
+            closePopup();
+        }
+    });
+
+    // إغلاق عند الضغط على ESC
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            closePopup();
+        }
+    });
+
+    // جعل الدوال متاحة في الـ HTML
+    window.openSection = openSection;
+    window.closePopup = closePopup;
+
+    // ===========================
+    // Loaders لكل قسم (Mock)
+    // ===========================
+
+    function loadAttendance() {
+        popupContent.innerHTML = "";
+
+        if (!mockAttendance.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد بيانات حضور مسجّلة.</p>`;
+            return;
+        }
+
+        mockAttendance.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-title">${data.date || "تاريخ غير محدد"}</div>
+                <div class="data-text">الحالة: ${data.text || "—"}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadBreathing() {
+        popupContent.innerHTML = "";
+
+        if (!mockBreathing.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد نتائج لاختبار التنفس.</p>`;
+            return;
+        }
+
+        mockBreathing.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-title">${data.createdAt || "جلسة"}</div>
+                <div class="data-text">النتيجة: ${data.score || "—"}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadEmotionalIQ() {
+        popupContent.innerHTML = "";
+
+        if (!mockEmotionalIQ.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد إجابات مسجّلة لاختبار الذكاء العاطفي.</p>`;
+            return;
+        }
+
+        mockEmotionalIQ.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-title">إجابة</div>
+                <div class="data-text">${JSON.stringify(data)}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadEmotionReg() {
+        popupContent.innerHTML = "";
+
+        if (!mockEmotionReg.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد بيانات لتنظيم الانفعالات.</p>`;
+            return;
+        }
+
+        mockEmotionReg.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-title">إجابة</div>
+                <div class="data-text">${JSON.stringify(data)}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadCommitments() {
+        popupContent.innerHTML = "";
+
+        if (!mockCommitments.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد التزامات مسجّلة.</p>`;
+            return;
+        }
+
+        mockCommitments.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-title">${data.challenge || "التزام"}</div>
+                <div class="data-text">${data.description || ""}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadEmotions() {
+        popupContent.innerHTML = "";
+
+        if (!mockEmotions.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد مشاعر مسجّلة.</p>`;
+            return;
+        }
+
+        mockEmotions.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-title">${data.date || "يوم"}</div>
+                <div class="data-text">المشاعر: ${data.text || "—"}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadConsultation() {
+        popupContent.innerHTML = "";
+
+        if (!mockConsultation.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد استشارات مسجّلة.</p>`;
+            return;
+        }
+
+        mockConsultation.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-title">${data.createdAt || "جلسة"}</div>
+                <div class="data-text">${data.text || "—"}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadAppointments() {
+        popupContent.innerHTML = "";
+
+        if (!mockAppointments.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد مواعيد مسجّلة.</p>`;
+            return;
+        }
+
+        mockAppointments.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-title">${data.counselorMessage || "موعد"}</div>
+                <div class="data-text">الحالة: ${data.status || "—"}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadStudyTime() {
+        popupContent.innerHTML = "";
+
+        if (!mockStudyTime.length) {
+            popupContent.innerHTML = `<p class="empty-text">لا توجد بيانات للوقت الدراسي.</p>`;
+            return;
+        }
+
+        mockStudyTime.forEach(data => {
+            const div = document.createElement("div");
+            div.className = "data-card";
+            div.innerHTML = `
+                <div class="data-text">وقت الدّراسة: ${data.text || 0}</div>
+            `;
+            popupContent.appendChild(div);
+        });
+    }
+
+    function loadHealthFileAndNotes() {
+        popupContent.innerHTML = "";
+
+        // 1) عرض الملف الصحي PDF
+        if (mockStudent.healthFile) {
+            const pdfDiv = document.createElement("div");
+            pdfDiv.className = "data-card";
+            pdfDiv.innerHTML = `
+                <div class="data-title">الملف الصحي</div>
+                <embed src="${mockStudent.healthFile}" type="application/pdf" width="100%" height="400px" />
+            `;
+            popupContent.appendChild(pdfDiv);
+        } else {
+            popupContent.innerHTML += `
+                <p class="empty-text">لا يوجد ملف صحي مرفوع.</p>
+            `;
+        }
+
+        // 2) عرض الملاحظات الصحية
+        const notesTitle = document.createElement("h3");
+        notesTitle.textContent = "الملاحظات الصحية";
+        notesTitle.style.marginTop = "20px";
+        popupContent.appendChild(notesTitle);
+
+        if (!mockHealthNotes.length && !mockHealingNotes.length) {
+            popupContent.innerHTML += `<p class="empty-text">لا توجد ملاحظات صحية.</p>`;
+        } else {
+            mockHealthNotes.forEach(data => {
+                const div = document.createElement("div");
+                div.className = "health-note-card";
+                div.innerHTML = `
+                    <div class="note-title">${data.noteTitle || "ملاحظة"}</div>
+                    <div class="note-text">${data.noteText || ""}</div>
+                    <div class="note-meta">
+                        بواسطة: ${data.counselorName || "—"}  
+                        <br>التاريخ: ${data.timestamp || "—"}
+                    </div>
+                `;
+                popupContent.appendChild(div);
+            });
+
+            mockHealingNotes.forEach(data => {
+                const div = document.createElement("div");
+                div.className = "health-note-card";
+                div.innerHTML = `
+                    <div class="note-title">${data.noteTitle || "ملاحظة علاجية"}</div>
+                    <div class="note-text">${data.noteText || ""}</div>
+                    <div class="note-meta">
+                        بواسطة: ${data.counselorName || "—"}  
+                        <br>التاريخ: ${data.timestamp || "—"}
+                    </div>
+                `;
+                popupContent.appendChild(div);
+            });
+        }
+
+        // 3) Form لإضافة ملاحظة جديدة + علاجية (Mock in-memory)
+        const formDiv = document.createElement("div");
+        formDiv.className = "health-note-box";
+        formDiv.innerHTML = `
+            <div class="data-title">إضافة ملاحظة جديدة</div>
+
+            <input id="noteTitleInput" class="health-input" placeholder="عنوان الملاحظة">
+
+            <textarea id="noteTextInput" class="health-input" style="height:120px;" placeholder="اكتبي الملاحظة الصحية هنا"></textarea>
+
+            <textarea id="healingInput" class="health-input" style="height:120px;" placeholder="اكتبي الملاحظة العلاجية هنا (اختياري)"></textarea>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button id="saveNoteBtn" class="health-save-btn" style="flex:1; min-width:140px;">حفظ الصحية (Mock)</button>
+                <button id="saveHealingBtn" class="health-save-btn" style="flex:1; min-width:140px; background:#1b5e20;">حفظ العلاجية (Mock)</button>
+            </div>
+        `;
+        popupContent.appendChild(formDiv);
+
+        // حفظ الملاحظة الصحية (Mock)
+        document.getElementById("saveNoteBtn").onclick = () => {
+            const title = document.getElementById("noteTitleInput").value.trim();
+            const text = document.getElementById("noteTextInput").value.trim();
+
+            if (!title || !text) {
+                alert("املئي عنوان الملاحظة والنص.");
+                return;
+            }
+
+            mockHealthNotes.push({
+                noteTitle: title,
+                noteText: text,
+                counselorName: mockStudent.counselorName,
+                timestamp: new Date().toLocaleString()
+            });
+
+            alert("تم حفظ الملاحظة الصحية (Mock).");
+            loadHealthFileAndNotes();
+        };
+
+        // حفظ الملاحظة العلاجية (Mock)
+        document.getElementById("saveHealingBtn").onclick = () => {
+            const healingText = document.getElementById("healingInput").value.trim();
+
+            if (!healingText) {
+                alert("اكتبي الملاحظة العلاجية.");
+                return;
+            }
+
+            mockHealingNotes.push({
+                noteTitle: "ملاحظة علاجية",
+                noteText: healingText,
+                counselorName: mockStudent.counselorName,
+                timestamp: new Date().toLocaleString()
+            });
+
+            alert("تم حفظ الملاحظة العلاجية (Mock).");
+            loadHealthFileAndNotes();
+        };
+    }
+
+    // ===========================
+    // تشغيل عند تحميل الصفحة
+    // ===========================
+
+    window.addEventListener("DOMContentLoaded", () => {
+        loadStudentProfileMock();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز جرعات الوعي</title>
+
+    <style>
+       body {
+    margin: 0;
+    padding: 0;
+    font-family: "Tajawal", sans-serif;
+
+    background: linear-gradient(135deg, #ffffff, #e8ffe8, #d6f8d6);
+    background-size: 300% 300%;
+    animation: bgMove 12s ease infinite;
+
+    min-height: 100vh;
+    position: relative;
+    color: #1b3d1b;
+}
+        /* ===========================
+           زر الرجوع
+        =========================== */
+        .back-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0,60,20,0.18), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(0,70,25,0.16), transparent 55%),
+        radial-gradient(circle at 25% 80%, rgba(0,50,15,0.14), transparent 55%);
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(8, 47, 5, 0.25);
+    animation: float 12s infinite ease-in-out;
+    filter: blur(4px);
+}
+.circle:nth-child(1) { width: 220px; height: 220px; top: -40px; right: -60px; }
+.circle:nth-child(2) { width: 300px; height: 300px; bottom: -80px; left: -50px; }
+.circle:nth-child(3) { width: 180px; height: 180px; top: 40%; left: 20%; }
+
+@keyframes float {
+    0% { transform: translateY(0) scale(1); opacity: 0.7; }
+    50% { transform: translateY(-40px) scale(1.1); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 0.7; }
+}
+
+.top-logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 140px;
+    z-index: 5;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+}
+
+.content {
+    position: relative;
+    z-index: 3;
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.section-title {
+    font-size: 30px;
+    color: #1b3d1b;
+    margin-bottom: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid rgba(0,0,0,0.12);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+}
+
+.card h3 {
+    color: #1b5e20;
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.card p {
+    color: #2e4d2e;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.btn {
+    padding: 12px 20px;
+    background: #1b5e20;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #2e7d32;
+}
+
+/* Popup */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;
+    z-index: 9999;
+}
+
+.popup-box {
+    width: 90%;
+    max-width: 700px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.popup-header h3 {
+    margin: 0;
+    color: #1b5e20;
+}
+
+.close-btn {
+    background: #1b5e20;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+video {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+.infographic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.infographic-grid img {
+    width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+/* ===========================
+   🌿 GLOBAL FIXES
+   =========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+   =========================== */
+
+/* BACK BUTTON */
+.back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    max-width: 150px;
+}
+
+/* LOGO */
+.top-logo {
+    width: 110px;
+    top: 10px;
+    right: 10px;
+}
+
+/* CONTENT */
+.content {
+    padding: 20px;
+    max-width: 100%;
+}
+
+.section-title {
+    font-size: 22px;
+}
+
+/* CARDS */
+.card {
+    padding: 18px;
+    border-radius: 16px;
+}
+
+.card h3 {
+    font-size: 18px;
+}
+
+.card p {
+    font-size: 14px;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+/* INFOGRAPHICS GRID */
+.infographic-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.infographic-grid img {
+    border-radius: 12px;
+}
+
+/* POPUP */
+.popup-box {
+    width: 92%;
+    max-height: 80vh;
+    padding: 16px;
+}
+
+.popup-header h3 {
+    font-size: 18px;
+}
+
+.close-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+   =========================== */
+@media (min-width: 600px) {
+
+    .back-btn {
+        top: 20px;
+        left: 20px;
+        padding: 10px 18px;
+        font-size: 14px;
+    }
+
+    .top-logo {
+        width: 130px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .content {
+        padding: 30px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .card h3 {
+        font-size: 20px;
+    }
+
+    .card p {
+        font-size: 15px;
+    }
+
+    .btn {
+        width: auto;
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+
+    .infographic-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .popup-box {
+        padding: 20px;
+        max-width: 650px;
+    }
+
+    .popup-header h3 {
+        font-size: 20px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+   =========================== */
+@media (min-width: 900px) {
+
+    .top-logo {
+        width: 150px;
+    }
+
+    .content {
+        padding: 40px;
+        max-width: 900px;
+    }
+
+    .section-title {
+        font-size: 30px;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .card h3 {
+        font-size: 22px;
+    }
+
+    .card p {
+        font-size: 16px;
+    }
+
+    .infographic-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .popup-box {
+        padding: 22px;
+        max-width: 700px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+   <button class="back-btn" onclick="window.location.href='parent-dashboard.html'">رجوع</button>
+
+    <img src="comm.png" class="top-logo">
+
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+
+    <div class="content">
+
+        <h2 class="section-title">محتوى مخصص لأولياء الأمور</h2>
+
+        <!-- CARD 1 -->
+        <div class="card">
+            <h3>فيديوهات توعوية قصيرة</h3>
+            <p>مقاطع دقيقة–دقيقتين حول التعامل مع المراهقة وقلق الامتحانات.</p>
+            <button class="btn" onclick="openPopup()">مشاهدة الفيديو</button>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card">
+            <h3>بطاقات إنفوجرافيك</h3>
+            <p>إرشادات مرئية حول التحفيز، الثقة بالنفس، والحوار الأسري.</p>
+            <div class="infographic-grid">
+                <img src="ta7fiz.jpeg">
+                <img src="ta7fiz1.jpeg">
+                <img src="ta7fiz2.jpeg">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- POPUP -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-box">
+            <div class="popup-header">
+                <h3>الفيديو التوعوي</h3>
+                <button class="close-btn" onclick="closePopup()">إغلاق ✕</button>
+            </div>
+
+            <video controls>
+                <source src="ershad.mp4" type="video/mp4">
+            </video>
+
+            <div style="margin-top:20px;">
+                <h4 style="color:#1b5e20; margin-bottom:8px;">فيديو إضافي (لاحقاً):</h4>
+                <div style="background:#e8e8e8; padding:20px; border-radius:12px; text-align:center;">
+                    <p style="color:#555;">سيتم إضافة فيديو هنا لاحقاً.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function openPopup() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

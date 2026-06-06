@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>أوسمة الطالبات</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+       body {
+            margin: 0;
+            padding: 40px 0;
+            font-family: "Tajawal", sans-serif;
+            min-height: 100vh;
+            overflow-y: auto;
+            position: relative;
+            color: #1b3d1b;
+
+            background:
+                radial-gradient(circle at top right, rgba(255,255,255,0.55), transparent 45%),
+                radial-gradient(circle at bottom left, rgba(255,255,255,0.45), transparent 50%),
+                linear-gradient(135deg,
+                    #ffffff 0%,
+                    #f3fff3 25%,
+                    #e0f7e0 50%,
+                    #f3fff3 75%,
+                    #ffffff 100%
+                );
+            background-size: 350% 350%;
+            animation: softShift 14s ease-in-out infinite;
+        }
+
+        @keyframes softShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 60%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .circle { display: none !important; }
+
+        .navbar {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            padding: 15px 40px;
+            background: rgba(255,255,255,0.55);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.12);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: #1b3d1b;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            padding: 10px 18px;
+            background: #2e7d32;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover { background: #256628; }
+
+        .content {
+            position: relative;
+            z-index: 5;
+            padding: 30px 20px 50px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: #041b04;
+            margin: 25px 0 15px;
+            font-weight: bold;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #b6d8b6;
+            background: #ffffff;
+            color: #1b3d1b;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: #2e7d32;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #256628;
+            transform: translateY(-3px);
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .badge-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .badge-card:hover {
+            background: rgba(255,255,255,1);
+            transform: translateY(-3px);
+        }
+
+        .badge-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .badge-card span {
+            font-size: 14px;
+            color: #1b3d1b;
+        }
+
+        /* POPUP */
+        #badgePopup {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #badgePopup .box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        /* ===========================
+   🌿 GLOBAL FIXES
+=========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+=========================== */
+
+/* NAVBAR */
+.navbar {
+    padding: 12px 20px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+.navbar h1 {
+    font-size: 20px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    width: 100%;
+    max-width: 180px;
+    padding: 10px 14px;
+    font-size: 14px;
+    position: static;
+    margin-top: 10px;
+}
+
+/* CONTENT */
+.content {
+    padding: 20px;
+    max-width: 100%;
+}
+
+.section-title {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+/* INPUTS */
+select, input {
+    font-size: 14px;
+    padding: 12px;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+}
+
+/* BADGE GRID */
+.badge-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 14px;
+}
+
+.badge-card {
+    padding: 10px;
+}
+
+.badge-card span {
+    font-size: 13px;
+}
+
+/* POPUP */
+#badgePopup .box {
+    width: 90%;
+    padding: 20px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 40px;
+    }
+
+    .navbar h1 {
+        font-size: 22px;
+    }
+
+    .back-btn {
+        width: auto;
+        margin: 0;
+    }
+
+    .content {
+        padding: 30px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    select, input {
+        font-size: 15px;
+        padding: 14px;
+    }
+
+    .btn {
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+
+    .badge-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 18px;
+    }
+
+    .badge-card span {
+        font-size: 14px;
+    }
+
+    #badgePopup .box {
+        max-width: 380px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .navbar h1 {
+        font-size: 24px;
+    }
+
+    .content {
+        padding: 40px;
+        max-width: 900px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    select, input {
+        font-size: 16px;
+    }
+
+    .btn {
+        font-size: 16px;
+    }
+
+    .badge-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 20px;
+    }
+
+    .badge-card {
+        padding: 12px;
+    }
+
+    .badge-card span {
+        font-size: 15px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>أوسمة الطالبات</h1>
+        <button class="back-btn" onclick="window.location.href='counselor-dashboard.html'">رجوع</button>
+    </div>
+
+    <div class="content">
+
+        <h2 class="section-title">اختاري الطالبة</h2>
+        <select id="studentSelect">
+            <option disabled selected><!-- ⭐ Mockup أسماء طالبات -->
+    <option value="sara">سارة محمد – الثاني ثانوي</option>
+    <option value="safa">صفاء أحمد – الثاني ثانوي</option>
+    <option value="jana">جنى خالد – الثانيي ثانوي</option>
+    <option value="leen">لين يوسف – الثاني ثانوي</option>
+    <option value="mariam">مريم حسن – الثاني ثانوي</option>
+    <option value="noor">نور علي – الثاني ثانوي</option>
+    <option value="hala">هلا محمود – الثاني ثانوي</option>
+    <option value="dana">دانا فؤاد – الثانس ثانوي</option>
+</select></option>
+        </select>
+
+        <h2 class="section-title">رفع وسام جديد</h2>
+
+        <input type="text" id="badgeName" placeholder="اسم الوسام (اختياري)">
+        <input type="file" id="badgeFile" accept="image/*">
+
+        <button class="btn" id="uploadBadge">رفع الوسام للطالبة</button>
+
+        <h2 class="section-title">أوسمة جاهزة</h2>
+
+        <div class="badge-grid" id="readyBadges">
+
+            <div class="badge-card" onclick="giveReadyBadge('wesam.jpeg', 'وسام التميز')">
+                <img src="wesam.jpeg">
+                <span>وسام التميز</span>
+            </div>
+
+            <div class="badge-card" onclick="giveReadyBadge('wesam1.jpeg', 'وسام الانضباط')">
+                <img src="wesam1.jpeg">
+                <span>وسام الانضباط</span>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">الأوسمة المرفوعة</h2>
+        <div id="badgesContainer" class="badge-grid"></div>
+
+    </div>
+
+    <!-- POPUP للتأكيد / وللأوسمة الجاهزة -->
+    <div id="badgePopup">
+        <div class="box">
+            <h3>رفع وسام للطالبة</h3>
+
+            <input type="text" id="popupBadgeName" placeholder="اسم الوسام" style="width:100%;padding:10px;margin:10px 0;">
+
+            <button id="popupUploadBtn" class="btn">رفع الوسام</button>
+            <button onclick="closeBadgePopup()" class="btn" style="background:#777;margin-top:10px;">إلغاء</button>
+        </div>
+    </div>

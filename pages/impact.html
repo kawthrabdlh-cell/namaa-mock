@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مؤشر الأثر العام</title>
+
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+/* خلفية Gradient أخضر فاتح */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Cairo", sans-serif;
+
+    background: linear-gradient(135deg,
+        #eaffea,
+        #d4f8d4,
+        #c0f0c0
+    );
+    background-size: 300% 300%;
+    animation: bgMove 12s ease infinite;
+
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    color: #1b3d1b;
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* زر الرجوع */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 50;
+
+    padding: 10px 20px;
+    background: #2e7d32;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #256628;
+    transform: translateY(-2px);
+}
+
+/* دوائر خلفية */
+.bg-circles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0, 180, 90, 0.18);
+    filter: blur(12px);
+    animation: float 12s infinite ease-in-out;
+}
+
+.circle:nth-child(1){
+    width:260px;height:260px;
+    top:-60px;right:-80px;
+    animation-duration:16s;
+}
+
+.circle:nth-child(2){
+    width:340px;height:340px;
+    bottom:-100px;left:-70px;
+    animation-duration:20s;
+}
+
+.circle:nth-child(3){
+    width:200px;height:200px;
+    top:40%;left:20%;
+    animation-duration:18s;
+}
+
+@keyframes float {
+    0%{ transform:translateY(0) scale(1); opacity:.5; }
+    50%{ transform:translateY(-40px) scale(1.15); opacity:.9; }
+    100%{ transform:translateY(0) scale(1); opacity:.5; }
+}
+
+/* CONTENT */
+.content {
+    position: relative;
+    z-index: 5;
+    padding: 40px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.section-title {
+    font-size: 26px;
+    color: #1b3d1b;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* BOXES */
+.box {
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 10px 35px rgba(0,0,0,0.12),
+                0 0 18px rgba(76,175,80,0.15);
+}
+
+.box h3 {
+    color: #1b5e20;
+    margin-bottom: 10px;
+}
+
+.box p {
+    color: #2e4d2e;
+    margin-bottom: 15px;
+}
+
+canvas {
+    margin-top: 15px;
+}
+
+/* ===========================
+   🌿 GLOBAL FIXES
+   =========================== */
+body {
+    overflow-x: hidden;
+}
+
+img, canvas {
+    max-width: 100%;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+   =========================== */
+
+/* BACK BUTTON */
+.back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    max-width: 150px;
+}
+
+/* CONTENT */
+.content {
+    padding: 25px;
+    max-width: 100%;
+}
+
+.section-title {
+    font-size: 22px;
+    text-align: center;
+}
+
+/* BOXES */
+.box {
+    padding: 16px;
+    border-radius: 14px;
+}
+
+.box h3 {
+    font-size: 18px;
+}
+
+.box p {
+    font-size: 14px;
+}
+
+/* FLOATING CIRCLES */
+.circle {
+    filter: blur(10px);
+    opacity: 0.6;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+   =========================== */
+@media (min-width: 600px) {
+
+    .back-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        top: 20px;
+        left: 20px;
+    }
+
+    .content {
+        padding: 30px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .box {
+        padding: 20px;
+    }
+
+    .box h3 {
+        font-size: 20px;
+    }
+
+    .box p {
+        font-size: 15px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+   =========================== */
+@media (min-width: 900px) {
+
+    .content {
+        padding: 40px;
+        max-width: 900px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .box {
+        padding: 25px;
+    }
+
+    .box h3 {
+        font-size: 22px;
+    }
+
+    .box p {
+        font-size: 16px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- خلفية -->
+    <div class="bg-circles">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <button class="back-btn" onclick="window.location.href='counselor-dashboard.html'">رجوع</button>
+
+    <div class="content">
+
+        <h2 class="section-title">إنجازات مشروع نماء</h2>
+
+        <!-- BOX 1 -->
+        <div class="box">
+            <h3>تعزيز مهارات إدارة الضغوط</h3>
+            <p id="stressText">جاري التحليل...</p>
+            <canvas id="stressChart"></canvas>
+        </div>
+
+        <!-- BOX 2 -->
+        <div class="box">
+            <h3>تحسّن في الصحة النفسية</h3>
+            <p id="mentalText">جاري التحليل...</p>
+            <canvas id="mentalChart"></canvas>
+        </div>
+
+        <!-- BOX 3 -->
+        <div class="box">
+            <h3>زيادة الالتزام بالعقود السلوكية</h3>
+            <p id="contractsText">جاري التحليل...</p>
+            <canvas id="contractsChart"></canvas>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* ===========================
+   MOCKUP DATA
+=========================== */
+
+/* إدارة الضغوط */
+const mockStress = {
+    high: 18,
+    moderate: 9,
+    low: 3
+};
+
+/* الصحة النفسية */
+const mockMental = {
+    high: 14,
+    moderate: 11,
+    low: 5
+};
+
+/* الالتزام بالعقود */
+const mockContracts = {
+    high: 20,
+    moderate: 7,
+    low: 3
+};
+
+/* ===========================
+   FUNCTIONS
+=========================== */
+
+function renderStress() {
+    const { high, moderate, low } = mockStress;
+    const total = high + moderate + low;
+    const percent = Math.round((high / total) * 100);
+
+    document.getElementById("stressText").textContent =
+        `تحسّن ${percent}% من الطالبات في مهارات إدارة الضغوط.`;
+
+    new Chart(document.getElementById("stressChart"), {
+        type: "doughnut",
+        data: {
+            labels: ["High", "Moderate", "Low"],
+            datasets: [{
+                data: [high, moderate, low],
+                backgroundColor: [
+                    "rgba(76,175,80,0.8)",
+                    "rgba(255,193,7,0.8)",
+                    "rgba(244,67,54,0.8)"
+                ]
+            }]
+        }
+    });
+}
+
+function renderMental() {
+    const { high, moderate, low } = mockMental;
+    const total = high + moderate + low;
+    const percent = Math.round((high / total) * 100);
+
+    document.getElementById("mentalText").textContent =
+        `ارتفع الرفاه النفسي بنسبة ${percent}%.`;
+
+    new Chart(document.getElementById("mentalChart"), {
+        type: "bar",
+        data: {
+            labels: ["High", "Moderate", "Low"],
+            datasets: [{
+                data: [high, moderate, low],
+                backgroundColor: [
+                    "rgba(76,175,80,0.8)",
+                    "rgba(255,193,7,0.8)",
+                    "rgba(244,67,54,0.8)"
+                ]
+            }]
+        }
+    });
+}
+
+function renderContracts() {
+    const { high, moderate, low } = mockContracts;
+    const total = high + moderate + low;
+    const percent = Math.round((high / total) * 100);
+
+    document.getElementById("contractsText").textContent =
+        `ارتفع معدل الالتزام بنسبة ${percent}%.`;
+
+    new Chart(document.getElementById("contractsChart"), {
+        type: "bar",
+        data: {
+            labels: ["High", "Moderate", "Low"],
+            datasets: [{
+                data: [high, moderate, low],
+                backgroundColor: [
+                    "rgba(76,175,80,0.8)",
+                    "rgba(255,193,7,0.8)",
+                    "rgba(244,67,54,0.8)"
+                ]
+            }]
+        }
+    });
+}
+
+/* تشغيل التحليل */
+setTimeout(() => {
+    renderStress();
+    renderMental();
+    renderContracts();
+}, 500);
+</script>
+
+</body>
+</html>

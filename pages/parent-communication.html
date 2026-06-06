@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>التواصل مع المرشدة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+body {
+    margin: 0;
+    padding: 40px 0;
+    font-family: "Tajawal", sans-serif;
+    background: radial-gradient(circle at top left, #ffffff 0%, #eaffea 40%, #d6f8d6 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-y: auto;
+    color: #1b3d1b;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(8, 47, 5, 0.25);
+    animation: float 14s infinite ease-in-out;
+    filter: blur(6px);
+}
+.circle:nth-child(1) { width: 260px; height: 260px; top: -60px; right: -80px; animation-duration: 16s; }
+.circle:nth-child(2) { width: 340px; height: 340px; bottom: -120px; left: -60px; animation-duration: 20s; }
+.circle:nth-child(3) { width: 200px; height: 200px; top: 35%; left: 18%; animation-duration: 18s; }
+
+@keyframes float {
+    0% { transform: translateY(0) scale(1); opacity: 0.6; }
+    50% { transform: translateY(-40px) scale(1.08); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 0.6; }
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0,60,20,0.18), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(0,70,25,0.16), transparent 55%),
+        radial-gradient(circle at 25% 80%, rgba(0,50,15,0.14), transparent 55%);
+}
+
+.navbar {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    padding: 15px 40px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeDown 0.8s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.navbar h1 {
+    color: #1b3d1b;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.back-btn {
+    padding: 10px 18px;
+    background: #2e7d32;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #43a047;
+    transform: translateY(-2px);
+}
+
+.content {
+    position: relative;
+    z-index: 5;
+    padding: 30px 20px 60px;
+    max-width: 1100px;
+    margin: auto;
+    animation: fadeUp 0.9s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+    font-size: 22px;
+    color: #1b3d1b;
+    margin: 25px 0 15px;
+    font-weight: bold;
+}
+
+.two-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.box {
+    background: rgba(255,255,255,0.85);
+    padding: 20px 22px;
+    border-radius: 18px;
+    border: 1px solid rgba(0,0,0,0.12);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    backdrop-filter: blur(10px);
+}
+
+.box h3 {
+    color: #1b5e20;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.box p {
+    color: #2e4d2e;
+    margin: 4px 0 14px;
+    font-size: 14px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #1b3d1b;
+}
+
+select, input[type="date"], input[type="time"], textarea {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #1b5e20;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    background: rgba(255,255,255,0.9);
+    color: #1b3d1b;
+    outline: none;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+select:focus, input:focus, textarea:focus {
+    border-color: #66bb6a;
+    box-shadow: 0 0 0 1px rgba(102,187,106,0.4);
+}
+
+.btn {
+    padding: 11px 18px;
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #43a047, #66bb6a);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+.small-note {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: -6px;
+    margin-bottom: 10px;
+}
+
+.cards-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: rgba(255,255,255,0.85);
+    border-radius: 14px;
+    padding: 14px 16px;
+    border: 1px solid rgba(0,0,0,0.12);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    font-size: 13px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.student-name {
+    font-weight: 700;
+    color: #1b5e20;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+}
+
+.badge-pending { background: rgba(255,193,7,0.2); color: #8a6d00; }
+.badge-confirmed { background: rgba(76,175,80,0.25); color: #1b5e20; }
+.badge-declined { background: rgba(244,67,54,0.25); color: #b71c1c; }
+.badge-replied { background: rgba(129,199,132,0.25); color: #1b5e20; }
+
+.card p {
+    margin: 3px 0;
+    color: #2e4d2e;
+}
+
+.card a {
+    color: #1b5e20;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+.empty-msg {
+    font-size: 13px;
+    opacity: 0.7;
+}
+/* ===========================
+   🌿 APPOINTMENTS & CONSULTATIONS CARDS
+=========================== */
+
+/* MOBILE-FIRST */
+#appointmentsContainer,
+#consultationsContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.card {
+    padding: 14px;
+    font-size: 13px;
+}
+
+.card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.card p {
+    font-size: 13px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    #appointmentsContainer,
+    #consultationsContainer {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .card-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    #appointmentsContainer,
+    #consultationsContainer {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        padding: 16px;
+        font-size: 14px;
+    }
+
+    .card p {
+        font-size: 14px;
+    }
+}
+
+/* ===========================
+   🌿 ULTRA-WIDE ≥ 1400px
+=========================== */
+@media (min-width: 1400px) {
+
+    #appointmentsContainer,
+    #consultationsContainer {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+
+    <div class="navbar">
+        <h1>التواصل مع المرشدة</h1>
+        <button class="back-btn" onclick="window.location.href='parent-dashboard.html'">رجوع</button>
+    </div>
+
+    <div class="content">
+
+        <h2 class="section-title">خيارات التواصل</h2>
+
+        <div class="two-columns">
+            <div class="box">
+                <h3>حجز موعد</h3>
+                <p>اختاري موعداً مناسباً (حضوري أو عبر Microsoft Teams) مع المرشدة المسؤولة عن ابنتك.</p>
+
+                <label for="sessionType">نوع الجلسة</label>
+                <select id="sessionType">
+                    <option value="live">جلسة حضورية في المدرسة</option>
+                    <option value="online">جلسة عبر Microsoft Teams</option>
+                </select>
+
+                <label for="dateInput">التاريخ</label>
+                <input type="date" id="dateInput">
+
+                <label for="timeInput">الوقت</label>
+                <input type="time" id="timeInput">
+
+                <p class="small-note">سيتم تسجيل الطلب في سجل المواعيد، مع حالة "بانتظار تأكيد المرشدة".</p>
+
+                <button class="btn" id="bookBtn">حجز الموعد</button>
+            </div>
+
+            <div class="box">
+                <h3>صندوق الاستشارات</h3>
+                <p>أرسلي ملاحظة أو استفسار للمرشدة، وسيتم الرد عليك من خلال نفس الصفحة.</p>
+
+                <label for="consultationText">نص الاستشارة</label>
+                <textarea id="consultationText" placeholder="اكتبي رسالتك هنا..."></textarea>
+
+                <button class="btn" id="sendConsultationBtn">إرسال الاستشارة</button>
+            </div>
+        </div>
+
+        <h2 class="section-title">سجل المواعيد</h2>
+        <div id="appointmentsContainer" class="cards-row"></div>
+        <p id="appointmentsEmpty" class="empty-msg">لا توجد مواعيد حتى الآن.</p>
+
+        <h2 class="section-title">سجل الاستشارات</h2>
+        <div id="consultationsContainer" class="cards-row"></div>
+        <p id="consultationsEmpty" class="empty-msg">لا توجد استشارات حتى الآن.</p>
+
+    </div>
+
+    <script>
+        // ⭐ Mock data – نفترض إنو في بنتين: سارة وريم، بس هون الصفحة عامة لولي الأمر
+        const defaultStudent = {
+            name: "سارة محمد",
+            grade: "ثاني ثانوي"
+        };
+
+        const appointmentsContainer   = document.getElementById("appointmentsContainer");
+        const consultationsContainer  = document.getElementById("consultationsContainer");
+        const appointmentsEmpty       = document.getElementById("appointmentsEmpty");
+        const consultationsEmpty      = document.getElementById("consultationsEmpty");
+
+        const sessionTypeEl           = document.getElementById("sessionType");
+        const dateInput               = document.getElementById("dateInput");
+        const timeInput               = document.getElementById("timeInput");
+        const bookBtn                 = document.getElementById("bookBtn");
+
+        const consultationText        = document.getElementById("consultationText");
+        const sendConsultationBtn     = document.getElementById("sendConsultationBtn");
+
+        // بيانات تجريبية للمواعيد
+        const mockAppointments = [
+            {
+                type: "online",
+                date: "2026-04-10",
+                time: "10:30",
+                status: "confirmed",
+                teamsLink: "https://teams.microsoft.com/mock/sara"
+            },
+            {
+                type: "live",
+                date: "2026-04-15",
+                time: "09:00",
+                status: "pending",
+                teamsLink: null
+            }
+        ];
+
+        // بيانات تجريبية للاستشارات
+        const mockConsultations = [
+            {
+                text: "أرغب بمعرفة كيف يمكنني دعم ابنتي في تنظيم وقت الدراسة في المنزل.",
+                status: "replied",
+                counselorReply: "ننصح بتقسيم الوقت إلى جلسات قصيرة مع فواصل، واستخدام جدول أسبوعي واضح.",
+                date: "2026-03-25"
+            },
+            {
+                text: "ابنتي تشعر بالتوتر قبل الامتحانات، هل من إرشادات عملية؟",
+                status: "replied",
+                counselorReply: "تم إرسال ملف إرشادي عبر المنصة يحتوي على تمارين تنفس واستراتيجيات تهدئة.",
+                date: "2026-03-28"
+            }
+        ];
+
+        function renderAppointments() {
+            appointmentsContainer.innerHTML = "";
+            if (mockAppointments.length === 0) {
+                appointmentsEmpty.style.display = "block";
+                return;
+            }
+            appointmentsEmpty.style.display = "none";
+
+            mockAppointments.forEach(app => {
+                const statusBadgeClass =
+                    app.status === "confirmed" ? "badge-confirmed" :
+                    app.status === "pending"   ? "badge-pending"   :
+                    app.status === "declined"  ? "badge-declined"  : "badge-pending";
+
+                const statusLabel =
+                    app.status === "confirmed" ? "موعد مؤكد" :
+                    app.status === "pending"   ? "بانتظار التأكيد" :
+                    app.status === "declined"  ? "مرفوض" : "بانتظار التأكيد";
+
+                const typeLabel = app.type === "online"
+                    ? "جلسة عبر Microsoft Teams"
+                    : "جلسة حضورية في المدرسة";
+
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="student-name">${defaultStudent.name} – ${defaultStudent.grade}</span>
+                        <span class="badge ${statusBadgeClass}">${statusLabel}</span>
+                    </div>
+                    <p><strong>نوع الجلسة:</strong> ${typeLabel}</p>
+                    <p><strong>التاريخ:</strong> ${app.date} • <strong>الوقت:</strong> ${app.time}</p>
+                    ${
+                        app.teamsLink
+                            ? `<p><a href="${app.teamsLink}" target="_blank">رابط جلسة Teams</a></p>`
+                            : ""
+                    }
+                `;
+                appointmentsContainer.appendChild(card);
+            });
+        }
+
+        function renderConsultations() {
+            consultationsContainer.innerHTML = "";
+            if (mockConsultations.length === 0) {
+                consultationsEmpty.style.display = "block";
+                return;
+            }
+            consultationsEmpty.style.display = "none";
+
+            mockConsultations.forEach(c => {
+                const statusBadgeClass =
+                    c.status === "replied" ? "badge-replied" :
+                    c.status === "pending" ? "badge-pending" : "badge-pending";
+
+                const statusLabel =
+                    c.status === "replied" ? "تم الرد من المرشدة" :
+                    c.status === "pending" ? "بانتظار الرد" : "بانتظار الرد";
+
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="student-name">${defaultStudent.name} – ${defaultStudent.grade}</span>
+                        <span class="badge ${statusBadgeClass}">${statusLabel}</span>
+                    </div>
+                    <p><strong>نص الاستشارة:</strong></p>
+                    <p>${c.text}</p>
+                    <p><strong>تاريخ الإرسال:</strong> ${c.date}</p>
+                    ${
+                        c.counselorReply
+                            ? `<p><strong>رد المرشدة:</strong></p><p>${c.counselorReply}</p>`
+                            : ""
+                    }
+                `;
+                consultationsContainer.appendChild(card);
+            });
+        }
+
+        bookBtn.addEventListener("click", () => {
+            const type = sessionTypeEl.value;
+            const dateVal = dateInput.value;
+            const timeVal = timeInput.value;
+
+            if (!dateVal || !timeVal) {
+                alert("رجاءً حددي التاريخ والوقت.");
+                return;
+            }
+
+            mockAppointments.unshift({
+                type,
+                date: dateVal,
+                time: timeVal,
+                status: "pending",
+                teamsLink: type === "online" ? "https://teams.microsoft.com/mock/new" : null
+            });
+
+            renderAppointments();
+            alert("تم تسجيل طلب الموعد، وسيظهر بحالة 'بانتظار التأكيد'.");
+            dateInput.value = "";
+            timeInput.value = "";
+        });
+
+        sendConsultationBtn.addEventListener("click", () => {
+            const text = consultationText.value.trim();
+            if (!text) {
+                alert("رجاءً اكتبي نص الاستشارة.");
+                return;
+            }
+
+            mockConsultations.unshift({
+                text,
+                status: "pending",
+                counselorReply: "",
+                date: new Date().toLocaleDateString("ar-LB", { year: "numeric", month: "short", day: "numeric" })
+            });
+
+            consultationText.value = "";
+            renderConsultations();
+            alert("تم إرسال الاستشارة، وستظهر بحالة 'بانتظار الرد'.");
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderAppointments();
+            renderConsultations();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Cairo", sans-serif;
+
+            background: url('background.jpeg') center/cover no-repeat fixed;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.35); 
+            backdrop-filter: blur(2px);
+            z-index: 0;
+        }
+
+        .container {
+            width: 420px;
+            padding: 40px 35px;
+            border-radius: 22px;
+
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.35);
+
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+            text-align: center;
+            animation: fadeIn 0.7s ease;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .top-icon {
+            position: absolute;
+            top: -13px;
+            right: -35px;
+            width: 150px;
+            height: auto;
+            opacity: 0.95;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 26px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        p {
+            color: #f1f1f1;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .role-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2e7d32;
+            color: white;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+            border: none;
+            transition: 0.25s;
+        }
+
+        .role-btn:hover {
+            background: #256628;
+            transform: translateY(-2px);
+        }
+
+        .parent-btn {
+            background: #1b5e20;
+        }
+
+        .parent-btn:hover {
+            background: #144a17;
+        }
+
+        .back {
+            margin-top: 15px;
+            font-size: 15px;
+            color: #e0e0e0;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* ⭐ Responsive */
+        @media (max-width: 480px) {
+            .container {
+                width: 88%;
+                padding: 30px 25px;
+            }
+
+            .top-icon {
+                width: 120px;
+                top: -25px;
+                right: -25px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .role-btn {
+                font-size: 16px;
+                padding: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <img src="comm.png" class="top-icon" alt="icon">
+
+        <h2>أهلاً بكِ من جديد</h2>
+        <p>اختاري نوع الحساب للمتابعة</p>
+
+        <button class="role-btn" onclick="goTo('student-dashboard.html')">
+            دخول الطالبة
+        </button>
+
+        <button class="role-btn" onclick="goTo('counselor-dashboard.html')">
+            دخول المرشدة
+        </button>
+
+        <button class="role-btn parent-btn" onclick="goTo('parent-dashboard.html')">
+            دخول ولي الأمر
+        </button>
+
+        <div class="back" onclick="window.location.href='../index.html'">رجوع</div>
+
+    </div>
+
+    <script>
+        function goTo(path) {
+            window.location.href = path;
+        }
+    </script>
+
+</body>
+</html>

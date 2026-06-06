@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة نماء NAMA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #e8fff4;
+            --bg-card: rgba(255, 255, 255, 0.16);
+            --border-card: rgba(255, 255, 255, 0.35);
+            --accent: #1b5e20;
+            --accent-soft: #2e7d32;
+            --text-main: #022d15;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--text-main);
+            background: radial-gradient(circle at top left, #d5ffee 0%, #fafffc 40%, #e4fff3 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* خلفية موجات */
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        body::before {
+            background:
+                radial-gradient(circle at 10% 20%, rgba(0, 40, 80, 0.55) 0, transparent 55%),
+                radial-gradient(circle at 80% 0%, rgba(0, 90, 60, 0.55) 0, transparent 55%);
+            animation: bgPulse 14s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            background:
+                radial-gradient(circle at 0% 100%, rgba(0, 30, 50, 0.55) 0, transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(0, 70, 40, 0.55) 0, transparent 55%);
+            mix-blend-mode: multiply;
+            opacity: 0.9;
+            animation: bgWave 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { transform: translate3d(0,0,0) scale(1); }
+            100% { transform: translate3d(0,-10px,0) scale(1.05); }
+        }
+
+        @keyframes bgWave {
+            0% { transform: translate3d(0,0,0) scale(1); }
+            100% { transform: translate3d(0,10px,0) scale(1.04); }
+        }
+
+        /* موجة علوية */
+        .top-wave {
+            position: fixed;
+            top: -120px;
+            left: 0;
+            width: 140%;
+            height: 260px;
+            background: radial-gradient(circle at 10% 0%, rgba(255,255,255,0.9) 0, transparent 55%),
+                        linear-gradient(120deg, rgba(0, 150, 100, 0.18), rgba(0, 200, 140, 0.12));
+            border-bottom-left-radius: 50% 60%;
+            border-bottom-right-radius: 50% 60%;
+            filter: blur(2px);
+            opacity: 0.9;
+            z-index: -1;
+            animation: topWaveMove 22s ease-in-out infinite alternate;
+        }
+
+        @keyframes topWaveMove {
+            0% { transform: translateX(-5%) translateY(0); }
+            100% { transform: translateX(5%) translateY(10px); }
+        }
+
+        /* HEADER */
+        .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 14px 7% 6px;
+            backdrop-filter: blur(22px) saturate(180%);
+            background: rgba(255,255,255,0.75);
+            border-bottom: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .header-row-1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bahrain-logo {
+            height: 75px;
+        }
+
+        .header-center {
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .project-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .project-sub {
+            font-size: 13px;
+            color: #064420;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .main-logo {
+            height: 120px;
+        }
+
+        .header-row-2 {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .main-nav a {
+            margin: 0 12px;
+            text-decoration: none;
+            color: #064420;
+            font-weight: 600;
+            font-size: 14px;
+            position: relative;
+        }
+
+
+        .main-nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -3px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00c27a, #2e7d32);
+            transition: width 0.25s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        /* POPUP عام */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .popup-box {
+            width: 90%;
+            max-width: 750px;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(18px);
+            animation: slideUp 0.35s ease;
+            position: relative;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-popup,
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: transparent;
+            border: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .popup-image {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 7% 40px;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1.1;
+            animation: fadeInHero 0.8s ease-out;
+        }
+
+        @keyframes fadeInHero {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-text h1 {
+            font-size: 28px;
+            margin-bottom: 12px;
+            color: #03351a;
+        }
+
+        .hero-text p {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #064420;
+        }
+
+        .cta-btn {
+            margin-top: 18px;
+            padding: 10px 22px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #00c27a, #2e7d32);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 150, 100, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(0, 150, 100, 0.45);
+            opacity: 0.95;
+        }
+
+        .about-long-box {
+            margin-top: 25px;
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.35);
+            padding: 18px 20px;
+            border-radius: 18px;
+            backdrop-filter: blur(12px);
+            line-height: 1.9;
+            font-size: 14px;
+            color: #032612;
+            animation: fadeIn 0.6s ease;
+            text-align: justify;
+            text-justify: inter-word;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+        }
+
+        .hero-visual {
+            flex: 0.9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-illustration {
+            position: relative;
+            padding: 18px;
+            border-radius: 26px;
+            background: radial-gradient(circle at top, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+            box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+
+        .hero-illustration::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(0, 200, 140, 0.18) 0, transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(0, 150, 100, 0.18) 0, transparent 55%);
+            opacity: 0.7;
+            mix-blend-mode: multiply;
+            animation: heroGlow 16s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroGlow {
+            0% { transform: translate3d(-10px,0,0) scale(1); }
+            100% { transform: translate3d(10px,10px,0) scale(1.05); }
+        }
+
+        .hero-image {
+            position: relative;
+            width: 100%;
+            max-width: 360px;
+            border-radius: 20px;
+            display: block;
+            z-index: 1;
+        }
+
+        /* ABOUT SECTION */
+        .about-section {
+            padding: 20px 7% 10px;
+            text-align: center;
+        }
+
+        .about-section h2 {
+            font-size: 22px;
+            color: #03351a;
+        }
+
+        .about-text {
+            font-size: 14px;
+            color: #064420;
+        }
+
+        .about-links {
+            margin-top: 20px;
+        }
+
+        .about-item {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 10px;
+            cursor: pointer;
+            color: #1b5e20;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 16px;
+            border-radius: 999px;
+            transition: 0.25s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .about-item:hover {
+            background: #c8f7d4;
+            transform: translateY(-3px);
+        }
+
+        /* ⭐ FIX: popups الخاصة بالرؤية/الرسالة/القيم — فصلها عن باقي popups */
+        .about-popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 80px;
+            z-index: 9999;
+        }
+
+        .about-popup-box {
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: rgba(255,255,255,0.97);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+            animation: fadeIn 0.4s ease;
+            position: relative;
+        }
+
+        .about-close-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: transparent;
+            border: none;
+            font-size: 28px;
+            color: #1b5e20;
+            cursor: pointer;
+        }
+        /* ===== FOUNDER SECTION ===== */
+        .founder-section {
+            padding: 40px 6%;
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .founder-portrait-wrapper {
+            flex: 1;
+            min-width: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .founder-portrait {
+            position: relative;
+            width: 260px;
+            height: 320px;
+            border-radius: 26px;
+            overflow: hidden;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .founder-portrait:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 36px 80px rgba(0,0,0,0.55);
+        }
+
+        .founder-portrait img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .founder-name {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .founder-text {
+            flex: 1.2;
+            min-width: 280px;
+        }
+
+        .founder-text h2 {
+            font-size: 22px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .founder-text p {
+            font-size: 14px;
+            line-height: 1.9;
+            color: #064420;
+        }
+
+        /* ===== FOUNDER POPUP ===== */
+        .founder-popup-overlay {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+        }
+
+        .founder-popup {
+            display: block;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 88%;
+            max-width: 620px;
+            padding: 32px 28px;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(22px) saturate(180%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .close-founder-popup {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            font-size: 28px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(0, 120, 70, 0.25);
+            color: #066b3a;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.25s;
+        }
+
+        .close-founder-popup:hover {
+            background: #e8fff4;
+            transform: scale(1.05);
+        }
+
+        /* ===== WEEKLY POPUP ===== */
+        .popup-box {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(22px);
+        }
+
+        /* ===== GRID SECTIONS ===== */
+        .gateways-section,
+        .impact-section,
+        .success-section {
+            padding: 30px 7% 10px;
+            text-align: center;
+        }
+
+        .gateways-grid,
+        .impact-grid,
+        .success-grid {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .gateway-card,
+        .impact-item,
+        .success-card {
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.45);
+            border-radius: 20px;
+            padding: 18px 16px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 16px 35px rgba(0,0,0,0.18);
+        }
+
+        .impact-number {
+            display: block;
+            font-size: 22px;
+            font-weight: 700;
+            color: #2e7d32;
+        }
+
+        .impact-label {
+            font-size: 13px;
+            color: #064420;
+        }
+
+        /* FOOTER */
+        .main-footer {
+            margin-top: 20px;
+            padding: 18px 7% 12px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(18px) saturate(160%);
+            border-top: 1px solid rgba(255,255,255,0.98);
+            box-shadow: 0 -10px 28px rgba(0,0,0,0.12);
+            color: #064420;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .footer-bottom {
+            margin-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.12);
+            padding-top: 8px;
+            font-size: 12px;
+            text-align: center;
+        }
+        .gateway-btn,
+.weekly-btn {
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #00c27a, #2e7d32);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 150, 100, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.gateway-btn:hover,
+.weekly-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(0, 150, 100, 0.45);
+    opacity: 0.95;
+}
+
+/* =============================== */
+/* 📱 MOBILE-FIRST RESPONSIVE FIX */
+/* =============================== */
+
+/* 1) HERO SECTION */
+@media (max-width: 850px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 6% 20px;
+    }
+
+    .hero-text {
+        order: 2;
+    }
+
+    .hero-visual {
+        order: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .hero-image {
+        max-width: 260px;
+    }
+
+    .about-long-box {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+}
+
+/* 2) GATEWAYS GRID */
+@media (max-width: 850px) {
+    .gateways-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* 3) IMPACT GRID */
+@media (max-width: 850px) {
+    .impact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 4) SUCCESS GRID */
+@media (max-width: 850px) {
+    .success-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 5) FOUNDER SECTION */
+@media (max-width: 850px) {
+    .founder-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 6%;
+    }
+
+    .founder-text {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+}
+
+/* 6) FOOTER */
+@media (max-width: 850px) {
+    .footer-top {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+/* 7) HEADER */
+@media (max-width: 850px) {
+    .main-header {
+        padding: 10px 4%;
+    }
+
+    .header-row-1 {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .main-logo {
+        height: 90px;
+    }
+
+    .bahrain-logo {
+        height: 60px;
+    }
+
+    .main-nav a {
+        display: inline-block;
+        margin: 6px 10px;
+    }
+}
+
+/* 8) WEEKLY BOX */
+@media (max-width: 850px) {
+    .weekly-box {
+        text-align: center;
+    }
+}
+
+/* 9) BUTTON SPACING ONLY — WITHOUT TOUCHING STYLE */
+@media (max-width: 850px) {
+    .gateway-btn,
+    .weekly-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="top-wave"></div>
+
+    <!-- ⭐ Popup الخريطة -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box">
+            <button class="close-popup" onclick="closePopup()">×</button>
+            <img src="home.png" class="popup-image" alt="خريطة مشروع نماء">
+        </div>
+    </div>
+    <!-- ⭐ Popup نبضة الأسبوع -->
+    <div class="popup-overlay" id="weeklyPopup">
+        <div class="popup-box">
+            <button class="close-btn" onclick="closeWeeklyPopup()">×</button>
+            <h3 style="margin-top:0; color:#1b5e20;">نبضة الأسبوع</h3>
+            <video controls style="width:100%; border-radius:16px; background:#000;">
+                <source src="breathing.mp4" type="video/mp4">
+                متصفحك لا يدعم تشغيل الفيديو.
+            </video>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="main-header">
+        <div class="header-row-1">
+            <div class="header-left">
+                <img src="bahrain-logo.svg" class="bahrain-logo">
+            </div>
+
+            <div class="header-center">
+                <div class="project-name">منصة نماء NAMA</div>
+                <div class="project-sub">
+                    مشروع استراتيجي قائم على الصحة النفسية المدرسية في علاج المشكلات النفسية والسلوكية لدى الطالبات
+                </div>
+            </div>
+
+            <div class="header-right">
+                <img src="comm.png" class="main-logo">
+            </div>
+        </div>
+
+        <div class="header-row-2">
+            <nav class="main-nav">
+                <a href="#hero">الرئيسية</a>
+                <a href="javascript:void(0)" onclick="openPopup()">تعرّفي على نماء</a>
+                <a href="feedbacks.html">آراء حول نماء</a>
+                <a href="#success">سفيرات نماء</a>
+                <a href="#contact">تواصل معنا</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ========================= -->
+    <!-- HERO SECTION -->
+    <!-- ========================= -->
+
+    <section id="hero" class="hero-section">
+        <div class="hero-text">
+            <h1>نماء.. نخطو بثقة، لنصنع المستقبل بمرونة وكفاءة.</h1>
+            <p>
+                منصة رقمية آمنة تدعم الطالبات، المرشدات، وأولياء الأمور في بناء المرونة النفسية،
+                تنظيم الانفعالات، وتعزيز الكفاءة الذاتية في بيئة مدرسية داعمة.
+            </p>
+            <button class="cta-btn" onclick="window.location.href='pages/login.html'">ابدئي رحلتكِ الآن</button>
+
+            <div class="about-long-box">
+يعد هذا المشروع منظومة استراتيجية تهدف إلى بناء خطة متكاملة وبرنامج قائم على الصحة النفسية المدرسية لعلاج المشكلات النفسية والسلوكية لدى الطالبات. وتقوم فكرة المشروع على تقديم برنامج إرشادي نفسي لعلاج المشكلات النفسية والسلوكية لدى الطالبات، مع توظيف الحداثة عن طريق إنشاء منصة إلكترونية تسهل الوصول للبيانات النفسية الداعمة، وتسهل على الطالبات، المرشدات، وأولياء الأمور من الوصول السهل والسريع والتمكن من المتابعة الفعَّالة. يتم تطبيق المشروع على طالبات المرحلة الثانوية (المستوى الأول) ليكون تتابعيا في الدعم الإرشادي للطالبات منذ المرحلة الأولى في المدرسة وحتى مرحلة التخرج من أجل تحقيق استدامة الأثر والتحقق من اكتساب الطالبات المشاركات للمهارات النفسية ورفع مستوى الصحة النفسية لديهن.
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-illustration">
+                <img src="hommy.jpeg" alt="فتيات يرتدين الزي المدرسي والحجاب" class="hero-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- ABOUT SECTION -->
+    <!-- ========================= -->
+
+    <section id="about" class="about-section">
+        <h2>تعرّفي على نماء</h2>
+        <p class="about-text">
+            رؤيتنا هي بناء جيل من الطالبات يمتلكن أعلى درجات المرونة النفسية والكفاءة الذاتية...
+        </p>
+
+        <div class="about-links">
+            <span class="about-item" onclick="openAboutPopup('vision')">رؤيتنا</span>
+            <span class="about-item" onclick="openAboutPopup('mission')">رسالتنا</span>
+            <span class="about-item" onclick="openAboutPopup('values')">قيمنا</span>
+        </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- FOUNDER SECTION -->
+    <!-- ========================= -->
+
+    <section class="founder-section">
+        <div class="founder-portrait-wrapper">
+            <div class="founder-portrait" onclick="openFounderPopup()">
+                <img src="batoul.jpeg" alt="Batoul Abd Ali Ismail">
+            </div>
+            <div class="founder-name">
+                Batoul Abd Ali Ismail – صاحبة مشروع نماء
+            </div>
+        </div>
+
+        <div class="founder-text">
+            <h2>من هي صاحبة مشروع نماء؟</h2>
+            <p style="text-align: justify; text-justify: inter-word;">
+               <br>مؤسِّسة منصة نماء، بتول عبدعلي اسماعيل،<br>
+     باحثة دكتوراه الفلسفة في علم النفس الإرشادي، حاصلة على ماجستير الإرشاد الأسري، الدبلوم العالي في التربية بتقدير امتياز، وبكالوريوس اللغة العربية وعلم الاجتماع..
+               
+كرّستُ مسيرتي المهنية والأكاديمية لفهم السلوك الإنساني وتطوير الأدوات التربوية التي تساهم في بناء جيل واعد، مستندةً إلى خبرة ميدانية طويلة في العمل مع طالبات المرحلة الثانوية، وشغف ممتد لتقديم الدعم النفسي والتربوي.
+
+            <section class="weekly-section" style="margin-top:24px;">
+                <h2>نبضة الأسبوع</h2>
+                <div class="weekly-box">
+                    <p>مساحة متجددة أسبوعياً لعرض فيديو قصير أو بطاقة إنفوجرافيك حول مهارة من مهارات الصحة النفسية.</p>
+                    <button class="weekly-btn" onclick="openWeeklyPopup()">شاهدي نبضة هذا الأسبوع</button>
+                </div>
+            </section>
+        </div>
+    </section>
+    <!-- ========================= -->
+    <!-- GATEWAYS SECTION -->
+    <!-- ========================= -->
+
+    <section class="gateways-section">
+        <h2>بوابات نماء</h2>
+        <div class="gateways-grid">
+            <div class="gateway-card">
+                <h3>بوابة الطالبة</h3>
+                <p>مساحتكِ الآمنة للتألق، وجمع النقاط، وتطوير مهاراتكِ الشخصية.</p>
+                <button class="gateway-btn" onclick="window.location.href='pages/student-dashboard.html'">دخول الطالبة</button>
+            </div>
+
+            <div class="gateway-card">
+                <h3>بوابة المرشدة</h3>
+                <p>أدواتكِ الذكية لمتابعة وقياس الأثر الإرشادي بكفاءة وسهولة.</p>
+                <button class="gateway-btn" onclick="window.location.href='pages/counselor-dashboard.html'">دخول المرشدة</button>
+            </div>
+
+            <div class="gateway-card">
+                <h3>بوابة ولي الأمر</h3>
+                <p>شراكتكِ معنا تصنع الفارق.. تعرّفي على مهارات ابنتكِ وادعميها.</p>
+                <button class="gateway-btn" onclick="window.location.href='pages/parent-dashboard.html'">دخول ولي الأمر</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- IMPACT SECTION -->
+    <!-- ========================= -->
+
+    <section class="impact-section">
+        <h2>أثر نماء بالأرقام</h2>
+        <div class="impact-grid">
+            <div class="impact-item">
+                <span class="impact-number">+200</span>
+                <span class="impact-label">طالبة نشطة في المنصة</span>
+            </div>
+            <div class="impact-item">
+                <span class="impact-number">+500</span>
+                <span class="impact-label">عقد سلوكي تم إنجازه بنجاح</span>
+            </div>
+            <div class="impact-item">
+                <span class="impact-number">+40</span>
+                <span class="impact-label">حصة إرشادية وتدريبية مدعومة رقمياً</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- SUCCESS SECTION -->
+    <!-- ========================= -->
+
+    <section id="success" class="success-section">
+        <h2>سفيرات نماء</h2>
+        <p class="success-text">
+            نحتفي بالطالبات الأكثر تفاعلاً والتزاماً بالعقود السلوكية والأوسمة الرقمية.
+        </p>
+
+        <div class="success-grid">
+            <div class="success-card">
+                <h3>الطالبة سارة</h3>
+                <p>"منصة نماء ساعدتني على تنظيم وقتي والتغلب على قلق الامتحانات."</p>
+            </div>
+            <div class="success-card">
+                <h3>الطالبة مريم</h3>
+                <p>"تعلمت كيف أعبّر عن مشاعري بطريقة صحية وآمنة."</p>
+            </div>
+            <div class="success-card">
+                <h3>الطالبة فاطمة</h3>
+                <p>"التحديات الأسبوعية جعلتني ألتزم أكثر بدراستي وحضوري."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer id="contact" class="main-footer">
+        <div class="footer-top">
+            <div>
+                <h3>تواصل معنا</h3>
+                <p>للدعم الفني والاستفسارات حول منصة نماء.</p>
+                <p>البريد الإلكتروني: namaa.edu.bh@gmail.com</p>
+
+                <div class="footer-instagram">
+                    <a href="https://www.instagram.com/namaa.edu.bh" target="_blank">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                            <defs>
+                                <linearGradient id="ig" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#f58529"/>
+                                    <stop offset="40%" stop-color="#dd2a7b"/>
+                                    <stop offset="70%" stop-color="#8134af"/>
+                                    <stop offset="100%" stop-color="#515bd4"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#ig)" d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5a5 5 0 110 10 5 5 0 010-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0z"/>
+                        </svg>
+                        <span>تابعينا على إنستغرام</span>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3>الخصوصية وحماية البيانات</h3>
+                <p>نلتزم بأعلى معايير سرية وحماية البيانات الشخصية لجميع المستخدمين.</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>جميع الحقوق محفوظة لمشروع نماء 2026</span>
+        </div>
+    </footer>
+    <!-- ========================= -->
+    <!-- POPUPS: رؤيتنا / رسالتنا / قيمنا -->
+    <!-- ========================= -->
+
+    <!-- ⭐ FIX: نسخة واحدة فقط لقيمنا (تم حذف النسخة المكرّرة) -->
+
+    <div class="about-popup-overlay" id="vision">
+        <div class="about-popup-box">
+            <button class="about-close-btn" onclick="closeAboutPopup('vision')">×</button>
+            <h3>رؤيتنا</h3>
+            <p>
+                ريادةٌ في الرفاه النفسي، وتمكينٌ مستدامٌ يقي ويعالجُ المشكلاتِ النفسيةِ والسلوكية لبناءِ شخصيةٍ صحيةٍ نفسيًا.
+            </p>
+        </div>
+    </div>
+
+    <div class="about-popup-overlay" id="mission">
+        <div class="about-popup-box">
+            <button class="about-close-btn" onclick="closeAboutPopup('mission')">×</button>
+            <h3>رسالتنا</h3>
+            <p>
+                تمكينُ مجتمعنا المدرسي من خلال رصد وتفنيد التحديات النفسية والسلوكية، وتقديم الدعم التخصصي المبكر،
+                ونشر ثقافة الرفاهِ النفسي، عبر منصةٍ إلكترونيةٍ مُيسّرة وبرامج إرشادية نوعيَّة؛ لبناء شخصية متوازنة لدى الطالبة.
+            </p>
+        </div>
+    </div>
+
+    <div class="about-popup-overlay" id="values">
+        <div class="about-popup-box">
+            <button class="about-close-btn" onclick="closeAboutPopup('values')">×</button>
+            <h3>قيمنا</h3>
+
+            <p>
+                <strong>نـ | نماء مستدام</strong><br>
+                العملُ على تنميةِ الصحَّة النفسيةِ وبناء القدراتِ الذاتية، وتحقيق التمكين الفعَّال، بما يضمنُ استمراريةَ الأثرِ الإيجابيّ.
+                <br><br>
+
+                <strong>مـ | مسؤولية وتكامل</strong><br>
+                العملُ المشتركُ بروحِ الفريق المتكامِل وتوحيد مساعي الشركاء لتحقيق تظافرٍ حقيقيّ ومستدامٍ للجهود.
+                <br><br>
+
+                <strong>أ | أمان وسرية</strong><br>
+                الالتزامُ بالخصوصيةِ المطلقةِ وبناءُ الثقةِ العميقةِ عبر بروتوكولات حمايةٍ متطورة.
+                <br><br>
+
+                <strong>ء | إبداع وابتكار</strong><br>
+                توظيفُ الحُلول التقنيةِ المتقدمةِ والأفكار الريادية لابتكار بيئةٍ تفاعليةٍ آمنة.
+            </p>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- POPUP: FOUNDER -->
+    <!-- ========================= -->
+
+    <div class="founder-popup-overlay" id="founderPopup">
+        <div class="founder-popup">
+            <button class="close-founder-popup" onclick="closeFounderPopup()">×</button>
+
+            <h3 style="margin-top:0; color:#1b5e20; text-align:center;">
+                Batoul Abd Ali Ismail – صاحبة مشروع نماء
+            </h3>
+
+            <p style="line-height:2; color:#064420; text-align:justify;">
+                <h3>سجلّ الخبرات</h3></p>
+            <p style="line-height:2; color:#064420; text-align:justify;">
+                <br>•   
+تصميم برامج إرشادية بمعايير علمية: بفضل مهارات البحث والتحليل العلمي في مرحلة الدراسات العليا، أتميز بالقدرة على بناء وصياغة المناهج والبرامج التربوية وتصميمها وفق القواعد النفسية الإرشادية الدقيقة والمعايير التي تضمن تحقيق الأثر الحقيقي والمستدام للطلبة.
+                <br> •  خبرة ميدانية موثقة وممتدة: أجمع في مشروعي بين الاستثمار المعرفي والممارسة الواقعية؛ حيث أمتلك رصيداً زاخرًا  يتجاوز 100 شهادة تدريبية متخصصة في الجوانب النفسية، الإرشادية، والتدريبية، مدعوماً بخبرتي الطويلة مع طالبات المرحلة الثانوية. 
+                <br>•   تواصل فعال وبناء مع المنظومة الأسرية: أؤمن بأن النجاح يبدأ من التكامل؛ لذا أستثمر مهاراتي المتقدمة في التعامل مع الطالبات، وإشراك أولياء الأمور كشركاء أساسيين في عملية التوجيه، مدعومةً بخلفية متينة في علم الاجتماع واللغة العربية وعلم النفس التي تمنحني أدوات تواصل استثنائية وبناءة.
+                <br><br>إن الصحة النفسية لا تقل أهمية عن الصحة الجسدية، بل تعد أمرًا أساسيًا وذا علاقة كبيرة بالصحة الجسدية. ومن خلال خبرتي في التعليم وعلم النفس لاحظت أن الطالبات يتعرضن لضغوط متعددة كقلق الامتحان، توقعات الأسر، التنافس بين الزميلات، ضغط وسائل التواصل الاجتماعي، والتحول نحو الهوية المستقلة. كما تمت ملاحظة وجود علامات تدل على إصابة عدة طالبات باضطرابات نفسية كالاكتئاب والقلق المعمم وقلق الامتحانات والرهاب الاجتماعي، بالإضافة إلى وجود العديد من المشكلات الأسرية، وتكرار الغياب والتأخير الصباحي والتسرب من الحصص، وهذه كلها مؤشرات على وجود مشكلة بحاجة إلى حل وإهمالها يؤدي إلى انخفاض الأداء الأكاديمي للطالبات. وحل المشكلات منذ المرحلة الثانوية يساعد على الدخول للمرحلة الجامعية بصحة نفسية ملائمة لمرحلة الاستقلال. وبالتالي تخرج الطالبة وهي تمتلك العديد من المهارات النفسية والسلوكية التي تمكنها من الانخراط والتفاعل في الحرم الجامعي وفي بيئة العمل مستقبلًا. فالمدرسة ليست فضاءً تعليميًّا فحسب، بل هي بيئة علائقية تشكل مفهوم الذات وتقديرها. وفقًا لنظرية ماسلو، لا يمكن للطالبة أن تنمو ذاتيًا وتحقق إمكاناتها ما لم تُشبع حاجاتها النفسية الأساسية: الأمان، الانتماء، التقدير. لذا يعد الأمن النفسي أحد أهم الركائز في المدرسة الصحية. وهذا ما نسعى إلى تقديمه عن طريق هذا المشروع وهذه المنصة لتحقيق الأثر المستدام لطالبات مملكة البحرين.
+            </p>
+
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- SCRIPTS -->
+    <!-- ========================= -->
+
+    <script>
+        /* Popup الخريطة */
+        function openPopup() {
+            document.getElementById("popupOverlay").style.display = "flex";
+        }
+        function closePopup() {
+            document.getElementById("popupOverlay").style.display = "none";
+        }
+
+        /* Popup نبضة الأسبوع */
+        function openWeeklyPopup() {
+            document.getElementById("weeklyPopup").style.display = "flex";
+        }
+        function closeWeeklyPopup() {
+            document.getElementById("weeklyPopup").style.display = "none";
+        }
+
+        /* Popup المؤسس */
+        function openFounderPopup() {
+            document.getElementById("founderPopup").style.display = "flex";
+        }
+        function closeFounderPopup() {
+            document.getElementById("founderPopup").style.display = "none";
+        }
+
+        /* Popups رؤيتنا / رسالتنا / قيمنا */
+        function openAboutPopup(id) {
+            document.getElementById(id).style.display = "flex";
+        }
+        function closeAboutPopup(id) {
+            document.getElementById(id).style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

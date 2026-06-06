@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التقدم والأوسمة</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Cairo", sans-serif;
+            background: url('happy.png') center/cover no-repeat;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 14, 7, 0.55);
+            backdrop-filter: blur(3px);
+            animation: overlayMove 8s ease-in-out infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes overlayMove {
+            0% { background: rgba(0, 40, 20, 0.55); }
+            50% { background: rgba(0, 60, 30, 0.65); }
+            100% { background: rgba(0, 40, 20, 0.55); }
+        }
+
+        /* COMM LOGO */
+        .comm-logo {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 200px;
+            z-index: 10;
+        }
+                /* ===========================
+           زر الرجوع
+        =========================== */
+        .back-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+
+        .content {
+            position: relative;
+            z-index: 5;
+            padding: 40px;
+            max-width: 900px;
+            margin: auto;
+            animation: fadeUp 1s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #e8f5e9;
+            margin-bottom: 25px;
+            font-weight: bold;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .box {
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.22);
+            padding: 22px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+            animation: cardPop 0.7s ease forwards;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        @keyframes cardPop {
+            0% { opacity: 0; transform: scale(0.92); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+        }
+
+        .label {
+            font-size: 18px;
+            color: #c8e6c9;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .value {
+            font-size: 16px;
+            color: #e0f2f1;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .badge-item {
+            background: rgba(0,0,0,0.25);
+            border-radius: 12px;
+            padding: 6px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+
+        .badge-item img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 4px;
+        }
+
+        .badge-item span {
+            font-size: 12px;
+            color: #c8e6c9;
+        }
+        /* ===========================
+   🌿 GLOBAL FIXES
+   =========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+   =========================== */
+
+/* COMM LOGO */
+.comm-logo {
+    width: 120px;
+    top: 10px;
+    right: 10px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    max-width: 150px;
+}
+
+/* CONTENT */
+.content {
+    padding: 20px;
+    max-width: 100%;
+}
+
+.section-title {
+    font-size: 22px;
+    text-align: center;
+}
+
+/* BOXES */
+.box {
+    padding: 16px;
+    border-radius: 14px;
+}
+
+.label {
+    font-size: 16px;
+}
+
+.value {
+    font-size: 14px;
+}
+
+/* BADGES GRID */
+.badges-grid {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 8px;
+}
+
+.badge-item span {
+    font-size: 11px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+   =========================== */
+@media (min-width: 600px) {
+
+    .comm-logo {
+        width: 150px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .back-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        top: 20px;
+        left: 20px;
+    }
+
+    .content {
+        padding: 30px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .box {
+        padding: 20px;
+    }
+
+    .label {
+        font-size: 18px;
+    }
+
+    .value {
+        font-size: 15px;
+    }
+
+    .badges-grid {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    }
+
+    .badge-item span {
+        font-size: 12px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+   =========================== */
+@media (min-width: 900px) {
+
+    .comm-logo {
+        width: 180px;
+    }
+
+    .content {
+        padding: 40px;
+        max-width: 900px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .box {
+        padding: 22px;
+    }
+
+    .label {
+        font-size: 20px;
+    }
+
+    .value {
+        font-size: 16px;
+    }
+
+    .badges-grid {
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    }
+
+    .badge-item span {
+        font-size: 13px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <button class="back-btn" onclick="window.location.href='student-dashboard.html'">رجوع</button>
+
+    <!-- COMM LOGO -->
+    <img src="comm.png" class="comm-logo">
+
+    <div class="content">
+
+        <h2 class="section-title">لوحةالتقدّم والأوسمة</h2>
+
+        <!-- الاسم -->
+        <div class="box">
+            <p class="label">الاسم الكامل:</p>
+            <p class="value">سارة محمد</p>
+        </div>
+
+        <!-- مستوى التقدم -->
+        <div class="box">
+            <p class="label">مستوى التقدم:</p>
+            <p class="value">65% (من خلال 13 نشاطًا)</p>
+        </div>
+
+        <!-- النقاط -->
+        <div class="box">
+            <p class="label">النقاط المجمّعة:</p>
+            <p class="value">20 نقطة (من خلال 2 أوسمة)</p>
+        </div>
+        
+
+        <!-- الأوسمة -->
+        <div class="box">
+            <p class="label">الأوسمة:</p>
+            <p class="value">لديك وسامين</p>
+
+            <div class="badges-grid">
+
+                <div class="badge-item">
+                    <img src="wesam.jpeg">
+                    <span>وسام التميز</span>
+                </div>
+
+                <div class="badge-item">
+                    <img src="wesam1.jpeg">
+                    <span>وسام المشاركة</span>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>سجل المقابلات</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+       /* ===========================
+          خلفية Light Animated + White Glow
+       ============================ */
+body {
+    margin: 0;
+    padding: 40px 0;
+    font-family: "Cairo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    min-height: 100vh;
+    overflow-y: auto;
+    position: relative;
+    color: #1b3d1b;
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.55), transparent 45%),
+        radial-gradient(circle at bottom left, rgba(255,255,255,0.45), transparent 50%),
+        linear-gradient(135deg,
+            #ffffff 0%,
+            #f3fff3 25%,
+            #e0f7e0 50%,
+            #f3fff3 75%,
+            #ffffff 100%
+        );
+    background-size: 350% 350%;
+    animation: softShift 14s ease-in-out infinite;
+}
+
+@keyframes softShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 60%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* إزالة الدوائر */
+.circle {
+    display: none !important;
+}
+
+/* ===========================
+   NAVBAR زجاجي فاتح
+=========================== */
+.navbar {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    padding: 15px 40px;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0,0,0,0.10);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    color: #1b3d1b;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.back-btn {
+    padding: 10px 18px;
+    background: #2e7d32;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #256628;
+    transform: translateY(-2px);
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+.content {
+    position: relative;
+    z-index: 5;
+    padding: 30px 20px 50px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.section-title {
+    font-size: 22px;
+    color: #1b3d1b;
+    margin: 25px 0 15px;
+    font-weight: bold;
+}
+
+/* ===========================
+   CARDS (Glassy)
+=========================== */
+.cards-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.card {
+    background: rgba(255,255,255,0.22);
+    border-radius: 18px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255,255,255,0.65);
+    backdrop-filter: blur(18px);
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.12),
+        0 0 25px rgba(0,150,80,0.12);
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 14px 40px rgba(0,0,0,0.18),
+        0 0 30px rgba(0,180,100,0.18);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.student-name {
+    font-weight: 700;
+    color: #1b3d1b;
+}
+
+/* BADGES */
+.badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+}
+
+.badge-pending { background: rgba(255,193,7,0.25); color: #7a5a00; }
+.badge-confirmed { background: rgba(76,175,80,0.25); color: #1b3d1b; }
+.badge-declined { background: rgba(244,67,54,0.25); color: #7a1a1a; }
+.badge-replied { background: rgba(76,175,80,0.25); color: #1b3d1b; }
+
+/* BUTTONS */
+.btn-row {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 8px 12px;
+    background: #2e7d32;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn:hover {
+    background: #256628;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: #c62828;
+}
+
+.btn-danger:hover {
+    background: #e53935;
+}
+
+/* ===========================
+   POPUP
+=========================== */
+#overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.popup {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    width: 90%;
+    max-width: 420px;
+    color: #1b3d1b;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+.popup input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #b6d8b6;
+    margin-bottom: 15px;
+    font-family: "Cairo", sans-serif;
+}
+
+.popup-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.popup-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: "Cairo", sans-serif;
+}
+
+.popup-ok { background: #2e7d32; }
+.popup-cancel { background: #c62828; }
+
+/* EMPTY MESSAGE */
+.empty-msg {
+    font-size: 14px;
+    opacity: 0.8;
+    color: #2e4d2e;
+}
+
+/* ===========================
+   🌿 GLOBAL FIXES
+=========================== */
+body {
+    overflow-x: hidden;
+}
+
+img, canvas {
+    max-width: 100%;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+=========================== */
+
+/* NAVBAR */
+.navbar {
+    padding: 12px 20px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+.navbar h1 {
+    font-size: 20px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    width: 100%;
+    max-width: 180px;
+    padding: 10px 14px;
+    font-size: 14px;
+    position: static;
+    margin-top: 10px;
+}
+
+/* CONTENT */
+.content {
+    padding: 20px 16px 40px;
+    max-width: 100%;
+}
+
+.section-title {
+    font-size: 20px;
+    margin-top: 25px;
+}
+
+/* CARDS GRID */
+.cards-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+/* CARD */
+.card {
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 13px;
+}
+
+.card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.student-name {
+    font-size: 15px;
+}
+
+/* BADGES */
+.badge {
+    font-size: 10px;
+    padding: 4px 8px;
+}
+
+/* BUTTONS */
+.btn-row {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn {
+    width: 100%;
+    font-size: 13px;
+    padding: 10px;
+}
+
+/* POPUP */
+.popup {
+    width: 90%;
+    padding: 20px;
+}
+
+.popup input {
+    font-size: 14px;
+}
+
+/* EMPTY MESSAGE */
+.empty-msg {
+    font-size: 13px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: right;
+    }
+
+    .navbar h1 {
+        font-size: 22px;
+    }
+
+    .back-btn {
+        width: auto;
+        margin: 0;
+    }
+
+    .content {
+        padding: 30px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    .cards-row {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+    }
+
+    .card {
+        padding: 18px;
+        font-size: 14px;
+    }
+
+    .btn {
+        width: auto;
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .popup {
+        max-width: 380px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .content {
+        padding: 40px;
+        max-width: 1100px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .cards-row {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        padding: 20px;
+        font-size: 15px;
+    }
+
+    .btn {
+        font-size: 15px;
+    }
+
+    .popup {
+        max-width: 420px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+
+    <div class="navbar">
+        <h1>سجل المقابلات</h1>
+        <button class="back-btn" onclick="history.back()">رجوع</button>
+    </div>
+
+    <div class="content">
+        <h2 class="section-title">طلبات الطالبات</h2>
+        <div id="studentRequests" class="cards-row"></div>
+
+        <h2 class="section-title">طلبات الأهالي</h2>
+        <div id="parentAppointments" class="cards-row"></div>
+
+        <h2 class="section-title">استشارات الطالبات</h2>
+        <div id="studentConsultations" class="cards-row"></div>
+
+        <h2 class="section-title">استشارات الأهالي</h2>
+        <div id="parentConsultations" class="cards-row"></div>
+    </div>
+
+    <!-- POPUPS -->
+    <div id="overlay">
+        <!-- قبول -->
+        <div id="popupAccept" class="popup" style="display:none;">
+            <h3>تأكيد الموعد</h3>
+            <p id="acceptMessage"></p>
+            <input id="acceptInput" type="text" placeholder="">
+            <div class="popup-buttons">
+                <button class="popup-btn popup-cancel" onclick="closePopup()">إلغاء</button>
+                <button class="popup-btn popup-ok" onclick="confirmAccept()">موافق</button>
+            </div>
+        </div>
+        <!-- رفض -->
+        <div id="popupDecline" class="popup" style="display:none;">
+            <h3>رفض الموعد</h3>
+            <p>اكتبي سبب الرفض أو اقترحي وقتًا آخر:</p>
+            <input id="declineInput" type="text" placeholder="مثال: الوقت غير مناسب...">
+            <div class="popup-buttons">
+                <button class="popup-btn popup-cancel" onclick="closePopup()">إلغاء</button>
+                <button class="popup-btn popup-ok" onclick="confirmDecline()">موافق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         MOCK DATA + LOGIC (NO FIREBASE)
+    ============================ -->
+    <script>
+    const studentRequests = document.getElementById("studentRequests");
+    const parentAppointments = document.getElementById("parentAppointments");
+    const studentConsultations = document.getElementById("studentConsultations");
+    const parentConsultations = document.getElementById("parentConsultations");
+
+    let activeAppointmentType = null;
+
+    /* Mock students appointments (ثانوي فقط) */
+    const mockStudentAppointments = [
+        {
+            id: "app1",
+            studentName: "سارة محمد",
+            grade: "ألثاني ثانوي",
+            type: "online",
+            timeStr: "2026-03-15 10:30 صباحاً",
+            status: "pending",
+            counselorMessage: "",
+            meetingLink: "",
+            location: ""
+        },
+        {
+            id: "app2",
+            studentName: "إيمان الخطيب",
+            grade: "الثاني ثانوي",
+            type: "offline",
+            timeStr: "2026-03-16 12:00 ظهراً",
+            status: "confirmed",
+            counselorMessage: "تم تأكيد الموعد في غرفة الإرشاد.",
+            meetingLink: "",
+            location: "غرفة الإرشاد – الطابق الثاني"
+        },
+        {
+            id: "app3",
+            studentName: "ليان أحمد",
+            grade: "الثالث ثانوي",
+            type: "online",
+            timeStr: "2026-03-17 09:00 صباحاً",
+            status: "declined",
+            counselorMessage: "يرجى اختيار وقت آخر بعد الامتحانات.",
+            meetingLink: "",
+            location: ""
+        },
+        {
+            id: "app4",
+            studentName: "جنى يوسف",
+            grade: "الثالث ثانوي",
+            type: "offline",
+            timeStr: "2026-03-18 01:30 ظهراً",
+            status: "pending",
+            counselorMessage: "",
+            meetingLink: "",
+            location: ""
+        }
+    ];
+
+    /* Mock parent appointments */
+    const mockParentAppointments = [
+        {
+            id: "p1",
+            studentName: "سارة محمد",
+            studentGrade: "الثاني ثانوي",
+            parentName: "والدة سارة",
+            parentPhone: "03-123456",
+            type: "online",
+            timeStr: "2026-03-20 05:00 مساءً",
+            status: "pending",
+            counselorMessage: "",
+            meetingLink: ""
+        },
+        {
+            id: "p2",
+            studentName: "إيما الخطيب",
+            studentGrade: "ثاني ثانوي",
+            parentName: "والد إيما",
+            parentPhone: "71-987654",
+            type: "offline",
+            timeStr: "2026-03-21 11:00 صباحاً",
+            status: "confirmed",
+            counselorMessage: "تم تأكيد الموعد في غرفة الاجتماعات.",
+            meetingLink: ""
+        }
+    ];
+
+    /* Mock student consultations */
+    const mockStudentConsultations = [
+        {
+            id: "c1",
+            studentName: "سارة محمد",
+            grade: "الثاني ثانوي",
+            text: "أشعر بتوتر قبل الامتحانات وأحتاج خطة للمذاكرة.",
+            reply: "تم اقتراح جدول مذاكرة أسبوعي وتقنيات للاسترخاء.",
+            status: "مجاب",
+            createdAt: "2026-02-28"
+        },
+        {
+            id: "c2",
+            studentName: "إيما الخطيب",
+            grade: "الثاني ثانوي",
+            text: "أواجه صعوبة في تنظيم وقتي بين المدرسة والدروس الخاصة.",
+            reply: "تم إرسال نموذج لتنظيم الوقت ومتابعة أسبوعية.",
+            status: "مجاب",
+            createdAt: "2026-03-01"
+        },
+        {
+            id: "c3",
+            studentName: "ليان أحمد",
+            grade: "الثالث ثانوي",
+            text: "أرغب في استشارة حول اختيار التخصص الجامعي.",
+            reply: "",
+            status: "بانتظار الرد",
+            createdAt: "2026-03-05"
+        }
+    ];
+
+    /* Mock parent consultations */
+    const mockParentConsultations = [
+        {
+            id: "pc1",
+            parentName: "والدة سارة",
+            studentName: "سارة محمد",
+            grade: "الثاني ثانوي",
+            text: "أود مناقشة مستوى سارة الدراسي وكيفية دعمها في البيت.",
+            reply: "تم تحديد موعد للقاء حضوري الأسبوع القادم.",
+            status: "مجاب",
+            createdAt: "2026-03-02"
+        },
+        {
+            id: "pc2",
+            parentName: "والد إيما",
+            studentName: "إيما الخطيب",
+            grade: "الثاني ثانوي",
+            text: "أرغب في استشارة حول قلق إيما قبل الامتحانات.",
+            reply: "",
+            status: "بانتظار الرد",
+            createdAt: "2026-03-06"
+        }
+    ];
+
+    function getStatusClass(status) {
+        if (status === "pending") return "badge-pending";
+        if (status === "confirmed") return "badge-confirmed";
+        if (status === "declined") return "badge-declined";
+        return "badge-pending";
+    }
+
+    function getStatusText(status) {
+        if (status === "pending") return "بانتظار الموافقة";
+        if (status === "confirmed") return "مؤكّد";
+        if (status === "declined") return "مرفوض";
+        return status;
+    }
+
+    /* ========== POPUP CONTROL (NO SAVING) ========== */
+    function openAcceptPopup(type) {
+        activeAppointmentType = type;
+        document.getElementById("popupAccept").style.display = "block";
+        document.getElementById("popupDecline").style.display = "none";
+
+        const msg = type === "online"
+            ? "أدخلي رابط الجلسة عبر Teams:"
+            : "أدخلي مكان الجلسة الحضورية:";
+
+        document.getElementById("acceptMessage").innerText = msg;
+        document.getElementById("acceptInput").placeholder =
+            type === "online" ? "https://teams.microsoft.com/..." : "مثال: غرفة الإرشاد";
+
+        document.getElementById("acceptInput").value = "";
+        document.getElementById("overlay").style.display = "flex";
+    }
+
+    function openDeclinePopup() {
+        document.getElementById("popupAccept").style.display = "none";
+        document.getElementById("popupDecline").style.display = "block";
+        document.getElementById("declineInput").value = "";
+        document.getElementById("overlay").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    function confirmAccept() {
+        const value = document.getElementById("acceptInput").value.trim();
+        if (!value) {
+            alert("يجب إدخال قيمة.");
+            return;
+        }
+        alert("تم تأكيد الموعد (Mock فقط، بدون حفظ).");
+        closePopup();
+    }
+
+    function confirmDecline() {
+        const msg = document.getElementById("declineInput").value.trim();
+        if (!msg) {
+            alert("يجب كتابة سبب الرفض.");
+            return;
+        }
+        alert("تم رفض الموعد (Mock فقط، بدون حفظ).");
+        closePopup();
+    }
+
+    window.openAcceptPopup = openAcceptPopup;
+    window.openDeclinePopup = openDeclinePopup;
+    window.closePopup = closePopup;
+    window.confirmAccept = confirmAccept;
+    window.confirmDecline = confirmDecline;
+
+    /* ========== RENDER STUDENT REQUESTS ========== */
+    function renderStudentRequests() {
+        studentRequests.innerHTML = "";
+        if (mockStudentAppointments.length === 0) {
+            studentRequests.innerHTML = `<p class="empty-msg">لا توجد طلبات حتى الآن.</p>`;
+            return;
+        }
+
+        mockStudentAppointments.forEach(data => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const statusClass = getStatusClass(data.status);
+            const statusText = getStatusText(data.status);
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="student-name">${data.studentName}</span>
+                    <span class="badge ${statusClass}">
+                        ${statusText}
+                    </span>
+                </div>
+
+                <p>الصف: ${data.grade}</p>
+                <p>نوع الجلسة: ${data.type === "online" ? "جلسة عبر Teams" : "جلسة حضورية"}</p>
+                <p>الوقت: ${data.timeStr}</p>
+
+                ${
+                    data.counselorMessage
+                        ? `<p><strong>رسالة المرشدة:</strong> ${data.counselorMessage}</p>`
+                        : ""
+                }
+
+                ${
+                    data.meetingLink
+                        ? `<p><strong>رابط الجلسة:</strong> <a href="${data.meetingLink}" target="_blank">اضغطي هنا</a></p>`
+                        : ""
+                }
+
+                ${
+                    data.location
+                        ? `<p><strong>مكان الجلسة:</strong> ${data.location}</p>`
+                        : ""
+                }
+            `;
+
+            const btnRow = document.createElement("div");
+            btnRow.className = "btn-row";
+
+            if (data.status === "pending") {
+                const acceptBtn = document.createElement("button");
+                acceptBtn.className = "btn";
+                acceptBtn.textContent = "تأكيد الموعد";
+                acceptBtn.onclick = () => openAcceptPopup(data.type);
+
+                const declineBtn = document.createElement("button");
+                declineBtn.className = "btn btn-danger";
+                declineBtn.textContent = "رفض الموعد";
+                declineBtn.onclick = () => openDeclinePopup();
+
+                btnRow.appendChild(acceptBtn);
+                btnRow.appendChild(declineBtn);
+            }
+
+            card.appendChild(btnRow);
+            studentRequests.appendChild(card);
+        });
+    }
+
+    /* ========== RENDER PARENT APPOINTMENTS ========== */
+    function renderParentAppointments() {
+        parentAppointments.innerHTML = "";
+        if (mockParentAppointments.length === 0) {
+            parentAppointments.innerHTML = `<p class="empty-msg">لا توجد مواعيد من الأهالي حتى الآن.</p>`;
+            return;
+        }
+
+        mockParentAppointments.forEach(data => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const statusClass = getStatusClass(data.status);
+            const statusText = getStatusText(data.status);
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="student-name">
+                        ${data.studentName} - ${data.studentGrade}
+                    </span>
+                    <span class="badge ${statusClass}">
+                        ${statusText}
+                    </span>
+                </div>
+
+                <p><strong>ولي الأمر:</strong> ${data.parentName || "—"}</p>
+                <p><strong>رقم الهاتف:</strong> ${data.parentPhone || "—"}</p>
+
+                <p><strong>نوع الجلسة:</strong> 
+                    ${data.type === "online" ? "جلسة عبر Teams" : "جلسة حضورية"}
+                </p>
+
+                <p><strong>الوقت:</strong> ${data.timeStr}</p>
+
+                ${
+                    data.counselorMessage
+                        ? `<p><strong>رسالة المرشدة:</strong> ${data.counselorMessage}</p>`
+                        : ""
+                }
+
+                ${
+                    data.status === "confirmed" &&
+                    data.type === "online" &&
+                    data.meetingLink
+                        ? `<p><a href="${data.meetingLink}" target="_blank">رابط الجلسة عبر Teams</a></p>`
+                        : ""
+                }
+            `;
+
+            const btnRow = document.createElement("div");
+            btnRow.className = "btn-row";
+
+            if (data.status === "pending") {
+                const acceptBtn = document.createElement("button");
+                acceptBtn.className = "btn";
+                acceptBtn.textContent = "تأكيد الموعد";
+                acceptBtn.onclick = () => openAcceptPopup(data.type);
+
+                const declineBtn = document.createElement("button");
+                declineBtn.className = "btn btn-danger";
+                declineBtn.textContent = "رفض الموعد";
+                declineBtn.onclick = () => openDeclinePopup();
+
+                btnRow.appendChild(acceptBtn);
+                btnRow.appendChild(declineBtn);
+            }
+
+            parentAppointments.appendChild(card);
+        });
+    }
+
+    /* ========== RENDER STUDENT CONSULTATIONS ========== */
+    function renderStudentConsultations() {
+        studentConsultations.innerHTML = "";
+        if (mockStudentConsultations.length === 0) {
+            studentConsultations.innerHTML = `<p class="empty-msg">لا توجد استشارات حتى الآن.</p>`;
+            return;
+        }
+
+        mockStudentConsultations.forEach(data => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const statusClass =
+                data.status === "مجاب" ? "badge-replied" : "badge-pending";
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="student-name">${data.studentName} - ${data.grade}</span>
+                    <span class="badge ${statusClass}">
+                        ${data.status}
+                    </span>
+                </div>
+
+                <p><strong>نص الاستشارة:</strong> ${data.text}</p>
+
+                ${
+                    data.reply
+                        ? `<p><strong>ردّ المرشدة:</strong> ${data.reply}</p>`
+                        : `<p><strong>ردّ المرشدة:</strong> لا يوجد ردّ بعد.</p>`
+                }
+
+                <p style="font-size:12px; opacity:0.8;">
+                    التاريخ: ${data.createdAt}
+                </p>
+            `;
+
+            studentConsultations.appendChild(card);
+        });
+    }
+
+    /* ========== RENDER PARENT CONSULTATIONS ========== */
+    function renderParentConsultations() {
+        parentConsultations.innerHTML = "";
+        if (mockParentConsultations.length === 0) {
+            parentConsultations.innerHTML = `<p class="empty-msg">لا توجد استشارات من الأهالي حتى الآن.</p>`;
+            return;
+        }
+
+        mockParentConsultations.forEach(data => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const statusClass =
+                data.status === "مجاب" ? "badge-replied" : "badge-pending";
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="student-name">${data.parentName} – ${data.studentName} (${data.grade})</span>
+                    <span class="badge ${statusClass}">
+                        ${data.status}
+                    </span>
+                </div>
+
+                <p><strong>نص الاستشارة:</strong> ${data.text}</p>
+
+                ${
+                    data.reply
+                        ? `<p><strong>ردّ المرشدة:</strong> ${data.reply}</p>`
+                        : `<p><strong>ردّ المرشدة:</strong> لا يوجد ردّ بعد.</p>`
+                }
+
+                <p style="font-size:12px; opacity:0.8;">
+                    التاريخ: ${data.createdAt}
+                </p>
+            `;
+
+            parentConsultations.appendChild(card);
+        });
+    }
+
+    /* INITIAL RENDER */
+    renderStudentRequests();
+    renderParentAppointments();
+    renderStudentConsultations();
+    renderParentConsultations();
+    </script>
+</body>
+</html>

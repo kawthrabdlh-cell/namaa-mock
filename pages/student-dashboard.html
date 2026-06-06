@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الطالبة</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: url("student.png") center/cover no-repeat fixed;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.70);
+            z-index: 0;
+        }
+
+        .navbar {
+            width: 100%;
+            padding: 18px 40px;
+            background: #285e2c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo {
+            width: 120px;
+        }
+
+        .logout-btn {
+            padding: 10px 18px;
+            background: white;
+            color: #1b5e20;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 95%;
+            max-width: 1300px;
+            margin: 30px auto;
+        }
+
+        .profile-card {
+            background: rgba(255,255,255,0.92);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .profile-info h3 {
+            margin: 0;
+            font-size: 22px;
+            color: #1b5e20;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.92);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 55px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            color: #1b5e20;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .card-btn {
+            padding: 10px 14px;
+            background: #2e7d32;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+        }
+      
+        
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .navbar h1 {
+                font-size: 20px;
+            }
+
+            .logo {
+                width: 90px;
+            }
+
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+            }
+            .grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}}
+/* ===========================
+   🌿 MOBILE-FIRST (max-width: 600px)
+=========================== */
+@media (max-width: 600px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    .navbar {
+        padding: 14px 18px;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .navbar h1 {
+        font-size: 20px;
+    }
+
+    .logo {
+        width: 90px;
+    }
+
+    .logout-btn {
+        width: 100%;
+        max-width: 180px;
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+
+    /* CONTENT WRAPPER */
+    .content-wrapper {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    /* PROFILE CARD */
+    .profile-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-info h3 {
+        font-size: 20px;
+    }
+
+    .profile-info p {
+        font-size: 14px;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    /* GRID */
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    /* CARD */
+    .card {
+        padding: 20px;
+    }
+
+    .card-icon {
+        width: 50px;
+    }
+
+    .card h3 {
+        font-size: 18px;
+    }
+
+    .card p {
+        font-size: 13px;
+    }
+
+    .card-btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* ===========================
+   🌿 TABLET (min-width: 600px and max-width: 900px)
+=========================== */
+@media (min-width: 600px) and (max-width: 900px) {
+
+    .navbar {
+        padding: 16px 24px;
+    }
+
+    .content-wrapper {
+        width: 92%;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 22px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .content-wrapper {
+        max-width: 1200px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+}
+
+/* ===========================
+   🌿 ULTRA-WIDE ≥ 1400px
+=========================== */
+@media (min-width: 1400px) {
+
+    .content-wrapper {
+        max-width: 1300px;
+    }
+
+    .card {
+        padding: 28px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <img src="comm.png" class="logo"> 
+        <h1>بوابة الطالبة</h1>
+        <button class="logout-btn" onclick="window.location.href='login.html'">تسجيل الخروج</button>
+    </div>
+
+    <div class="content-wrapper">
+
+        <div class="profile-card">
+            <img class="profile-photo" src="profilee.png">
+
+            <div class="profile-info">
+                <h3>سارة محمد</h3>
+                <p>المرحلة: الثاني ثانوي</p>
+                <p>الفصل:الثاني</p>
+            </div>
+        </div>
+
+        <h2 class="section-title">مساحتكِ التفاعلية</h2>
+
+        <div class="grid">
+
+            <div class="card">
+                <img class="card-icon" src="progress.webp">
+                <h3>لوحة التقدم والأوسمة</h3>
+                <p>شاهدي نقاطكِ، مستواكِ، والأوسمة التي حصلتِ عليها.</p>
+                <button class="card-btn" onclick="window.location.href='progress.html'">عرض التقدم</button>
+            </div>
+
+            <div class="card">
+                <img class="card-icon" src="mentalhealth.png"> 
+                <h3>ركن الصحة العامة</h3>
+                <p>تحاليل طبية، متابعة علاج، وصحة شاملة.</p>
+                <button class="card-btn"onclick="window.location.href='health.html'">الدخول</button>
+            </div>
+
+            <div class="card">
+                <img class="card-icon" src="icon.png">
+                <h3>مقاييس نماء</h3>
+                <p>تطبيق المقاييس النفسية.</p>
+                <button class="card-btn"onclick="window.location.href='measures.html'">ابدئي الآن</button>
+            </div>
+
+            <div class="card">
+                <img class="card-icon" src="challenge.png">
+                <h3>العقود السلوكية</h3>
+                <p>اختاري تحديكِ الأسبوعي.</p>
+                <button class="card-btn" onclick="window.location.href='commitment.html'">اختيار التحدي</button>
+            </div>
+
+            <div class="card">
+                <img class="card-icon" src="knowledge.png">
+                <h3>التنظيم الصفي</h3>
+                <p>شاركي أفكاركِ لتحسين البيئة الصفية.</p>
+                <button class="card-btn" onclick="window.location.href='class-ideas.html'">إرسال مقترح</button>
+            </div>
+
+            <div class="card">
+                <img class="card-icon" src="support.png">
+                <h3>مكتبة الجرعات النفسية</h3>
+                <p>فيديوهات قصيرة وإنفوجرافيك.</p>
+                <button class="card-btn" onclick="window.location.href='micro-learning.html'">استكشاف</button>
+            </div>
+
+<div class="card">
+                <img class="card-icon" src="box.png">
+                <h3>صندوق الدعم الآمن</h3>
+                <p>اكتبي استشارة أو احجزي موعداً مع المرشدة.</p>
+                <button class="card-btn" onclick="window.location.href='safe-box.html'">إرسال رسالة</button>
+            </div>
+
+            <div class="card">
+            <img class="card-icon" src="testing.png">
+            <h3>أدوات التقييم الذاتي</h3>
+            <p>اختبارات قصيرة بعد كل جرعة معرفية.</p>
+            <button class="card-btn" onclick="window.location.href='self-tests.html'">بدء التقييم</button>
+        </div> 
+
+        <div class="card">
+            <img class="card-icon" src="interactive.png">
+            <h3>تحميل ملفك الصحي</h3>
+            <p>حملي ملفك الصحي كامل</p>
+            <button class="card-btn" onclick="window.location.href='upload-health-file.html'">تحميل</button>
+        </div> 
+
+        <div class="card">
+            <img class="card-icon" src="notification.png">
+            <h3>موعيدك و اشعاراتك</h3>
+            <p>تابعي جدول مواعيدك و اشعاراتك من مرشدتك</p>
+            <button class="card-btn" onclick="window.location.href='student-appointment.html'">عرض المواعيد</button>
+        </div> 
+
+
+
+
+        </div>
+
+    </div>
+
+</body>
+</html>

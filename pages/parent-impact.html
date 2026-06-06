@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ركن أثر النماء</title>
+
+    <style>
+       /* خلفية Gradient أخضر فاتح بدل الغامق */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Tajawal", sans-serif;
+
+    background: linear-gradient(135deg, #ffffff, #eaffea, #d6f8d6);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+
+    color: #1b3d1b; /* غامق لأنو الثيم فاتح */
+}
+
+/* دوائر الأنيميشن – نفسن بس أغمق شوي ليبينو */
+.bg-circles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(8, 47, 5, 0.25); /* أغمق ليبين على الخلفية الفاتحة */
+    filter: blur(8px);
+    animation: float 12s infinite ease-in-out;
+}
+
+.circle:nth-child(1){ width:260px;height:260px;top:-60px;right:-80px;animation-duration:16s; }
+.circle:nth-child(2){ width:340px;height:340px;bottom:-100px;left:-70px;animation-duration:20s; }
+.circle:nth-child(3){ width:200px;height:200px;top:40%;left:20%;animation-duration:18s; }
+
+@keyframes float {
+    0%{ transform:translateY(0) scale(1); opacity:.5; }
+    50%{ transform:translateY(-40px) scale(1.15); opacity:.9; }
+    100%{ transform:translateY(0) scale(1); opacity:.5; }
+}
+
+/* Sparkles غامقين خفاف بالخلفية بدل الطبقة السودا */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0,60,20,0.18), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(0,70,25,0.16), transparent 55%),
+        radial-gradient(circle at 25% 80%, rgba(0,50,15,0.14), transparent 55%);
+}
+
+/* NAVBAR */
+.navbar {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    padding: 15px 40px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    color: #1b3d1b;
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.back-btn {
+    padding: 10px 18px;
+    background: #1b5e20;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.back-btn:hover {
+    background: #2e7d32;
+    transform: translateY(-2px);
+}
+
+/* CONTENT */
+.content {
+    position: relative;
+    z-index: 5;
+    padding: 40px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.section-title {
+    font-size: 26px;
+    color: #1b3d1b;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* BOXES */
+.box {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid rgba(0,0,0,0.12);
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+}
+
+.box h3 {
+    color: #1b5e20;
+    margin-bottom: 10px;
+}
+
+.box p {
+    color: #2e4d2e;
+    margin-bottom: 15px;
+}
+
+/* Messages */
+.message-item {
+    background: rgba(255,255,255,0.85);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    color: #1b3d1b;
+    font-size: 14px;
+}
+
+.message-meta {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+canvas {
+    margin-top: 15px;
+}
+/* ===========================
+   🌿 MOBILE-FIRST (max-width: 600px)
+=========================== */
+@media (max-width: 600px) {
+
+    body {
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    .navbar {
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .navbar h1 {
+        font-size: 20px;
+    }
+
+    .back-btn {
+        width: 100%;
+        max-width: 160px;
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+
+    /* CONTENT */
+    .content {
+        padding: 20px 16px;
+        max-width: 100%;
+    }
+
+    .section-title {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    /* BOXES */
+    .box {
+        padding: 18px;
+        margin-bottom: 20px;
+    }
+
+    .box h3 {
+        font-size: 18px;
+    }
+
+    .box p {
+        font-size: 14px;
+    }
+
+    /* CHARTS */
+    canvas {
+        max-width: 100%;
+        height: 220px !important;
+    }
+
+    /* MESSAGES */
+    .message-item {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+
+    .message-meta {
+        font-size: 11px;
+    }
+}
+
+/* ===========================
+   🌿 TABLET (min-width: 600px and max-width: 900px)
+=========================== */
+@media (min-width: 600px) and (max-width: 900px) {
+
+    .navbar {
+        padding: 14px 24px;
+    }
+
+    .navbar h1 {
+        font-size: 22px;
+    }
+
+    .content {
+        padding: 30px 24px;
+    }
+
+    .box {
+        padding: 22px;
+    }
+
+    canvas {
+        height: 260px !important;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .content {
+        max-width: 900px;
+        padding: 40px;
+    }
+
+    .box {
+        padding: 25px;
+    }
+
+    canvas {
+        height: 300px !important;
+    }
+}
+
+/* ===========================
+   🌿 ULTRA-WIDE ≥ 1400px
+=========================== */
+@media (min-width: 1400px) {
+
+    .content {
+        max-width: 1100px;
+    }
+
+    canvas {
+        height: 340px !important;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- خلفية -->
+    <div class="bg-circles">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <div class="navbar">
+        <h1>ركن أثر نماء</h1>
+        <button class="back-btn" onclick="window.location.href='parent-dashboard.html'">رجوع</button>
+    </div>
+
+    <div class="content">
+
+        <h2 class="section-title">لوحة الأثر المدرسي العام</h2>
+
+        <!-- CARD 1: مؤشر المرونة النفسية -->
+        <div class="box">
+            <h3>مؤشر المرونة النفسية</h3>
+            <p id="resilienceText">جاري تحليل مؤشر المرونة النفسية...</p>
+            <canvas id="resilienceChart"></canvas>
+        </div>
+
+        <!-- CARD 2: تحسّن التفاعل السلوكي -->
+        <div class="box">
+            <h3>تحسّن التفاعل السلوكي</h3>
+            <p id="behaviorText">جاري تحليل التفاعل السلوكي...</p>
+            <canvas id="behaviorChart"></canvas>
+        </div>
+
+        <!-- CARD 3: رسائل المرشدة لولي الأمر -->
+        <div class="box">
+            <h3>رسائل المرشدة و أثر الورش</h3>
+            <p>في هذا الركن تظهر لك الرسائل التربوية والملخصات التي ترسلها المرشدة حول تقدّم ابنتك.</p>
+            <div id="messagesContainer"></div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        /* ⭐ MOCK DATA – بنتين: سارة ومريم */
+        const mockStudents = [
+            {
+                id: "sara",
+                name: "سارة محمد",
+                grade: "ثاني ثانوي",
+                selfEfficacyLevel: "High",
+                behaviorLevel: "High"
+            },
+            {
+                id: "rim",
+                name: "ريم محمد",
+                grade: "أول ثانوي",
+                selfEfficacyLevel: "Moderate",
+                behaviorLevel: "Moderate"
+            }
+        ];
+
+        const mockMessages = [
+            {
+                message: "خلال هذا الشهر، أظهرت سارة التزاماً عالياً بتمارين تنظيم الانفعالات، وانعكس ذلك على هدوئها داخل الصف.",
+                counselorName: "المرشدة: أ. مريم عبد الله",
+                dateStr: "نيسان 2026"
+            },
+            {
+                message: "ريم شاركت بفعالية في ورشة مهارات الدراسة، وننصح بالاستمرار في متابعة خطة تنظيم الوقت في المنزل.",
+                counselorName: "المرشدة: أ. سمر",
+                dateStr: "نيسان 2026"
+            },
+            {
+                message: "أثر ورش نماء ظهر في زيادة ثقة الطالبتين بأنفسهما عند مواجهة التحديات الدراسية.",
+                counselorName: "فريق نماء",
+                dateStr: "آذار 2026"
+            }
+        ];
+
+        /* ⭐ CARD 1: مؤشر المرونة النفسية – Mock */
+        function analyzeResilienceMock() {
+            // نحسب عدد High / Moderate / Low من الـ mock
+            let high = 0, moderate = 0, low = 0;
+
+            mockStudents.forEach(s => {
+                if (s.selfEfficacyLevel === "High") high++;
+                else if (s.selfEfficacyLevel === "Moderate") moderate++;
+                else low++;
+            });
+
+            const total = high + moderate + low;
+            const percentHigh = total === 0 ? 0 : Math.round((high / total) * 100);
+
+            const labelPrefix = "لبناتك المرتبطات بحسابك في منصة نماء";
+
+            document.getElementById("resilienceText").innerHTML =
+                `ساهمت منصة نماء هذا الفصل في رفع مؤشر المرونة النفسية <strong>${labelPrefix}</strong> بمعدل تقريبي قدره <strong>${percentHigh}%</strong>.`;
+
+            const ctx = document.getElementById("resilienceChart");
+            new Chart(ctx, {
+                type: "doughnut",
+                data: {
+                    labels: ["High", "Moderate", "Low"],
+                    datasets: [{
+                        data: [high, moderate, low],
+                        backgroundColor: [
+                            "rgba(76,175,80,0.8)",
+                            "rgba(255,193,7,0.8)",
+                            "rgba(244,67,54,0.8)"
+                        ],
+                        borderColor: [
+                            "rgba(76,175,80,1)",
+                            "rgba(255,193,7,1)",
+                            "rgba(244,67,54,1)"
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: { color: "#1b3d1b" }
+                        }
+                    }
+                }
+            });
+        }
+
+        /* ⭐ CARD 2: تحسّن التفاعل السلوكي – Mock */
+        function analyzeBehaviorMock() {
+            let high = 0, moderate = 0, low = 0;
+
+            mockStudents.forEach(s => {
+                if (s.behaviorLevel === "High") high++;
+                else if (s.behaviorLevel === "Moderate") moderate++;
+                else low++;
+            });
+
+            const total = high + moderate + low;
+            const percentHigh = total === 0 ? 0 : Math.round((high / total) * 100);
+
+            const labelPrefix = "لبناتك المرتبطات بالعقود السلوكية";
+
+            document.getElementById("behaviorText").innerHTML =
+                `ارتفع معدل الالتزام بالعقود السلوكية <strong>${labelPrefix}</strong> بنسبة تقريبية قدرها <strong>${percentHigh}%</strong> مقارنة بالفترة السابقة.`;
+
+            const ctx = document.getElementById("behaviorChart");
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["High", "Moderate", "Low"],
+                    datasets: [{
+                        label: "مستويات التفاعل السلوكي",
+                        data: [high, moderate, low],
+                        backgroundColor: [
+                            "rgba(76,175,80,0.8)",
+                            "rgba(255,193,7,0.8)",
+                            "rgba(244,67,54,0.8)"
+                        ],
+                        borderColor: [
+                            "rgba(76,175,80,1)",
+                            "rgba(255,193,7,1)",
+                            "rgba(244,67,54,1)"
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: "#1b3d1b" }
+                        },
+                        x: {
+                            ticks: { color: "#1b3d1b" }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: "#1b3d1b" }
+                        }
+                    }
+                }
+            });
+        }
+
+        /* ⭐ CARD 3: رسائل المرشدة – Mock */
+        function loadCounselorMessagesMock() {
+            const messagesContainer = document.getElementById("messagesContainer");
+            messagesContainer.innerHTML = "";
+
+            if (mockMessages.length === 0) {
+                messagesContainer.innerHTML =
+                    "<p>لا توجد رسائل مسجلة حتى الآن من المرشدة. ستظهر هنا رسائل المتابعة والتحفيز عند إرسالها.</p>";
+                return;
+            }
+
+            mockMessages.forEach(m => {
+                const el = document.createElement("div");
+                el.className = "message-item";
+                el.innerHTML = `
+                    <div>${m.message}</div>
+                    <div class="message-meta">
+                        ${m.counselorName}
+                        ${m.dateStr ? " • بتاريخ: " + m.dateStr : ""}
+                    </div>
+                `;
+                messagesContainer.appendChild(el);
+            });
+        }
+
+        // تشغيل الـ Mock مباشرة
+        document.addEventListener("DOMContentLoaded", () => {
+            analyzeResilienceMock();
+            analyzeBehaviorMock();
+            loadCounselorMessagesMock();
+        });
+    </script>
+</body>
+</html>

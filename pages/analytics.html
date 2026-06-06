@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>لوحة التحليلات الذكية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Tajawal", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #c3fdcb;
+            color: #222;
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            padding: 24px;
+            background: linear-gradient(135deg, #f5f7fb 0%, #e6edf7 100%);
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1f2933;
+            margin: 0 0 6px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 18px;
+            padding: 18px 18px 12px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            backdrop-filter: blur(10px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .card-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #e5f3ff;
+            color: #2563eb;
+        }
+
+        .card-body {
+            padding-top: 4px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 230px;
+        }
+
+        .small-text {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: #e5e7eb;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            transition: width 0.6s ease;
+
+            /* ===========================
+           زر الرجوع
+        =========================== */
+        .back-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+        }
+        /* ===========================
+   🌿 GLOBAL FIXES
+=========================== */
+body {
+    overflow-x: hidden;
+}
+
+canvas {
+    max-width: 100% !important;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+=========================== */
+
+/* BACK BUTTON */
+.back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    max-width: 150px;
+}
+
+/* PAGE WRAPPER */
+.page-wrapper {
+    padding: 20px;
+}
+
+/* HEADER */
+.page-title {
+    font-size: 20px;
+    text-align: center;
+}
+
+.page-subtitle {
+    font-size: 13px;
+    text-align: center;
+}
+
+/* GRID */
+.cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+/* CARD */
+.card {
+    padding: 16px;
+    border-radius: 14px;
+}
+
+.card-title {
+    font-size: 16px;
+}
+
+.card-badge {
+    font-size: 10px;
+}
+
+/* CHART WRAPPER */
+.chart-wrapper {
+    height: 200px;
+}
+
+/* PROGRESS BAR */
+.progress-bar-container {
+    height: 8px;
+}
+
+.small-text {
+    font-size: 11px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    .back-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        top: 20px;
+        left: 20px;
+    }
+
+    .page-wrapper {
+        padding: 30px;
+    }
+
+    .page-title {
+        font-size: 24px;
+        text-align: right;
+    }
+
+    .page-subtitle {
+        font-size: 14px;
+        text-align: right;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 17px;
+    }
+
+    .chart-wrapper {
+        height: 230px;
+    }
+
+    .small-text {
+        font-size: 12px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .page-wrapper {
+        padding: 40px;
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    .page-title {
+        font-size: 26px;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .card-title {
+        font-size: 18px;
+    }
+
+    .chart-wrapper {
+        height: 250px;
+    }
+
+    .small-text {
+        font-size: 13px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- BACK BUTTON -->
+    <button class="back-btn" onclick="window.location.href='counselor-dashboard.html'">رجوع</button>
+<div class="page-wrapper">
+    <header class="page-header">
+        <h1 class="page-title">لوحة التحليلات الذكية</h1>
+        <p class="page-subtitle">متابعة مرونة الطالبات، التقدم في المقاييس، والالتزام بالعقود السلوكية.</p>
+    </header>
+
+    <main class="cards-grid">
+
+        <!-- Card 1: مؤشر المرونة النفسية العامة -->
+        <section class="card">
+            <div class="card-header">
+                <h2 class="card-title">مؤشر المرونة النفسية العامة</h2>
+                <span class="card-badge">self-efficacy</span>
+            </div>
+            <div class="card-body">
+                <div class="progress-bar-container">
+                    <div id="resilienceProgress" class="progress-bar-fill"></div>
+                </div>
+                <div class="small-text" id="resilienceText">
+                    مؤشر المرونة النفسية العامة: 68% (مرتفع: 7، متوسط: 4، منخفض: 2)
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="resilienceChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card 2: نسبة تقدم الطالبات في المقاييس -->
+        <section class="card">
+            <div class="card-header">
+                <h2 class="card-title">نسبة تقدم الطالبات في المقاييس</h2>
+                <span class="card-badge">namaaResults</span>
+            </div>
+            <div class="card-body">
+                <div class="chart-wrapper">
+                    <canvas id="progressChart"></canvas>
+                </div>
+                <div class="small-text" id="progressSummary">
+                    تم تسجيل 9 مقاييس حتى الآن للطالبات، مع عرض التقدم التراكمي عبر الزمن.
+                </div>
+            </div>
+        </section>
+
+        <!-- Card 3: معدل الالتزام بالعقود السلوكية -->
+        <section class="card">
+            <div class="card-header">
+                <h2 class="card-title">معدل الالتزام بالعقود السلوكية</h2>
+                <span class="card-badge">emotions / studyTime / attendance</span>
+            </div>
+            <div class="card-body">
+                <div class="chart-wrapper">
+                    <canvas id="contractsChart"></canvas>
+                </div>
+                <div class="small-text" id="contractsSummary">
+                    تم تحليل التزام 10 طالبات بالعقود السلوكية (مرتفع: 5، متوسط: 3، منخفض: 2).
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+/* ===========================
+   MOCK MANUAL VALUES
+=========================== */
+
+/* Card 1 — Resilience */
+const resiliencePercent = 68;
+const resilienceHigh = 7;
+const resilienceModerate = 4;
+const resilienceLow = 2;
+
+/* Card 2 — Progress */
+const progressDates = ["2026-05-01", "2026-05-03", "2026-05-05", "2026-05-07", "2026-05-10"];
+const progressCumulative = [1, 3, 5, 7, 9];
+
+/* Card 3 — Contracts */
+const contractsHigh = 5;
+const contractsModerate = 3;
+const contractsLow = 2;
+
+/* ===========================
+   RENDER CARD 1
+=========================== */
+document.getElementById("resilienceProgress").style.width = resiliencePercent + "%";
+
+new Chart(document.getElementById("resilienceChart"), {
+    type: "doughnut",
+    data: {
+        labels: ["مرتفع", "متوسط", "منخفض"],
+        datasets: [{
+            data: [resilienceHigh, resilienceModerate, resilienceLow],
+            backgroundColor: [
+                "rgba(34, 197, 94, 0.85)",
+                "rgba(234, 179, 8, 0.85)",
+                "rgba(239, 68, 68, 0.85)"
+            ],
+            borderWidth: 2
+        }]
+    }
+});
+
+/* ===========================
+   RENDER CARD 2
+=========================== */
+new Chart(document.getElementById("progressChart"), {
+    type: "line",
+    data: {
+        labels: progressDates,
+        datasets: [{
+            label: "عدد المقاييس المنجزة",
+            data: progressCumulative,
+            fill: true,
+            tension: 0.35,
+            borderColor: "rgba(59, 130, 246, 1)",
+            backgroundColor: "rgba(59, 130, 246, 0.18)",
+            pointRadius: 3
+        }]
+    }
+});
+
+/* ===========================
+   RENDER CARD 3
+=========================== */
+new Chart(document.getElementById("contractsChart"), {
+    type: "bar",
+    data: {
+        labels: ["التزام مرتفع", "التزام متوسط", "التزام منخفض"],
+        datasets: [{
+            label: "عدد الطالبات",
+            data: [contractsHigh, contractsModerate, contractsLow],
+            backgroundColor: [
+                "rgba(34, 197, 94, 0.85)",
+                "rgba(234, 179, 8, 0.85)",
+                "rgba(239, 68, 68, 0.85)"
+            ],
+            borderWidth: 2,
+            borderRadius: 8
+        }]
+    }
+});
+</script>
+
+</body>
+</html>

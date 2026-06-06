@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك الأنشطة وحصص الإرشاد</title>
+
+<style>
+/* ===========================
+   خلفية احترافية فاتحة + حركة
+=========================== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Tajawal", sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #1b3d1b;
+
+    background:
+        radial-gradient(circle at 20% 20%, rgba(180,255,200,0.55), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(160,255,190,0.45), transparent 55%),
+        linear-gradient(135deg,
+            #ffffff 0%,
+            #f6fff6 25%,
+            #e9ffe9 50%,
+            #f6fff6 75%,
+            #ffffff 100%
+        );
+    background-size: 300% 300%;
+    animation: bgShift 14s ease-in-out infinite;
+}
+
+@keyframes bgShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 60%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===========================
+   Logo
+=========================== */
+.top-logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 140px;
+    z-index: 10;
+    filter: drop-shadow(0 0 10px rgba(0,150,80,0.25));
+}
+/* ===========================
+           زر الرجوع
+        =========================== */
+        .back-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+
+
+/* ===========================
+   المحتوى
+=========================== */
+.content {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 140px auto 60px;
+}
+
+.section-title {
+    font-size: 32px;
+    color: #1b3d1b;
+    margin-bottom: 40px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* ===========================
+   Glassy Cards
+=========================== */
+.item {
+    background: rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,255,255,0.45);
+    padding: 28px;
+    border-radius: 20px;
+    margin-bottom: 32px;
+    backdrop-filter: blur(14px);
+    box-shadow:
+        0 12px 40px rgba(0,0,0,0.12),
+        0 0 25px rgba(0,150,80,0.12);
+    animation: fadeIn 0.8s ease forwards;
+    opacity: 0;
+    transition: 0.35s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.item:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow:
+        0 18px 55px rgba(0,0,0,0.18),
+        0 0 35px rgba(0,150,80,0.18);
+}
+
+.item h3 {
+    color: #145a1c;
+    margin-bottom: 14px;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.item p {
+    color: #2e4d2e;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* ===========================
+   زر احترافي
+=========================== */
+.btn {
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #2e7d32, #4caf50);
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+    font-size: 15px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #256628, #3f8f40);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+}
+
+/* ===========================
+   Responsive
+=========================== */
+@media (max-width: 600px) {
+    .top-logo {
+        width: 110px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .item {
+        padding: 22px;
+    }
+
+    .item h3 {
+        font-size: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+    }
+}
+/* ===========================
+   🌿 GLOBAL FIXES
+=========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+=========================== */
+
+/* LOGO */
+.top-logo {
+    width: 110px;
+    top: 10px;
+    right: 10px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    max-width: 150px;
+}
+
+/* CONTENT */
+.content {
+    padding: 100px 20px 40px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+/* CARDS */
+.item {
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.item h3 {
+    font-size: 20px;
+}
+
+.item p {
+    font-size: 14px;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+=========================== */
+@media (min-width: 600px) {
+
+    .top-logo {
+        width: 130px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .back-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        top: 20px;
+        left: 20px;
+    }
+
+    .content {
+        padding: 120px 30px 50px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .item {
+        padding: 24px;
+    }
+
+    .item h3 {
+        font-size: 22px;
+    }
+
+    .item p {
+        font-size: 15px;
+    }
+
+    .btn {
+        width: auto;
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+=========================== */
+@media (min-width: 900px) {
+
+    .top-logo {
+        width: 150px;
+    }
+
+    .content {
+        padding: 140px 40px 60px;
+        max-width: 900px;
+    }
+
+    .section-title {
+        font-size: 32px;
+    }
+
+    .item {
+        padding: 28px;
+    }
+
+    .item h3 {
+        font-size: 24px;
+    }
+
+    .item p {
+        font-size: 16px;
+    }
+
+    .btn {
+        font-size: 16px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+    <!-- Logo -->
+    <img src="comm.png" class="top-logo">
+    <!-- BACK BUTTON -->
+    <button class="back-btn" onclick="window.location.href='counselor-dashboard.html'">رجوع</button>
+
+    <div class="content">
+
+        <h2 class="section-title">مواد جاهزة للاستخدام</h2>
+
+        <div class="item">
+            <h3>عروض تقديمية</h3>
+            <p>ملفات PowerPoint جاهزة لحصص الإرشاد.</p>
+            <button class="btn" onclick="window.location.href='resources-center.html?type=ppt'">فتح</button>
+        </div>
+
+        <div class="item">
+            <h3>أوراق عمل تفاعلية</h3>
+            <p>أنشطة صفية جاهزة للطباعة والاستخدام.</p>
+            <button class="btn" onclick="window.location.href='resources-center.html?type=worksheet'">فتح</button>
+        </div>
+
+        <div class="item">
+            <h3>ألعاب Wordwall</h3>
+            <p>روابط لألعاب تعليمية جاهزة.</p>
+            <button class="btn" onclick="window.location.href='resources-center.html?type=wordwall'">فتح</button>
+        </div>
+
+    </div>
+
+</body>
+</html>

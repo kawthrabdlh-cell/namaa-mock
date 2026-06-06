@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أدوات التقييم الذاتي</title>
+
+    <style>
+       /* خلفية متحركة فاتحة */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Tajawal", sans-serif;
+
+    background: linear-gradient(135deg, #ffffff, #eaffea, #d6f8d6);
+    background-size: 300% 300%;
+    animation: bgMove 12s ease infinite;
+
+    min-height: 100vh;
+    position: relative;
+    color: #1b3d1b; /* غامق لأنو الثيم فاتح */
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Sparkles غامقين خفاف بدل الطبقة السودا */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0,60,20,0.18), transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(0,70,25,0.16), transparent 55%),
+        radial-gradient(circle at 25% 80%, rgba(0,50,15,0.14), transparent 55%);
+}
+
+/* Navbar */
+.navbar {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    padding: 15px 40px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    color: #1b3d1b;
+    margin: 0;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.back-btn {
+    padding: 10px 18px;
+    background: #1b5e20;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #2e7d32;
+}
+
+/* المحتوى */
+.content {
+    position: relative;
+    z-index: 5;
+    padding: 40px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.section-title {
+    font-size: 28px;
+    color: #1b3d1b;
+    margin-bottom: 25px;
+    font-weight: bold;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* كارد الاختبارات */
+.quiz-box {
+    background: rgba(255,255,255,0.85);
+    border: 1px solid rgba(0,0,0,0.12);
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.8s ease forwards;
+    transition: 0.3s;
+}
+
+.quiz-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.quiz-box h3 {
+    color: #1b5e20;
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.quiz-box p {
+    color: #2e4d2e;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.btn {
+    padding: 12px 20px;
+    background: #2e7d32;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #43a047;
+}
+/* ===========================
+   🌿 GLOBAL FIXES
+   =========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+   =========================== */
+
+/* NAVBAR */
+.navbar {
+    padding: 12px 20px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+.navbar h1 {
+    font-size: 22px;
+}
+
+.back-btn {
+    width: 100%;
+    max-width: 180px;
+    font-size: 14px;
+    padding: 10px 16px;
+}
+
+/* CONTENT */
+.content {
+    padding: 20px;
+}
+
+.section-title {
+    font-size: 22px;
+    text-align: center;
+}
+
+/* QUIZ BOXES */
+.quiz-box {
+    padding: 18px;
+    border-radius: 16px;
+}
+
+.quiz-box h3 {
+    font-size: 18px;
+}
+
+.quiz-box p {
+    font-size: 14px;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 640px
+   =========================== */
+@media (min-width: 640px) {
+
+    .navbar {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 40px;
+        text-align: right;
+    }
+
+    .navbar h1 {
+        font-size: 24px;
+    }
+
+    .back-btn {
+        width: auto;
+    }
+
+    .content {
+        padding: 30px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .quiz-box {
+        padding: 22px;
+    }
+
+    .quiz-box h3 {
+        font-size: 20px;
+    }
+
+    .quiz-box p {
+        font-size: 15px;
+    }
+
+    .btn {
+        width: auto;
+        padding: 12px 20px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 960px
+   =========================== */
+@media (min-width: 960px) {
+
+    .navbar h1 {
+        font-size: 26px;
+    }
+
+    .content {
+        padding: 40px;
+        max-width: 900px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .quiz-box {
+        padding: 25px;
+    }
+
+    .quiz-box h3 {
+        font-size: 22px;
+    }
+
+    .quiz-box p {
+        font-size: 16px;
+    }
+}
+
+
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>أدوات التقييم الذاتي</h1>
+        <button class="back-btn" onclick="window.location.href='student-dashboard.html'">رجوع</button>
+    </div>
+
+    <div class="content">
+
+        <h2 class="section-title">اختبارات قصيرة</h2>
+
+        <div class="quiz-box">
+            <h3>اختبار فهم مهارة التنفس العميق</h3>
+            <p>3 أسئلة بسيطة للتأكد من استيعاب الطالبة للمهارة.</p>
+            <button class="btn" onclick="window.location.href='breathing-test.html'">بدء الاختبار</button>
+        </div>
+
+        <div class="quiz-box">
+            <h3>اختبار الذكاء العاطفي</h3>
+            <p>أسئلة قصيرة لقياس الوعي بالمشاعر.</p>
+            <button class="btn" onclick="window.location.href='emoitional-intelligence.html'">بدء الاختبار</button>
+        </div>
+
+        <div class="quiz-box">
+            <h3>اختبار تنظيم العواطف</h3>
+            <p>تقييم سريع لمهارات التحكم بالمشاعر.</p>
+            <button class="btn" onclick="window.location.href='emotion-regulation.html'">بدء الاختبار</button>
+        </div>
+
+    </div>
+
+</body>
+</html>

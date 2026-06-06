@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقاييس نماء</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Cairo", sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #0f2a1f;
+            background: radial-gradient(circle at top left, #e3fdfc, #baffcb80 40%, #bff9bfb5 80%);
+            background-size: 200% 200%;
+            animation: bgMove 18s ease-in-out infinite;
+        }
+                /* ===========================
+           زر الرجوع
+        =========================== */
+        .back-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+
+        @keyframes bgMove {
+            0%   { background-position: 0% 0%; }
+            50%  { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .comm-logo {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 110px;
+            z-index: 50;
+        }
+
+        .content {
+            position: relative;
+            z-index: 5;
+            padding: 120px 20px 60px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #043108;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .measure-card {
+            background: rgba(255, 255, 255, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(14px);
+            padding: 22px 24px;
+            border-radius: 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+            transition: 0.35s ease;
+            cursor: pointer;
+        }
+
+        .measure-card:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+
+        .measure-card h3 {
+            color: #0d2a1a;
+            margin-bottom: 10px;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .measure-card p {
+            color: #0f3a22;
+            margin-bottom: 16px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* MODAL */
+        #modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        #modalBox {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid #1b5e20;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.25s;
+            margin-top: 10px;
+        }
+        /* ===========================
+   🌿 GLOBAL FIXES
+   =========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+   =========================== */
+
+/* LOGO */
+.comm-logo {
+    width: 90px;
+    top: 10px;
+    right: 10px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    max-width: 150px;
+}
+
+/* CONTENT */
+.content {
+    padding: 100px 20px 40px;
+    max-width: 100%;
+}
+
+.section-title {
+    font-size: 22px;
+    text-align: center;
+}
+
+/* CARDS */
+.measure-card {
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.measure-card h3 {
+    font-size: 18px;
+}
+
+.measure-card p {
+    font-size: 14px;
+}
+
+/* MODAL */
+#modalBox {
+    width: 92%;
+    padding: 16px;
+}
+
+#modalBox h3 {
+    font-size: 18px;
+}
+
+select {
+    font-size: 14px;
+    padding: 10px;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+   =========================== */
+@media (min-width: 600px) {
+
+    .comm-logo {
+        width: 100px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .back-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        top: 20px;
+        left: 20px;
+    }
+
+    .content {
+        padding: 120px 30px 50px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .measure-card {
+        padding: 20px;
+    }
+
+    .measure-card h3 {
+        font-size: 20px;
+    }
+
+    .measure-card p {
+        font-size: 15px;
+    }
+
+    #modalBox {
+        padding: 20px;
+        max-width: 500px;
+    }
+
+    #modalBox h3 {
+        font-size: 20px;
+    }
+
+    select {
+        font-size: 15px;
+    }
+
+    .btn {
+        width: auto;
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+   =========================== */
+@media (min-width: 900px) {
+
+    .comm-logo {
+        width: 110px;
+    }
+
+    .content {
+        padding: 140px 40px 60px;
+        max-width: 900px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .measure-card {
+        padding: 22px;
+    }
+
+    .measure-card h3 {
+        font-size: 22px;
+    }
+
+    .measure-card p {
+        font-size: 16px;
+    }
+
+    #modalBox {
+        padding: 22px;
+        max-width: 520px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+        <!-- LOGO -->
+        <img src="comm.png" class="comm-logo">
+    
+        <!-- BACK -->
+        <button class="back-btn" onclick="window.location.href='student-dashboard.html'">رجوع</button>
+
+    <div class="content">
+
+        <h2 class="section-title">اختاري المقياس</h2>
+
+        <div class="measure-card" onclick="openScale('selfEfficacy')">
+            <h3>مقياس الكفاءة الذاتية</h3>
+            <p>يقيس ثقتكِ بقدرتكِ على التعامل مع التحديات اليومية.</p>
+        </div>
+
+        <div class="measure-card" onclick="openScale('mentalHealth')">
+            <h3>مقياس الصحة النفسية</h3>
+            <p>يقيس مستوى الرفاه النفسي العام لديكِ.</p>
+        </div>
+
+        <div class="measure-card" onclick="openScale('behavioralProblems')">
+            <h3>مقياس المشكلات السلوكية</h3>
+            <p>يقيس المشكلات النفسية والسلوكية بشكل تفاعلي.</p>
+        </div>
+
+    </div>
+
+    <!-- POPUP -->
+    <div id="modal">
+        <div id="modalBox">
+            <h3 id="modalTitle"></h3>
+            <div id="questions"></div>
+            <button class="btn" onclick="closeModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <script>
+        let currentScale = "";
+        let questionsBox = document.getElementById("questions");
+
+        const scaleQuestions = {
+            selfEfficacy: [
+                "أشعر أنني قادرة على مواجهة التحديات",
+                "أثق بقدرتي على اتخاذ القرارات",
+                "أستطيع التحكم في ضغوطي اليومية"
+            ],
+            mentalHealth: [
+                "أشعر بالراحة النفسية",
+                "أتعامل مع ضغوطي بشكل جيد",
+                "أشعر بالتوازن العاطفي"
+            ],
+            behavioralProblems: [
+                "أواجه صعوبة في التحكم بسلوكي",
+                "أشعر بالاندفاع أحياناً",
+                "أواجه مشكلات في التركيز"
+            ]
+        };
+
+        window.openScale = function(type) {
+            currentScale = type;
+            document.getElementById("modalTitle").innerText = "الأسئلة";
+            questionsBox.innerHTML = "";
+
+            scaleQuestions[type].forEach((q, i) => {
+                questionsBox.innerHTML += `
+                    <label>${q}</label>
+                    <select>
+                        <option>1 - منخفض</option>
+                        <option>2 - متوسط</option>
+                        <option>3 - مرتفع</option>
+                    </select>
+                `;
+            });
+
+            document.getElementById("modal").style.display = "flex";
+        };
+
+        window.closeModal = function() {
+            document.getElementById("modal").style.display = "none";
+        };
+    </script>
+
+</body>
+</html>

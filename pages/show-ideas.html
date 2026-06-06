@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض اقتراحات الطالبات</title>
+
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+/* ===========================
+   خلفية خضراء فاتحة Animated
+=========================== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Cairo", sans-serif;
+
+    background: linear-gradient(135deg, #eaffea, #d8ffd8, #f3fff3);
+    background-size: 300% 300%;
+    animation: bgMove 12s ease infinite;
+
+    min-height: 100vh;
+    position: relative;
+    color: #1b3d1b;
+}
+        /* ===========================
+           زر الرجوع
+        =========================== */
+        .back-btn {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #1b5e20, #43a047);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 50;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* دوائر خلفية ناعمة */
+.bg-circles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0, 120, 60, 0.12);
+    filter: blur(14px);
+    animation: float 14s infinite ease-in-out;
+}
+
+.circle:nth-child(1){ width:260px;height:260px;top:-60px;right:-80px;animation-duration:16s; }
+.circle:nth-child(2){ width:340px;height:340px;bottom:-100px;left:-70px;animation-duration:20s; }
+.circle:nth-child(3){ width:200px;height:200px;top:40%;left:20%;animation-duration:18s; }
+
+@keyframes float {
+    0%{ transform:translateY(0) scale(1); opacity:.5; }
+    50%{ transform:translateY(-40px) scale(1.15); opacity:.9; }
+    100%{ transform:translateY(0) scale(1); opacity:.5; }
+}
+
+/* ===========================
+   Logo Only (No Header)
+=========================== */
+.top-logo {
+    width: 120px;
+    display: block;
+    margin: 25px auto 10px;
+    z-index: 5;
+    position: relative;
+}
+
+/* ===========================
+   Container
+=========================== */
+.container {
+    position: relative;
+    z-index: 5;
+    max-width: 800px;
+    margin: 20px auto 60px;
+    padding: 20px;
+}
+
+.section-title {
+    font-size: 26px;
+    color: #1b3d1b;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* ===========================
+   Idea Card — Glassy
+=========================== */
+.idea-card {
+    background: rgba(255,255,255,0.22);
+    border: 1px solid rgba(255,255,255,0.55);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,0.12),
+        0 0 18px rgba(0,150,80,0.15);
+
+    transition: .3s;
+}
+
+.idea-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 14px 40px rgba(0,0,0,0.18),
+        0 0 25px rgba(0,150,80,0.25);
+}
+
+.idea-card p {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #1b3d1b;
+}
+
+.idea-card small {
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+/* ===========================
+   🌿 GLOBAL FIXES
+   =========================== */
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   🌿 MOBILE-FIRST BASE
+   =========================== */
+
+/* زر الرجوع */
+.back-btn {
+    top: 15px;
+    left: 15px;
+    padding: 8px 14px;
+    font-size: 13px;
+}
+
+/* اللوجو */
+.top-logo {
+    width: 90px;
+    margin: 20px auto 10px;
+}
+
+/* الكونتينر */
+.container {
+    padding: 16px;
+    margin-top: 10px;
+}
+
+.section-title {
+    font-size: 22px;
+}
+
+/* الكارد */
+.idea-card {
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.idea-card p {
+    font-size: 14px;
+}
+
+.idea-card small {
+    font-size: 12px;
+}
+
+/* ===========================
+   🌿 MEDIUM SCREENS ≥ 600px
+   =========================== */
+@media (min-width: 600px) {
+
+    .back-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        top: 20px;
+        left: 20px;
+    }
+
+    .top-logo {
+        width: 110px;
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 700px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .idea-card {
+        padding: 18px;
+    }
+
+    .idea-card p {
+        font-size: 15px;
+    }
+
+    .idea-card small {
+        font-size: 13px;
+    }
+}
+
+/* ===========================
+   🌿 LARGE SCREENS ≥ 900px
+   =========================== */
+@media (min-width: 900px) {
+
+    .top-logo {
+        width: 120px;
+    }
+
+    .container {
+        max-width: 800px;
+        padding: 25px;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+
+    .idea-card {
+        padding: 20px;
+    }
+
+    .idea-card p {
+        font-size: 16px;
+    }
+
+    .idea-card small {
+        font-size: 13px;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- خلفية -->
+    <div class="bg-circles">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <!-- Logo -->
+    <img src="comm.png" class="top-logo">
+
+    <div class="container">
+        <h2 class="section-title">اقتراحات الطالبات</h2>
+
+        <div id="ideasContainer"></div>
+    </div>
+
+    <button class="back-btn" onclick="window.location.href='counselor-dashboard.html'">رجوع</button>
+
+<script>
+/* ===========================
+   MOCKUP DATA
+=========================== */
+const mockIdeas = [
+    {
+        text: "اقتراح إضافة ساعة استرخاء أسبوعية للصفوف الثانوية.",
+        createdAt: "2026-03-01 10:30"
+    },
+    {
+        text: "تنظيم ورشة عمل حول إدارة الوقت قبل الامتحانات.",
+        createdAt: "2026-03-02 12:15"
+    },
+    {
+        text: "اقتراح إنشاء نادي للقراءة لتحسين مهارات اللغة.",
+        createdAt: "2026-03-03 09:50"
+    },
+    {
+        text: "إضافة نشاط أسبوعي للتعبير عن المشاعر بطريقة فنية.",
+        createdAt: "2026-03-04 14:20"
+    }
+];
+
+/* ===========================
+   Render Mockups
+=========================== */
+const container = document.getElementById("ideasContainer");
+
+mockIdeas.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "idea-card";
+
+    card.innerHTML = `
+        <p>${item.text}</p>
+        <small>${item.createdAt}</small>
+    `;
+
+    container.appendChild(card);
+});
+</script>
+
+</body>
+</html>
