@@ -62,9 +62,9 @@ body {
 =========================== */
 .top-logo {
     position: fixed;
-    top: 18px;
-    right: 18px;
-    width: 140px;
+    top: 48px;
+    left: 18px;
+    width: 110px;
     z-index: 50;
 }
 
@@ -296,6 +296,47 @@ body {
 
     .box {
         padding: 16px 14px;
+    }
+}
+/* ===========================
+   🌿 COMM LOGO — FIXED & RESPONSIVE
+   =========================== */
+
+.comm-logo {
+    position: fixed;
+    top: 7px;
+    left: 6px;
+    width: 110px;
+    max-width: 40vw;
+    height: auto;
+    z-index: 50;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Prevent overlap with content */
+@media (max-width: 600px) {
+    .comm-logo {
+        top: 7px;
+        left: 6px;
+        width: 110px;
+        max-width: 45vw;
+    }
+}
+
+/* Medium screens */
+@media (min-width: 600px) and (max-width: 900px) {
+    .comm-logo {
+        width: 110px;
+        max-width: 35vw;
+    }
+}
+
+/* Large screens */
+@media (min-width: 900px) {
+    .comm-logo {
+        width: 140px;
+        max-width: 30vw;
     }
 }
 

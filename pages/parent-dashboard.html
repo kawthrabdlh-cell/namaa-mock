@@ -432,6 +432,69 @@
         max-width: 700px;
     }
 }
+/* ===========================
+   🌿 FIX STUDENT MINI CARDS
+=========================== */
+
+/* Structure fix */
+.student-mini-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Image fix */
+.student-mini-card img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    flex-shrink: 0; /* prevents image from shrinking */
+}
+
+/* Text fix */
+.student-mini-card .info {
+    flex: 1;
+    min-width: 0; /* prevents overflow */
+}
+
+.student-mini-card .info p,
+.student-mini-card .info h4 {
+    margin: 0;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+/* ===========================
+   🌿 MOBILE FIX
+=========================== */
+@media (max-width: 600px) {
+
+    .student-mini-card {
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .student-mini-card img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .student-mini-card .info h4 {
+        font-size: 15px;
+    }
+
+    .student-mini-card .info p {
+        font-size: 13px;
+    }
+}
+
 
     </style>
 </head>

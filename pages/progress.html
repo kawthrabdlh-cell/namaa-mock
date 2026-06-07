@@ -37,8 +37,8 @@
         .comm-logo {
             position: fixed;
             top: 15px;
-            right: 15px;
-            width: 200px;
+            right: 10px;
+            width: 180px;
             z-index: 10;
         }
                 /* ===========================
@@ -165,12 +165,6 @@ img {
    🌿 MOBILE-FIRST BASE
    =========================== */
 
-/* COMM LOGO */
-.comm-logo {
-    width: 120px;
-    top: 10px;
-    right: 10px;
-}
 
 /* BACK BUTTON */
 .back-btn {
@@ -221,11 +215,6 @@ img {
    =========================== */
 @media (min-width: 600px) {
 
-    .comm-logo {
-        width: 150px;
-        top: 15px;
-        right: 15px;
-    }
 
     .back-btn {
         padding: 10px 18px;
@@ -269,9 +258,7 @@ img {
    =========================== */
 @media (min-width: 900px) {
 
-    .comm-logo {
-        width: 180px;
-    }
+
 
     .content {
         padding: 40px;
@@ -300,6 +287,47 @@ img {
 
     .badge-item span {
         font-size: 13px;
+    }
+}
+/* ===========================
+   🌿 COMM LOGO — FIXED & RESPONSIVE
+   =========================== */
+
+.comm-logo {
+    position: fixed;
+    top: 15px;
+    right: 6px;
+    width: 110px;
+    max-width: 40vw;
+    height: auto;
+    z-index: 50;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Prevent overlap with content */
+@media (max-width: 600px) {
+    .comm-logo {
+        top: 10px;
+        right: 6px;
+        width: 110px;
+        max-width: 45vw;
+    }
+}
+
+/* Medium screens */
+@media (min-width: 600px) and (max-width: 900px) {
+    .comm-logo {
+        width: 110px;
+        max-width: 35vw;
+    }
+}
+
+/* Large screens */
+@media (min-width: 900px) {
+    .comm-logo {
+        width: 180px;
+        max-width: 30vw;
     }
 }
 

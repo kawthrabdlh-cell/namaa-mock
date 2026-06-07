@@ -79,9 +79,9 @@ body {
 =========================== */
 .top-logo {
     position: absolute;
-    top: 10px;
-    right: 20px;
-    width: 150px;
+    top: 20px;
+    right: 10px;
+    width: 110px;
     z-index: 10;
     filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
 }
@@ -411,6 +411,58 @@ body {
     .cards-grid,
     .survey-grid {
         gap: 22px;
+    }
+}
+/* ===========================
+   🌿 TOP LOGO — FIXED & RESPONSIVE
+=========================== */
+
+.top-logo {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 110px;
+    max-width: 40vw;
+    height: auto;
+    z-index: 50;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .top-logo {
+        top: 12px;
+        right: 12px;
+        width: 110px;
+        max-width: 45vw;
+    }
+
+    /* Move back button down so they don't overlap */
+    .back-btn {
+        top: 60px;
+        left: 12px;
+    }
+
+    /* Add safe top padding so content doesn't hide under logo */
+    .page-wrapper {
+        margin-top: 150px;
+    }
+}
+
+/* Tablet */
+@media (min-width: 600px) and (max-width: 900px) {
+    .top-logo {
+        width: 150px;
+        max-width: 35vw;
+    }
+}
+
+/* Large screens */
+@media (min-width: 900px) {
+    .top-logo {
+        width: 180px;
+        max-width: 30vw;
     }
 }
 
